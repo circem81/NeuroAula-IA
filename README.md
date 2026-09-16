@@ -42,6 +42,12 @@ Los datos simulados se encuentran en `src/lib/demo-data.ts`. No deben sustituirs
 
 El gemelo de aprendizaje se plantea como **estado longitudinal consultable**, no como un prompt acumulativo con todo el historial del alumno. Para la futura capa de agentes se adopta como referencia el patrón RLM: contexto externo, recuperación selectiva y procesamiento por agentes especializados. La propuesta y sus límites se describen en [`docs/RLM_ARCHITECTURE.md`](docs/RLM_ARCHITECTURE.md).
 
+## Línea de investigación
+
+El repositorio incorpora una línea separada de I+D en [`research/`](research/) para explorar neurociencia computacional, ciencia de datos, modelos cognitivos y funciones ejecutivas aplicadas al diseño educativo. Incluye referencias de trabajo para Healthy Brain Network, Human Connectome Project y OpenNeuro, además de áreas para modelos cognitivos, funciones ejecutivas y notebooks reproducibles.
+
+Esta línea de investigación no convierte NeuroAula AI en una herramienta clínica: sus resultados deben utilizarse para formular hipótesis educativas, variables observables y propuestas de apoyo sujetas a supervisión humana, no para realizar diagnósticos automatizados.
+
 ## Tecnologías
 
 - React 19 y TypeScript.
