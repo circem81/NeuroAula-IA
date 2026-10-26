@@ -28,3 +28,12 @@ Which classroom strategies for executive-function support have credible evidence
 - Implement server-side embedding and citation-backed retrieval.
 - Add a teacher review interface and audit trail.
 - Test citation fidelity, hallucination refusal, access control and pedagogical suitability before enabling recommendations.
+
+## OpenAlex UI integration (October 2026)
+- `/demo/evidencia` offers interactive keyword/year searches, returning up to 10 public records with DOI, authors, source and abstract when available.
+- Menu entry visible to `teacher` and `guidance` roles only; existing demo gate enforces that navigation rule.
+- Searches call the OpenAlex works API from the browser. They do **not** persist records to Supabase and do **not** send student information.
+- Results are explicitly unreviewed and cannot automatically trigger accommodations or diagnoses.
+- OpenAlex permits limited anonymous trial usage; production or higher-scale use needs an API key, which must be handled server-side (never in browser environment variables). See https://help.openalex.org/api/authentication/.
+- The UI currently has no server-side caching, rate limiting, ingestion approval or semantic retrieval. Those are pending milestones.
+- Manual verification required after merging: sign in as teacher and guidance; search for ADHD executive functions; check outgoing request and link accuracy; check family and management cannot access the page; inspect any CORS/429 errors.
