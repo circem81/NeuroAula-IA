@@ -35,7 +35,9 @@ Prototipo web de una futura plataforma educativa adaptativa. El proyecto conserv
 
 Los datos simulados se encuentran en `src/lib/demo-data.ts`. No deben sustituirse por datos personales reales.
 
-El prototipo de libros se describe en [`docs/LIBROS_BILINGUES.md`](docs/LIBROS_BILINGUES.md). El motor tutor y el mapa RAG se detallan en [`docs/TUTOR_NEWTON_RAG.md`](docs/TUTOR_NEWTON_RAG.md). La carga de la web sigue requiriendo internet: todavía no existe una versión offline instalable.
+El prototipo de libros se describe en [`docs/LIBROS_BILINGUES.md`](docs/LIBROS_BILINGUES.md). El motor tutor y el mapa RAG se detallan en [`docs/TUTOR_NEWTON_RAG.md`](docs/TUTOR_NEWTON_RAG.md).
+
+**Objetivo de producto acordado:** tutor IA real + recuperación RAG de recursos autorizados + decisión docente humana + seguimiento longitudinal de alumnos, bajo autorización del centro y controles de privacidad. La especificación y los impedimentos para tratar datos reales están en [`docs/AGENTES_SEGUIMIENTO_REAL.md`](docs/AGENTES_SEGUIMIENTO_REAL.md). Todavía no es una función desplegada. La carga de la web sigue requiriendo internet: todavía no existe una versión offline instalable.
 
 ## Funciones que todavía no existen
 
