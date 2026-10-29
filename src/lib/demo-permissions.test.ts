@@ -11,6 +11,9 @@ describe("demo role permissions", () => {
 
   it("separates operational sections by professional role", () => {
     assert.equal(canAccessDemoPath("teacher", "/demo/actividades"), true);
+    assert.equal(canAccessDemoPath("teacher", "/demo/evidencia"), true);
+    assert.equal(canAccessDemoPath("guidance", "/demo/evidencia"), true);
+    assert.equal(canAccessDemoPath("family", "/demo/evidencia"), false);
     assert.equal(canAccessDemoPath("guidance", "/demo/actividades"), false);
     assert.equal(canAccessDemoPath("guidance", "/demo/gemelo"), true);
     assert.equal(canAccessDemoPath("management", "/demo/config"), true);

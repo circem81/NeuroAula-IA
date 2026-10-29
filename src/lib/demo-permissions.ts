@@ -5,11 +5,12 @@ const roleRoutes: Record<DemoRole, readonly string[]> = {
     "/demo/alumnado",
     "/demo/alumno",
     "/demo/adaptativo",
+    "/demo/evidencia",
     "/demo/actividades",
     "/demo/informes",
     "/demo/alertas",
   ],
-  guidance: ["/demo/alumnado", "/demo/alumno", "/demo/gemelo", "/demo/informes", "/demo/alertas"],
+  guidance: ["/demo/alumnado", "/demo/alumno", "/demo/gemelo", "/demo/evidencia", "/demo/informes", "/demo/alertas"],
   management: ["/demo/informes", "/demo/config"],
   family: ["/demo/alumno/lucia-fernandez"],
 };
