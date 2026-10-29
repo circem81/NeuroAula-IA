@@ -219,7 +219,7 @@ function LibrosBilingues() {
             </button>
           </section>
         ) : (
-          <div className="grid items-start gap-5 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)]">
+          <div className={sinDistracciones ? "mx-auto grid max-w-2xl items-start gap-5" : "grid items-start gap-5 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)]"}>
             <article className="card-soft overflow-hidden">
               <div className="border-b border-border/70 bg-white px-5 py-5 sm:px-7">
                 <div className="flex items-center justify-between gap-3 text-xs text-ink-soft">
