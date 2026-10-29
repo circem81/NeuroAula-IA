@@ -1,4 +1,5 @@
 import { Link, createFileRoute } from "@tanstack/react-router";
+import { TutorialPlayer } from "@/components/tutorial-player";
 import { useState } from "react";
 import { ArrowLeft, ArrowRight, BookOpen, ExternalLink, Lightbulb, RotateCcw, ShieldCheck } from "lucide-react";
 import { NEWTON_GENIALLY_INDEX_URL, retosNewton } from "@/lib/newton-actividades";
@@ -237,6 +238,20 @@ function AulaNewton() {
                   Siguiente <ArrowRight className="h-4 w-4" aria-hidden="true" />
                 </button>
               )}
+            </div>
+            <div className="mt-5">
+              <TutorialPlayer
+                key={reto.id + "-" + paso}
+                resourceId={reto.id + "-" + paso}
+                title={"Videotutorial: " + ejercicio.objetivo}
+                description="El docente puede previsualizar un vídeo educativo local o utilizar esta explicación."
+                steps={[
+                  "Lee el problema e identifica qué te preguntan.",
+                  "Localiza los datos y piensa si las cantidades aumentan o disminuyen juntas.",
+                  "Resuelve poco a poco, usando unidades y una estrategia comprensible.",
+                  "Comprueba el resultado y explica por qué tiene sentido.",
+                ]}
+              />
             </div>
           </article>
         </section>
