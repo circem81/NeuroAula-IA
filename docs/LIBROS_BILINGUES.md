@@ -30,3 +30,31 @@ La página **no es todavía una PWA offline**. Aunque las preguntas se resuelven
 ## Comprobación
 
 El conjunto de pruebas `src/lib/libros-bilingues.test.ts` verifica la integridad de los contenidos y los cálculos básicos. Se ejecuta con `bun run test`.
+
+## Apoyos individuales disponibles en la demo
+
+Se ofrecen opciones por preferencias observadas y contexto, nunca como diagnóstico:
+- **Una pregunta cada vez:** reduce la carga simultánea y permite concentrarse en una tarea.
+- **Texto grande:** facilita la lectura, sin inferir un perfil clínico.
+- **Menos distracciones:** presenta la lectura en una sola columna y elimina decoración innecesaria.
+- **Guía por pasos:** secuencia sencilla y predecible.
+- **Apoyo lingüístico español–árabe:** traducción opcional para no sobrecargar al alumno.
+
+Estos apoyos pueden resultar útiles en distintos perfiles, incluidos estudiantes con TDAH, TEA o dificultades de aprendizaje, memoria, planificación y autorregulación. No se registra un diagnóstico ni una posible historia de consumo de sustancias. Las dificultades cognitivas deben valorarse individualmente por profesionales competentes: no se presume su origen a partir de antecedentes.
+
+## Recursos matemáticos del índice de Genially
+
+La página `/newton` contiene un vínculo al recurso original:
+https://view.genially.com/5f7e09dd1b2b330d2efa2489
+
+Se trata de un índice público de materiales de pepvidalg (cálculo, proporcionalidad, fracciones, geometría, etc.). No se copia ni se integra el material externo dentro de NeuroAula; el enlace abre el sitio del autor, que requiere internet y está sujeto a sus condiciones. Se ofrece por separado una actividad **original** de proporcionalidad directa e inversa, autocorregible sin IA, con pistas graduales, apoyo opcional en árabe, letra grande, guía visual y un modo de menor estimulación.
+
+El funcionamiento de las actividades propias en navegador no equivale a distribución offline: **la web completa aún necesita una conexión para cargarse**. El Genially original no está disponible sin internet mediante esta implementación.
+
+## Requisitos del futuro piloto GINSO
+
+- Comprobar condiciones de uso y conectividad que permita el centro; no dar acceso a redes externas al alumnado cuando esté prohibido.
+- Preparar paquete de contenidos autorizados localmente, auditado y sin dependencias externas; no descargar ni reproducir Genially sin permiso.
+- Ofrecer al docente control sobre dificultad, cantidad de estímulos, tareas y descansos.
+- Registrar evidencias educativas únicamente con autorización, minimización de datos y controles de acceso.
+- Someter traducciones y materiales de contenido a revisión humana y pruebas de accesibilidad.
