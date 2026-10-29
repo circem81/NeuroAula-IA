@@ -58,3 +58,17 @@ El funcionamiento de las actividades propias en navegador no equivale a distribu
 - Ofrecer al docente control sobre dificultad, cantidad de estímulos, tareas y descansos.
 - Registrar evidencias educativas únicamente con autorización, minimización de datos y controles de acceso.
 - Someter traducciones y materiales de contenido a revisión humana y pruebas de accesibilidad.
+
+
+## Tutoriales y vídeo local (prototipo, 29/10/2026)
+
+El componente reutilizable `src/components/tutorial-player.tsx` se muestra en:
+- `/libros`: tras la lectura y el glosario, con explicación textual escalonada y apoyo al español/árabe.
+- `/newton`: explicación guiada de las cuatro fases matemáticas y vista previa de un vídeo educativo.
+- Las versiones HTML independientes se pueden abrir localmente sin internet.
+
+Como demostración, permite elegir un vídeo **MP4 o WebM ya disponible en el equipo**, reproducirlo con controles nativos y quitarlo. Utiliza `URL.createObjectURL`, revoca la URL al retirar el vídeo o desmontar el componente, no reproduce automáticamente y no envía el archivo al servidor. Se limita a 150 MB. No es una biblioteca persistente ni hay subida de material a Supabase.
+
+**Antes de almacenar vídeos y servirlos a estudiantes**: almacenamiento privado, permisos por organización y aula, autoría y licencias, administrador docente, límites de tamaño y revisión de formatos, subtítulos/transcripción, versiones accesibles, política de retención y copia local segura. No insertar YouTube ni recursos remotos en dispositivos sin acceso a internet del alumnado.
+
+La versión desplegada aún **no** contiene estas pantallas mientras el PR esté en borrador y sin pruebas completas de build.
