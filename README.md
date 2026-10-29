@@ -8,6 +8,7 @@ Prototipo web de una futura plataforma educativa adaptativa. El proyecto conserv
 
 - Landing responsive en español e inglés.
 - Navegación por las pantallas de la demo.
+- Prototipo público de libros interactivos español–árabe en `/libros` (A1, A2, B1), con nueve lecturas, autocorrección determinista y vista docente local. No utiliza IA ni datos reales.
 - Visualizaciones y gráficas construidas con datos locales simulados.
 - Selector de idioma persistido en el navegador.
 - Interacción local para mostrar pistas y explicaciones de ejemplo.
@@ -29,6 +30,8 @@ Prototipo web de una futura plataforma educativa adaptativa. El proyecto conserv
 - Configuración del centro e integraciones LMS.
 
 Los datos simulados se encuentran en `src/lib/demo-data.ts`. No deben sustituirse por datos personales reales.
+
+El prototipo de libros se describe en [`docs/LIBROS_BILINGUES.md`](docs/LIBROS_BILINGUES.md). La carga de la web sigue requiriendo internet: todavía no existe una versión offline instalable.
 
 ## Funciones que todavía no existen
 
