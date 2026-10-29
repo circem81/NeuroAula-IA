@@ -9,6 +9,8 @@ Prototipo web de una futura plataforma educativa adaptativa. El proyecto conserv
 - Landing responsive en español e inglés.
 - Navegación por las pantallas de la demo.
 - Prototipo público de libros interactivos español–árabe en `/libros` (A1, A2, B1), con nueve lecturas, autocorrección determinista y vista docente local. No utiliza IA ni datos reales.
+- Pantalla `/newton` con enlace al índice público de Genially de pepvidalg y 3 actividades **originales** de proporcionalidad, guiadas por pasos, con opción de apoyo en árabe y presentación simplificada; sin reproducir contenidos externos.
+- Controles opcionales de atención, lectura y secuenciación en las nuevas demostraciones, sin etiquetar ni diagnosticar al alumnado.
 - Visualizaciones y gráficas construidas con datos locales simulados.
 - Selector de idioma persistido en el navegador.
 - Interacción local para mostrar pistas y explicaciones de ejemplo.
