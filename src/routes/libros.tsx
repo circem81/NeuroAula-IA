@@ -43,10 +43,16 @@ function LibrosBilingues() {
   const [mostrarVocabulario, setMostrarVocabulario] = useState(true);
   const [pistaAbierta, setPistaAbierta] = useState<string | null>(null);
   const [vistaDocente, setVistaDocente] = useState(false);
+  const [unaPregunta, setUnaPregunta] = useState(false);
+  const [preguntaActual, setPreguntaActual] = useState(0);
+  const [textoGrande, setTextoGrande] = useState(false);
+  const [sinDistracciones, setSinDistracciones] = useState(false);
+  const [guiaPasos, setGuiaPasos] = useState(true);
 
   const paginas = librosBilingues[nivel];
   const actual = paginas[pagina];
   const resumen = resumenLibro(nivel, respuestas);
+  const preguntasVisibles = unaPregunta ? actual.preguntas.slice(preguntaActual, preguntaActual + 1) : actual.preguntas;
   const resueltasPagina = actual.preguntas.filter(
     (pregunta) => respuestas[pregunta.id] === pregunta.correcta,
   ).length;
@@ -54,12 +60,14 @@ function LibrosBilingues() {
   function cambiarPagina(indice: number) {
     if (indice < 0 || indice >= paginas.length) return;
     setPagina(indice);
+    setPreguntaActual(0);
     setPistaAbierta(null);
   }
 
   function cambiarNivel(siguiente: NivelLibro) {
     setNivel(siguiente);
     setPagina(0);
+    setPreguntaActual(0);
     setPistaAbierta(null);
   }
 
@@ -74,6 +82,7 @@ function LibrosBilingues() {
 
   function reiniciar() {
     setRespuestas({});
+    setPreguntaActual(0);
     setPagina(0);
     setPistaAbierta(null);
   }
@@ -138,6 +147,40 @@ function LibrosBilingues() {
           ))}
         </section>
 
+        <section className="mb-6 rounded-2xl border border-border/70 bg-white p-4 sm:p-5" aria-labelledby="apoyos-titulo">
+          <h2 id="apoyos-titulo" className="text-base font-semibold">Personaliza los apoyos</h2>
+          <p className="mt-1 text-sm text-ink-soft">
+            Elige lo que te ayuda a aprender; no hace falta indicar un diagnóstico.
+            Puedes cambiar estas opciones cuando quieras.
+          </p>
+          <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+            {([
+              { titulo: "Una pregunta cada vez", activo: unaPregunta, cambiar: setUnaPregunta },
+              { titulo: "Letra más grande", activo: textoGrande, cambiar: setTextoGrande },
+              { titulo: "Menos distracciones", activo: sinDistracciones, cambiar: setSinDistracciones },
+              { titulo: "Guía paso a paso", activo: guiaPasos, cambiar: setGuiaPasos },
+            ] as const).map((opcion) => (
+              <label key={opcion.titulo} className="flex min-h-12 cursor-pointer items-center gap-3 rounded-xl border border-border/70 px-3 py-2 text-sm">
+                <input
+                  type="checkbox"
+                  checked={opcion.activo}
+                  onChange={(event) => {
+                    opcion.cambiar(event.target.checked);
+                    setPreguntaActual(0);
+                  }}
+                  className="h-5 w-5 accent-indigo-700"
+                />
+                <span>{opcion.titulo}</span>
+              </label>
+            ))}
+          </div>
+          {guiaPasos && !vistaDocente && (
+            <p className="mt-4 rounded-xl bg-muted/60 px-4 py-3 text-sm font-medium">
+              1. Lee el texto → 2. Consulta las palabras → 3. Contesta → 4. Revisa tu respuesta.
+            </p>
+          )}
+        </section>
+
         {vistaDocente ? (
           <section className="card-soft space-y-5 p-5 sm:p-7" aria-label="Panel del docente">
             <div>
@@ -194,14 +237,14 @@ function LibrosBilingues() {
                   ))}
                 </div>
                 <div className="mt-6 text-center">
-                  <div className="text-5xl" aria-hidden="true">{actual.icono}</div>
+                  {!sinDistracciones && <div className="text-5xl" aria-hidden="true">{actual.icono}</div>}
                   <h2 className="mt-3 text-2xl font-semibold">{actual.titulo}</h2>
                 </div>
               </div>
               <div className="space-y-5 p-5 sm:p-7">
                 <div>
                   <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-ink-soft">Lectura en español</p>
-                  <p lang="es" className="text-lg leading-9">{actual.textoEspanol}</p>
+                  <p lang="es" className={textoGrande ? "text-2xl leading-10" : "text-lg leading-9"}>{actual.textoEspanol}</p>
                 </div>
                 <div className="border-t border-border/70 pt-4">
                   <button
@@ -215,7 +258,7 @@ function LibrosBilingues() {
                   </button>
                   {mostrarArabe && (
                     <div className="mt-3 rounded-xl bg-muted/50 px-4 py-4">
-                      <p lang="ar" dir="rtl" className="text-right text-xl leading-10">
+                      <p lang="ar" dir="rtl" className={textoGrande ? "text-right text-2xl leading-10" : "text-right text-xl leading-10"}>
                         {actual.textoArabe}
                       </p>
                     </div>
@@ -252,7 +295,17 @@ function LibrosBilingues() {
                   {resueltasPagina} de {actual.preguntas.length} ejercicios resueltos en esta lectura
                 </p>
               </div>
-              {actual.preguntas.map((pregunta, indice) => {
+              {unaPregunta && (
+                <div className="flex flex-wrap items-center justify-between gap-2 rounded-xl bg-muted/50 p-3 text-sm">
+                  <span>Pregunta {preguntaActual + 1} de {actual.preguntas.length}</span>
+                  <div className="flex gap-2">
+                    <button type="button" className="min-h-10 rounded-lg border border-border bg-white px-3 disabled:opacity-40" disabled={preguntaActual === 0} onClick={() => { setPreguntaActual((n) => n - 1); setPistaAbierta(null); }}>Anterior</button>
+                    <button type="button" className="min-h-10 rounded-lg border border-border bg-white px-3 disabled:opacity-40" disabled={preguntaActual === actual.preguntas.length - 1} onClick={() => { setPreguntaActual((n) => n + 1); setPistaAbierta(null); }}>Siguiente</button>
+                  </div>
+                </div>
+              )}
+              {preguntasVisibles.map((pregunta) => {
+                const indice = actual.preguntas.findIndex((item) => item.id === pregunta.id);
                 const elegida = respuestas[pregunta.id];
                 const acertada = elegida === pregunta.correcta;
                 const respondida = elegida !== undefined;
