@@ -11,6 +11,8 @@ Prototipo web de una futura plataforma educativa adaptativa. El proyecto conserv
 - Prototipo público de libros interactivos español–árabe en `/libros` (A1, A2, B1), con nueve lecturas, autocorrección determinista y vista docente local. No utiliza IA ni datos reales.
 - Pantalla `/newton` con enlace al índice público de Genially de pepvidalg y 3 actividades **originales** de proporcionalidad, guiadas por pasos, con opción de apoyo en árabe y presentación simplificada; sin reproducir contenidos externos.
 - Controles opcionales de atención, lectura y secuenciación en las nuevas demostraciones, sin etiquetar ni diagnosticar al alumnado.
+- Prototipo público en `/tutor`: selección secuencial por reglas y fases reales del método Newton (comprender, pensar, ejecutar, responder), con refuerzo y revisión docente ante dificultades. No es agente LLM/RAG.
+- Catálogo de 21 bloques identificados en el índice original de Genially (sin importar sus contenidos); únicamente proporcionalidad dispone de ejercicios originales en esta fase.
 - Visualizaciones y gráficas construidas con datos locales simulados.
 - Selector de idioma persistido en el navegador.
 - Interacción local para mostrar pistas y explicaciones de ejemplo.
@@ -33,7 +35,7 @@ Prototipo web de una futura plataforma educativa adaptativa. El proyecto conserv
 
 Los datos simulados se encuentran en `src/lib/demo-data.ts`. No deben sustituirse por datos personales reales.
 
-El prototipo de libros se describe en [`docs/LIBROS_BILINGUES.md`](docs/LIBROS_BILINGUES.md). La carga de la web sigue requiriendo internet: todavía no existe una versión offline instalable.
+El prototipo de libros se describe en [`docs/LIBROS_BILINGUES.md`](docs/LIBROS_BILINGUES.md). El motor tutor y el mapa RAG se detallan en [`docs/TUTOR_NEWTON_RAG.md`](docs/TUTOR_NEWTON_RAG.md). La carga de la web sigue requiriendo internet: todavía no existe una versión offline instalable.
 
 ## Funciones que todavía no existen
 
