@@ -86,6 +86,9 @@ function AulaNewton() {
             atención, comprensión y memoria. Sin límite de tiempo, sin registro de alumnos y sin
             calificaciones. Los ejercicios pueden repetirse cuantas veces se necesite.
           </p>
+          <Link to="/tutor" className="mt-4 inline-flex min-h-11 items-center gap-2 rounded-xl bg-gradient-brand px-5 py-2 text-sm font-semibold text-white shadow-glow">
+            Probar tutor secuencial <ArrowRight className="h-4 w-4" aria-hidden="true" />
+          </Link>
         </div>
         {!modoCalma && <section className="rounded-2xl border border-border/70 bg-white p-5">
           <div className="flex flex-wrap items-start justify-between gap-4">
