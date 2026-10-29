@@ -97,10 +97,15 @@ function LibrosBilingues() {
             </span>
             NeuroAula AI
           </Link>
-          <Link to="/" className="inline-flex items-center gap-2 text-sm text-ink-soft hover:text-ink">
-            <ArrowLeft className="h-4 w-4" aria-hidden="true" />
-            Volver a la web
-          </Link>
+          <div className="flex flex-wrap items-center gap-3">
+            <Link to="/newton" className="inline-flex items-center gap-2 rounded-xl border border-border/70 px-3 py-2 text-sm font-medium hover:bg-muted">
+              Matemáticas Newton
+            </Link>
+            <Link to="/" className="inline-flex items-center gap-2 text-sm text-ink-soft hover:text-ink">
+              <ArrowLeft className="h-4 w-4" aria-hidden="true" />
+              Volver a la web
+            </Link>
+          </div>
         </div>
       </header>
 
