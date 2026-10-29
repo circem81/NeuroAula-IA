@@ -1,4 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { TutorialPlayer } from "@/components/tutorial-player";
 import { useState } from "react";
 import {
   ArrowLeft,
@@ -289,6 +290,18 @@ function LibrosBilingues() {
                     </dl>
                   )}
                 </div>
+                <TutorialPlayer
+                  key={actual.id}
+                  resourceId={actual.id}
+                  title={"Tutorial de lectura: " + actual.titulo}
+                  description="Explicación guiada y espacio para probar un vídeo MP4 o WebM del docente."
+                  steps={[
+                    "Lee una frase en español sin prisa.",
+                    "Si una palabra no se entiende, consulta la traducción árabe o el vocabulario.",
+                    "Vuelve a leer la frase y explica su significado con tus palabras.",
+                    "Responde a las preguntas. Usa una pista si la necesitas.",
+                  ]}
+                />
               </div>
             </article>
 
