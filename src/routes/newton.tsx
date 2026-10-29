@@ -87,7 +87,7 @@ function AulaNewton() {
             calificaciones. Los ejercicios pueden repetirse cuantas veces se necesite.
           </p>
         </div>
-        <section className="rounded-2xl border border-border/70 bg-white p-5">
+        {!modoCalma && <section className="rounded-2xl border border-border/70 bg-white p-5">
           <div className="flex flex-wrap items-start justify-between gap-4">
             <div className="max-w-2xl">
               <h2 className="text-lg font-semibold">Biblioteca de recursos Newton · Genially</h2>
@@ -106,7 +106,7 @@ function AulaNewton() {
               Ver índice original <ExternalLink className="h-4 w-4" aria-hidden="true" />
             </a>
           </div>
-        </section>
+        </section>}
 
         <section className="rounded-2xl border border-border/70 bg-white p-5" aria-labelledby="apoyos-matematicas">
           <h2 id="apoyos-matematicas" className="text-base font-semibold">Elige cómo quieres trabajar</h2>
@@ -131,8 +131,8 @@ function AulaNewton() {
           </div>
         </section>
 
-        <section aria-label="Retos de proporcionalidad" className="grid gap-5 lg:grid-cols-[minmax(0,0.4fr)_minmax(0,0.6fr)]">
-          <aside className="space-y-3 rounded-2xl border border-border/70 bg-white p-5">
+        <section aria-label="Retos de proporcionalidad" className={modoCalma ? "mx-auto grid max-w-2xl gap-5" : "grid gap-5 lg:grid-cols-[minmax(0,0.4fr)_minmax(0,0.6fr)]"}>
+          {!modoCalma && <aside className="space-y-3 rounded-2xl border border-border/70 bg-white p-5">
             <h2 className="text-base font-semibold">Elige un problema</h2>
             {retosNewton.map((r, index) => (
               <button
@@ -153,7 +153,7 @@ function AulaNewton() {
             <button type="button" onClick={reiniciar} className="inline-flex min-h-11 items-center gap-2 rounded-xl border border-border/70 px-3 text-sm hover:bg-muted">
               <RotateCcw className="h-4 w-4" aria-hidden="true" /> Reiniciar ejercicios
             </button>
-          </aside>
+          </aside>}
 
           <article className="rounded-2xl border border-border/70 bg-white p-5 sm:p-7">
             <div className="flex items-center justify-between gap-2 text-xs text-ink-soft">
