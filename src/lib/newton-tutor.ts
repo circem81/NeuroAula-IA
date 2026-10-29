@@ -1,5 +1,5 @@
-import { retosNewton } from "./newton-actividades";
-import { fasesNewton, type FaseNewton } from "./newton-catalogo";
+import { retosNewton } from "./newton-actividades.ts";
+import { fasesNewton, type FaseNewton } from "./newton-catalogo.ts";
 
 type PreguntaTutor = {
   id: string;
