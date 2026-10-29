@@ -250,6 +250,14 @@ function Hero({ onRequestDemo }: { onRequestDemo: () => void }) {
               <FlaskConical className="h-4 w-4" /> {t.researchCta}
             </GradientButton>
           </div>
+          <div className="mt-5 flex flex-wrap items-center justify-center gap-4 text-sm">
+            <Link to="/libros" className="font-medium text-ink-soft underline underline-offset-4 hover:text-ink">
+              {lang === "es" ? "Probar libros español–árabe" : "Try Spanish–Arabic books"}
+            </Link>
+            <Link to="/newton" className="font-medium text-ink-soft underline underline-offset-4 hover:text-ink">
+              {lang === "es" ? "Probar matemáticas Newton" : "Try Newton mathematics"}
+            </Link>
+          </div>
         </Reveal>
 
         <Reveal delay={0.35}>
