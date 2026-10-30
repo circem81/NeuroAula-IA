@@ -1,0 +1,18 @@
+name: NeuroAula checks
+on:
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+      # Existing bun.lock on main predates @supabase/ssr; regenerate it in a separate housekeeping change.
+      - name: Install dependencies (legacy lockfile is out of sync)
+        run: bun install
+      - name: Typecheck, lint, tests and build
+        run: bun run check
