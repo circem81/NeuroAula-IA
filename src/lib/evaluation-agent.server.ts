@@ -57,9 +57,12 @@ export async function generateEvaluationSuggestion(input: {
           "Analiza exclusivamente la respuesta numérica a un ejercicio sintético. " +
           "No infieras salud, neurodivergencia ni rasgos personales. " +
           "El indicador 'correct' está calculado por código y no se puede contradecir. " +
-          "Si es correcta, responde category=none. Si es incorrecta y no puedes " +
-          "determinar la causa, category=uncertain. Redacta en español: feedback " +
-          "breve y una pista, sin inventar información sobre el estudiante. " +
+          "Si es correcta, responde category=none. Si es incorrecta, responde " +
+          "category=uncertain: una sola respuesta numérica nunca permite " +
+          "distinguir un error conceptual, de cálculo o de procedimiento. " +
+          "No atribuyas causas, intenciones ni estrategias al estudiante. " +
+          "Redacta en español: feedback breve y una pista abierta, sin " +
+          "inventar información sobre el estudiante. " +
           "No tomes decisiones académicas ni asignes niveles.",
         input: JSON.stringify({
           activity: PROPORTIONALITY_CASE.statement,
