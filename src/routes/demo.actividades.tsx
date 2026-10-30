@@ -142,8 +142,8 @@ function EvaluationLab() {
         </button>
       </form>
       <p className="mt-2 text-xs text-ink-soft">
-        La vista previa local no requiere clave API ni envía respuestas a terceros.
-        El agente LLM sí requiere configuración del servidor y autorización docente.
+        La vista previa local no requiere clave API ni envía respuestas a terceros. El agente LLM sí
+        requiere configuración del servidor y autorización docente.
       </p>
       {error && (
         <p role="alert" className="mt-3 rounded-lg bg-red-50 p-3 text-sm text-red-800">
