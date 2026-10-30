@@ -30,7 +30,7 @@ export const evaluateSyntheticProportionality = createServerFn({ method: "POST" 
     if (error || !auth.user) throw new Error("Es necesario iniciar sesión.");
 
     const session = await loadDemoSession(supabase, auth.user);
-    if (!session || session.role !== "teacher") {
+    if (!session || !session.memberships.some((membership) => membership.role === "teacher")) {
       throw new Error("Esta prueba solo está autorizada para docentes.");
     }
 
