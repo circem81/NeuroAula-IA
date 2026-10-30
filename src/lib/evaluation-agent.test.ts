@@ -3,6 +3,7 @@ import { describe, it } from "node:test";
 
 import {
   evaluateProportionality,
+  previewSyntheticProportionality,
   parseNumericAnswer,
   parseSuggestion,
   PROPORTIONALITY_CASE,
@@ -48,6 +49,26 @@ describe("proportionality evaluation contract (synthetic data)", () => {
     }));
     assert.equal(wrong.correct, false);
     assert.equal(wrong.category, "uncertain");
+    const speculative = await evaluateProportionality("15", async () => proposed);
+    assert.equal(speculative.category, "uncertain");
+    assert.equal(speculative.teacherReviewRequired, true);
+  });
+
+  it("previews synthetic answers offline without posing as an LLM", () => {
+    const correct = previewSyntheticProportionality("21,00");
+    assert.equal(correct.correct, true);
+    assert.equal(correct.category, "none");
+    assert.equal(correct.source, "local-rules");
+    assert.equal(correct.teacherReviewRequired, true);
+
+    const incorrect = previewSyntheticProportionality("15");
+    assert.equal(incorrect.correct, false);
+    assert.equal(incorrect.category, "uncertain");
+    assert.match(incorrect.feedback, /no sabemos por qué/i);
+    assert.equal(incorrect.source, "local-rules");
+
+    assert.equal(previewSyntheticProportionality("20,99").correct, false);
+    assert.throws(() => previewSyntheticProportionality("Soy un alumno"));
   });
 
   it("rejects invalid model categories and truncated feedback", () => {
