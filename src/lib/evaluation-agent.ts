@@ -92,8 +92,12 @@ export async function evaluateProportionality(
       : suggested.category === "none"
         ? "uncertain"
         : suggested.category,
-    feedback: suggested.feedback,
-    hint: suggested.hint,
+    feedback: correct
+      ? "La respuesta numérica es correcta: siete cuadernos cuestan 21 €."
+      : suggested.feedback,
+    hint: correct
+      ? "Comprueba el procedimiento calculando primero el precio unitario."
+      : suggested.hint,
     teacherReviewRequired: true,
     source: "llm",
   };
