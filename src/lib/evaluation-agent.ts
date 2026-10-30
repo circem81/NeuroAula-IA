@@ -9,12 +9,7 @@ export const PROPORTIONALITY_CASE = {
   expectedAnswer: 21,
 } as const;
 
-export type ErrorCategory =
-  | "none"
-  | "conceptual"
-  | "calculation"
-  | "procedure"
-  | "uncertain";
+export type ErrorCategory = "none" | "conceptual" | "calculation" | "procedure" | "uncertain";
 
 export type AgentSuggestion = {
   category: ErrorCategory;
@@ -60,11 +55,7 @@ export function parseSuggestion(candidate: unknown): AgentSuggestion {
     throw new Error("Categoría de error no reconocida.");
   }
   for (const field of ["feedback", "hint"] as const) {
-    if (
-      typeof data[field] !== "string" ||
-      !data[field].trim() ||
-      data[field].length > 350
-    ) {
+    if (typeof data[field] !== "string" || !data[field].trim() || data[field].length > 350) {
       throw new Error("El modelo produjo un texto incompleto o demasiado largo.");
     }
   }
@@ -87,11 +78,7 @@ export async function evaluateProportionality(
     activityId: PROPORTIONALITY_CASE.id,
     answer,
     correct,
-    category: correct
-      ? "none"
-      : suggested.category === "none"
-        ? "uncertain"
-        : suggested.category,
+    category: correct ? "none" : suggested.category === "none" ? "uncertain" : suggested.category,
     feedback: correct
       ? "La respuesta numérica es correcta: siete cuadernos cuestan 21 €."
       : suggested.feedback,
