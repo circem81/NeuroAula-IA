@@ -22,7 +22,7 @@ export type EvaluationResult = AgentSuggestion & {
   answer: string;
   correct: boolean;
   teacherReviewRequired: true;
-  source: "llm";
+  source: "llm" | "local-rules";
 };
 
 export function parseNumericAnswer(raw: unknown): { answer: string; value: number } {
@@ -66,19 +66,48 @@ export function parseSuggestion(candidate: unknown): AgentSuggestion {
   };
 }
 
+/** Only numerical correctness can be established without evidence of the steps taken. */
+function isCorrectValue(value: number) {
+  return Math.abs(value - PROPORTIONALITY_CASE.expectedAnswer) < 0.005;
+}
+
+/**
+ * Standalone, transparent local preview. It never contacts an LLM, stores
+ * records or attributes a cause to an incorrect answer.
+ */
+export function previewSyntheticProportionality(rawAnswer: unknown): EvaluationResult {
+  const { answer, value } = parseNumericAnswer(rawAnswer);
+  const correct = isCorrectValue(value);
+  return {
+    activityId: PROPORTIONALITY_CASE.id,
+    answer,
+    correct,
+    category: correct ? "none" : "uncertain",
+    feedback: correct
+      ? "La respuesta numérica es correcta: siete cuadernos cuestan 21 €."
+      : "La respuesta no coincide con 21 €. Con solo el resultado no sabemos por qué.",
+    hint: correct
+      ? "Explica cómo obtuviste el precio de siete cuadernos."
+      : "¿Cuánto cuesta un cuaderno si cuatro cuestan 12 €?",
+    teacherReviewRequired: true,
+    source: "local-rules",
+  };
+}
+
 /** Model proposals are never allowed to override the deterministic check. */
 export async function evaluateProportionality(
   rawAnswer: unknown,
   generate: (input: { answer: string; correct: boolean }) => Promise<unknown>,
 ): Promise<EvaluationResult> {
   const { answer, value } = parseNumericAnswer(rawAnswer);
-  const correct = Math.abs(value - PROPORTIONALITY_CASE.expectedAnswer) < 0.005;
+  const correct = isCorrectValue(value);
   const suggested = parseSuggestion(await generate({ answer, correct }));
   return {
     activityId: PROPORTIONALITY_CASE.id,
     answer,
     correct,
-    category: correct ? "none" : suggested.category === "none" ? "uncertain" : suggested.category,
+    // A numeric answer alone cannot distinguish conceptual, arithmetic or procedural mistakes.
+    category: correct ? "none" : "uncertain",
     feedback: correct
       ? "La respuesta numérica es correcta: siete cuadernos cuestan 21 €."
       : suggested.feedback,
