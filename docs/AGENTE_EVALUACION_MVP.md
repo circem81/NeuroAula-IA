@@ -7,7 +7,9 @@
 - Problema: «Cuatro cuadernos cuestan 12 €. ¿Cuánto cuestan siete cuadernos?»
 - Resultado exacto: 21 € (validación determinista, no depende del LLM).
 - Entrada: número ficticio, sin nombres ni texto libre. Ejemplo para probar el agente: `15`.
-- Salida: categoría orientativa de error, observación y pista, siempre con revisión docente pendiente.
+- Salida: comprobación numérica y pista, siempre con revisión docente pendiente.
+- **Límite de inferencia:** una respuesta numérica incorrecta aislada no demuestra un error conceptual, de cálculo ni de procedimiento; se clasifica como `uncertain` hasta disponer de pasos o razonamiento observable.
+- **Vista previa local:** permite probar las respuestas ficticias con reglas transparentes, sin API ni LLM y rotulada expresamente como «sin IA».
 - No se guardan respuestas, perfiles, datos personales, calificaciones ni eventos de Learning Twin.
 - No hay LangGraph, multiagente, RAG o persistencia educativa en este piloto.
 
@@ -17,10 +19,14 @@
 - `src/lib/evaluation-agent.server.ts`: adaptador exclusivo del servidor a Responses API.
 - `src/lib/evaluation-agent.functions.ts`: función POST, autenticación Supabase, rol docente y límite básico por proceso.
 - `src/routes/demo.actividades.tsx`: interfaz experimental dentro de la demo para docentes.
-- `src/lib/evaluation-agent.test.ts`: casos de prueba sin gasto de API.
+- `src/lib/evaluation-agent.test.ts`: casos de prueba sin gasto de API, incluidas incertidumbre y vista previa local.
 - `src/start.ts`: middleware CSRF para llamadas a funciones de servidor.
 
 ## Encendido deliberado
+
+**Vista previa local, sin activación externa:** iniciar sesión como docente de la demo, abrir `/demo/actividades`, introducir una respuesta ficticia y pulsar «Vista previa local (sin IA)». No usa `OPENAI_API_KEY`, no consulta al proveedor y no representa una salida LLM.
+
+**Evaluación LLM (permanece desactivada por defecto):**
 
 1. Configurar en el **servidor** `OPENAI_API_KEY` (nunca `VITE_OPENAI_API_KEY`).
 2. Seleccionar `NEUROAULA_EVAL_MODEL` compatible con Structured Outputs; la plantilla propone `gpt-4.1-mini`.
@@ -34,6 +40,8 @@ Sin la clave y la activación, la interfaz muestra un mensaje de falta de dispon
 
 - Entrada numérica acotada. El cliente no puede seleccionar prompt, modelo, actividad, usuario ni identificador de alumno.
 - La respuesta correcta se decide mediante código: el LLM no puede cambiarla.
+- Una respuesta incorrecta sin procedimiento se etiqueta «No concluyente» incluso si el LLM intenta adjudicar una causa; sus textos son solo propuestas pendientes de revisión.
+- La interfaz identifica inequívocamente si la salida procede de reglas locales o del LLM.
 - Respuesta del modelo con esquema JSON estricto, validación posterior y error explícito si falta o es inválida.
 - `store: false`, timeout, límite de tokens y desactivación por defecto.
 - Autenticación verificada con `auth.getUser()` y membresía activa por centro/rol antes de realizar la llamada.
@@ -43,7 +51,7 @@ Sin la clave y la activación, la interfaz muestra un mensaje de falta de dispon
 
 ## Pruebas y límites
 
-Ejecutar `bun run check` en el repositorio y probar manualmente al menos: 21, 15, valor vacío, dato inválido, usuario no docente, agente apagado, fallo/red lenta y salida incorrecta del modelo.
+Ejecutar `bun run check` en el repositorio y probar manualmente al menos: 21, 15, 20,99, valor vacío, dato inválido, usuario no docente, agente apagado, fallo/red lenta y salida incorrecta del modelo. Confirmar que la vista previa local no solicita credenciales API ni se presenta como IA y que las respuestas incorrectas no generan diagnósticos de error sin observar el procedimiento.
 
 **No probado en vivo durante esta propuesta:** sin credenciales ni acceso al entorno desplegado no hay validación real de la API. La nueva funcionalidad no debe considerarse operativa hasta que pase compilación, pruebas y una ejecución autorizada con la clave del servidor.
 
