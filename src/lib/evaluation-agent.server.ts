@@ -1,8 +1,4 @@
-import {
-  PROPORTIONALITY_CASE,
-  type AgentSuggestion,
-  parseSuggestion,
-} from "./evaluation-agent";
+import { PROPORTIONALITY_CASE, type AgentSuggestion, parseSuggestion } from "./evaluation-agent";
 
 const OUTPUT_SCHEMA = {
   type: "object",
