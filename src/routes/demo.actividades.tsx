@@ -87,13 +87,16 @@ function EvaluationLab() {
         Agente LLM de Evaluación — proporcionalidad
       </h2>
       <p className="mt-2 text-sm text-ink-soft">
-        Ejercicio fijo y sintético. El modelo propone una explicación, pero la corrección
-        numérica se realiza con código. Nada se guarda en el expediente ni en el gemelo.
+        Ejercicio fijo y sintético. El modelo propone una explicación, pero la corrección numérica
+        se realiza con código. Nada se guarda en el expediente ni en el gemelo.
       </p>
       <div className="mt-4 rounded-xl bg-muted/60 p-4 text-sm">
         {PROPORTIONALITY_CASE.statement}
       </div>
-      <form onSubmit={(event) => void onSubmit(event)} className="mt-4 flex flex-wrap items-end gap-3">
+      <form
+        onSubmit={(event) => void onSubmit(event)}
+        className="mt-4 flex flex-wrap items-end gap-3"
+      >
         <label className="flex flex-col gap-1 text-sm">
           Respuesta ficticia (€)
           <input
@@ -119,15 +122,28 @@ function EvaluationLab() {
       <p className="mt-2 text-xs text-ink-soft">
         Solo docentes autorizados. Requiere configuración explícita del servidor y una clave API.
       </p>
-      {error && <p role="alert" className="mt-3 rounded-lg bg-red-50 p-3 text-sm text-red-800">{error}</p>}
+      {error && (
+        <p role="alert" className="mt-3 rounded-lg bg-red-50 p-3 text-sm text-red-800">
+          {error}
+        </p>
+      )}
       {result && (
         <div className="mt-4 space-y-2 rounded-xl border border-border bg-white p-4 text-sm">
-          <p><strong>Comprobación numérica:</strong> {result.correct ? "Correcta" : "Incorrecta"}</p>
-          <p><strong>Clasificación propuesta:</strong> {categories[result.category]}</p>
-          <p><strong>Observación del agente:</strong> {result.feedback}</p>
-          <p><strong>Pista propuesta:</strong> {result.hint}</p>
+          <p>
+            <strong>Comprobación numérica:</strong> {result.correct ? "Correcta" : "Incorrecta"}
+          </p>
+          <p>
+            <strong>Clasificación propuesta:</strong> {categories[result.category]}
+          </p>
+          <p>
+            <strong>Observación del agente:</strong> {result.feedback}
+          </p>
+          <p>
+            <strong>Pista propuesta:</strong> {result.hint}
+          </p>
           <p className="text-xs text-amber-800">
-            Propuesta LLM sin validar. Requiere revisión docente antes de cualquier intervención real.
+            Propuesta LLM sin validar. Requiere revisión docente antes de cualquier intervención
+            real.
           </p>
         </div>
       )}
