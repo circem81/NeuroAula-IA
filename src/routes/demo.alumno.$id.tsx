@@ -18,6 +18,7 @@ import { useState } from "react";
 import { useLang } from "@/lib/i18n";
 import { demoT } from "@/lib/demo-i18n";
 import { students, adaptiveActivity } from "@/lib/demo-data";
+import { FormativeEvidencePanel } from "@/components/formative-evidence-panel";
 
 export const Route = createFileRoute("/demo/alumno/$id")({
   component: StudentProfile,
@@ -217,6 +218,8 @@ function StudentProfile() {
           </ul>
         </div>
       </section>
+
+      <FormativeEvidencePanel studentId={student.id} lang={lang} />
 
       <AdaptiveActivityDemo />
     </div>
