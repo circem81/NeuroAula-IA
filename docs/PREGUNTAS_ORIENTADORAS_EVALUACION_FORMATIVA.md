@@ -77,7 +77,11 @@ En la **demo actual** los borradores son locales y no persisten; no se aplica cl
 - Documento del proyecto: [Evidencia pedagógica](EVIDENCIA_PEDAGOGICA.md).
 - Documento del proyecto: [Arquitectura del workshop AI Engineer PRO](WORKSHOP_AI_ENGINEER_PRO_2026-10-27.md).
 
-**Biblioteca personal en Apple Books:** pendiente de recibir título/autor/edición y, si se desean incorporar aportaciones concretas, notas propias o fragmentos breves autorizados. No se ha consultado ese libro ni se reproducen sus páginas. Resumir y atribuir las ideas, sin copiar capítulos completos.
+### Libro identificado por la usuaria
+
+- Morales Lobo, M. y Fernández Fernández, J. G. (2022). *La evaluación formativa: Estrategias eficaces para regular el aprendizaje*. SM. Biblioteca Innovación Educativa, volumen 48. ISBN 9788411201445. Prólogo de Neus Sanmartí. [Ficha editorial](https://tienda.grupo-sm.com/producto/la-evaluacion-formativa/).
+- Según la sinopsis oficial, la evaluación debe producir evidencias que orienten **acciones durante el aprendizaje**, no limitarse a certificar productos finales. La descripción no equivale a una lectura completa del libro; quedan pendientes las notas o extractos autorizados que la usuaria quiera integrar.
+- Diseño de experiencias visuales originales: [juegos manipulativos y escenas interactivas](JUEGOS_MANIPULATIVOS_INTERACTIVOS.md). Evitar importar materiales protegidos al RAG sin permiso.
 
 ## Próximas fases
 
