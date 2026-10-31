@@ -102,24 +102,24 @@ const guidedCopy = {
 } satisfies Record<
   DemoLang,
   {
-  eyebrow: string;
-  heading: string;
-  intro: string;
-  questionLabel: string;
-  responseLabel: string;
-  placeholder: string;
-  alternative: string;
-  continue: string;
-  unsure: string;
-  afterSupport: string;
-  supportHeading: string;
-  teacherHint: string;
-  summary: string;
-  noResponse: string;
-  supportRequested: string;
-  withoutSupport: string;
-  restart: string;
-  stages: { name: string; question: string; alternative: string }[];
+    eyebrow: string;
+    heading: string;
+    intro: string;
+    questionLabel: string;
+    responseLabel: string;
+    placeholder: string;
+    alternative: string;
+    continue: string;
+    unsure: string;
+    afterSupport: string;
+    supportHeading: string;
+    teacherHint: string;
+    summary: string;
+    noResponse: string;
+    supportRequested: string;
+    withoutSupport: string;
+    restart: string;
+    stages: { name: string; question: string; alternative: string }[];
   }
 >;
 
