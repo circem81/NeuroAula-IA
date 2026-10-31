@@ -17,10 +17,23 @@ export type FormativeLearnerSnapshot = {
   strengths: string[];
   opportunities: string[];
   criteria: FormativeCriterion[];
+  evolution: { moment: string; observation: string; support: string }[];
 };
 
 export const formativeDashboardDemo: Partial<Record<string, FormativeLearnerSnapshot>> = {
   "lucia-fernandez": {
+    evolution: [
+      {
+        moment: "Primer intento (simulado)",
+        observation: "Representó una igualdad con fichas, con una pregunta orientadora.",
+        support: "Apoyo conceptual",
+      },
+      {
+        moment: "Comprobación posterior (simulada)",
+        observation: "Explicó una transformación sin ayuda conceptual durante una actividad supervisada.",
+        support: "Apoyo visual de acceso",
+      },
+    ],
     strengths: [
       "Explica la conservación de una igualdad con un ejemplo propio.",
       "Revisa sus procedimientos antes de dar una respuesta definitiva.",
@@ -52,6 +65,18 @@ export const formativeDashboardDemo: Partial<Record<string, FormativeLearnerSnap
     ],
   },
   "mateo-ruiz": {
+    evolution: [
+      {
+        moment: "Primer intento (simulado)",
+        observation: "Retiró fichas de un solo lado de la balanza.",
+        support: "Sin ayuda",
+      },
+      {
+        moment: "Nuevo intento (simulado)",
+        observation: "Conservó la igualdad después de una pregunta orientadora; falta verificar transferencia.",
+        support: "Pregunta de contenido",
+      },
+    ],
     strengths: [
       "Representa cantidades y relaciones mediante fichas visuales.",
       "Prueba otra estrategia cuando se le permite manipular los objetos.",
