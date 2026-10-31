@@ -10,7 +10,7 @@ Prototipo web de una futura plataforma educativa adaptativa. El proyecto conserv
 - Navegación por las pantallas de la demo.
 - Visualizaciones y gráficas construidas con datos locales simulados.
 - Selector de idioma persistido en el navegador.
-- Interacción local para mostrar pistas y explicaciones de ejemplo.
+- Secuencia local de preguntas orientadoras con respuesta escrita y alternativas de representación; no interpreta ni califica, no guarda los borradores y no utiliza IA.
 - Autenticación por correo y contraseña con Supabase, sesión SSR en cookies y zona `/demo` protegida.
 - Autorización por perfiles usando las membresías activas protegidas por RLS de `organization_memberships`.
 - Confirmación de correo y recuperación segura de contraseña mediante enlaces de Supabase Auth.
@@ -41,6 +41,12 @@ Los datos simulados se encuentran en `src/lib/demo-data.ts`. No deben sustituirs
 ## Arquitectura prevista
 
 El gemelo de aprendizaje se plantea como **estado longitudinal consultable**, no como un prompt acumulativo con todo el historial del alumno. Para la futura capa de agentes se adopta como referencia el patrón RLM: contexto externo, recuperación selectiva y procesamiento por agentes especializados. La propuesta y sus límites se describen en [`docs/RLM_ARCHITECTURE.md`](docs/RLM_ARCHITECTURE.md).
+
+## Enfoque pedagógico: evaluar para aprender
+
+La demo de `/demo/adaptativo` ilustra preguntas orientadoras secuenciadas (comprender, representar, justificar y transferir) para promover el razonamiento del alumno **sin revelar inmediatamente la respuesta**. Es una interacción local con preguntas predefinidas, no un tutor inteligente ni una verificación de autoría o autonomía.
+
+La especificación para futuros agentes, rúbricas docentes, uso de evidencias y distinción entre práctica asistida y evaluación supervisada se encuentra en [`docs/PREGUNTAS_ORIENTADORAS_EVALUACION_FORMATIVA.md`](docs/PREGUNTAS_ORIENTADORAS_EVALUACION_FORMATIVA.md).
 
 ## Línea de investigación
 
