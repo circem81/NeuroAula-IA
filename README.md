@@ -2,6 +2,10 @@
 
 Prototipo web de una futura plataforma educativa adaptativa. El proyecto conserva una landing pública y una zona navegable identificada expresamente como **Demo con datos simulados**.
 
+## Plan maestro de integración
+
+Las decisiones de producto y el orden de integración de **juego matemático, libro interactivo 3D, tutor adaptativo, escenas/vídeos ramificados, motor de evidencias, Learning Twin y dashboard** se centralizan en [`docs/PLAN_MAESTRO_INTEGRACION_NEUROAULA.md`](docs/PLAN_MAESTRO_INTEGRACION_NEUROAULA.md). El libro interactivo es **un módulo dentro de NeuroAula, no un proyecto independiente**. Este plan diferencia claramente prototipos, funcionalidades reales y desarrollos pendientes.
+
 ## Estado actual
 
 ### Funciones reales
@@ -10,7 +14,7 @@ Prototipo web de una futura plataforma educativa adaptativa. El proyecto conserv
 - Navegación por las pantallas de la demo.
 - Visualizaciones y gráficas construidas con datos locales simulados.
 - Selector de idioma persistido en el navegador.
-- Interacción local para mostrar pistas y explicaciones de ejemplo.
+- Secuencia local de preguntas orientadoras con respuesta escrita y alternativas de representación; no interpreta ni califica, no guarda los borradores y no utiliza IA.
 - Autenticación por correo y contraseña con Supabase, sesión SSR en cookies y zona `/demo` protegida.
 - Autorización por perfiles usando las membresías activas protegidas por RLS de `organization_memberships`.
 - Confirmación de correo y recuperación segura de contraseña mediante enlaces de Supabase Auth.
@@ -41,6 +45,20 @@ Los datos simulados se encuentran en `src/lib/demo-data.ts`. No deben sustituirs
 ## Arquitectura prevista
 
 El gemelo de aprendizaje se plantea como **estado longitudinal consultable**, no como un prompt acumulativo con todo el historial del alumno. Para la futura capa de agentes se adopta como referencia el patrón RLM: contexto externo, recuperación selectiva y procesamiento por agentes especializados. La propuesta y sus límites se describen en [`docs/RLM_ARCHITECTURE.md`](docs/RLM_ARCHITECTURE.md).
+
+## Enfoque pedagógico: evaluar para aprender
+
+La demo de `/demo/adaptativo` ilustra preguntas orientadoras secuenciadas (comprender, representar, justificar y transferir) para promover el razonamiento del alumno **sin revelar inmediatamente la respuesta**. Es una interacción local con preguntas predefinidas, no un tutor inteligente ni una verificación de autoría o autonomía.
+
+La especificación para futuros agentes, rúbricas docentes, uso de evidencias y distinción entre práctica asistida y evaluación supervisada se encuentra en [`docs/PREGUNTAS_ORIENTADORAS_EVALUACION_FORMATIVA.md`](docs/PREGUNTAS_ORIENTADORAS_EVALUACION_FORMATIVA.md).
+
+La siguiente línea de diseño incluye **escenas matemáticas manipulativas y vídeos interactivos con decisiones**, tomando como referencia de mecánica general el equilibrio visual de *Kahoot! Álgebra 2 de DragonBox*, sin copiar sus recursos. Se describe como propuesta, **no como funcionalidad implementada**, en [`docs/JUEGOS_MANIPULATIVOS_INTERACTIVOS.md`](docs/JUEGOS_MANIPULATIVOS_INTERACTIVOS.md).
+
+## Mapa de criterios y supervisión profesional (prototipo)
+
+La ficha `/demo/alumno/$id` incorpora un **panel ilustrativo** para dos perfiles ficticios, con criterios de ejemplo (no códigos oficiales), competencias vinculadas, procedencia del trabajo (asistido/no verificado o supervisado), fortalezas observadas, aspectos a reforzar, secuencia de evolución y próxima intervención propuesta. Estas tarjetas **no son resultados de evaluación reales ni datos calculados por IA**; no existe todavía persistencia longitudinal.
+
+El diseño de la adaptación de dificultad, las evidencias y la revisión de profesorado, PT y orientación se describe en [`docs/AGENTE_ADAPTATIVO_EVIDENCIAS_Y_DASHBOARD.md`](docs/AGENTE_ADAPTATIVO_EVIDENCIAS_Y_DASHBOARD.md). PT y orientación participan según sus responsabilidades y permisos: la aplicación no les atribuye automáticamente competencias de calificación oficial.
 
 ## Línea de investigación
 
