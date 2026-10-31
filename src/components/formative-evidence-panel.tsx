@@ -13,6 +13,7 @@ const labels = {
       "Las observaciones de práctica no equivalen a aprendizaje autónomo acreditado. No hay evaluación ni seguimiento automático.",
     noSamples: "Este perfil no tiene ejemplos de evidencias formativas en la demo.",
     strengths: "Fortalezas observadas (ejemplo)",
+    evolution: "Evolución de aprendizaje (secuencia simulada)",
     opportunities: "Aspectos a reforzar (ejemplo)",
     competency: "Competencia relacionada",
     evidence: "Evidencia",
@@ -37,6 +38,7 @@ const labels = {
       "Unverified practice does not certify independent understanding. No automated assessment or tracking is performed.",
     noSamples: "This demo profile has no formative evidence examples.",
     strengths: "Observed strengths (sample)",
+    evolution: "Learning development (simulated sequence)",
     opportunities: "Areas to support (sample)",
     competency: "Related competency",
     evidence: "Evidence",
@@ -62,6 +64,7 @@ const labels = {
     description: string;
     noSamples: string;
     strengths: string;
+    evolution: string;
     opportunities: string;
     competency: string;
     evidence: string;
@@ -119,6 +122,18 @@ export function FormativeEvidencePanel({
                 ))}
               </ul>
             </div>
+          </div>
+          <div className="mt-5 rounded-xl border border-border p-4">
+            <h3 className="text-sm font-semibold">{t.evolution}</h3>
+            <ol className="mt-3 grid gap-3 md:grid-cols-2">
+              {sample.evolution.map((item) => (
+                <li key={item.moment} className="rounded-xl bg-muted/60 p-3 text-sm">
+                  <div className="font-medium">{item.moment}</div>
+                  <p className="mt-1 text-ink-soft">{item.observation}</p>
+                  <p className="mt-2 text-xs text-ink-soft">{item.support}</p>
+                </li>
+              ))}
+            </ol>
           </div>
           <div className="mt-5 grid gap-3 lg:grid-cols-2">
             {sample.criteria.map((criterion) => (
