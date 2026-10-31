@@ -14,7 +14,7 @@ const guidedCopy = {
     responseLabel: "Explica tu razonamiento (puedes escribir «no lo sé»)",
     placeholder: "¿Cómo lo pensarías? No hace falta acertar a la primera.",
     alternative: "Necesito otra forma de entenderlo",
-    continue: "Guardar respuesta y continuar",
+    continue: "Continuar",
     unsure: "No lo sé todavía",
     afterSupport: "Sigo necesitando ayuda",
     supportHeading: "Otra representación, sin darte la respuesta",
@@ -25,11 +25,11 @@ const guidedCopy = {
     supportRequested: "Se pidió otra representación",
     withoutSupport: "Sin apoyo adicional de esta demo",
     restart: "Volver a empezar",
-    incomplete: "Escribe una idea o utiliza «No lo sé todavía».",
     stages: [
       {
         name: "Comprender",
-        question: "¿Qué representa cada signo en esta operación? ¿Qué significa quitar un número negativo?",
+        question:
+          "¿Qué representa cada signo en esta operación? ¿Qué significa quitar un número negativo?",
         alternative:
           "Piensa en una deuda: ¿qué sucedería con tu saldo si alguien eliminara una parte de esa deuda?",
       },
@@ -56,7 +56,8 @@ const guidedCopy = {
   en: {
     eyebrow: "Local demo · guiding questions",
     heading: "Think first, get support second",
-    intro: "One question at a time. This version does not interpret or grade answers and saves no data.",
+    intro:
+      "One question at a time. This version does not interpret or grade answers and saves no data.",
     questionLabel: "Question",
     responseLabel: "Explain your reasoning (you may write “I don't know”)",
     placeholder: "How would you approach it? Your first attempt need not be correct.",
@@ -72,7 +73,6 @@ const guidedCopy = {
     supportRequested: "Another representation was requested",
     withoutSupport: "No extra support from this demo",
     restart: "Start again",
-    incomplete: "Write an idea or select “I don't know yet”.",
     stages: [
       {
         name: "Understand",
@@ -88,16 +88,20 @@ const guidedCopy = {
       {
         name: "Justify",
         question: "Which part of your working would you check first? Why?",
-        alternative: "Describe the last term without a memorized rule: what changes when a debt is removed?",
+        alternative:
+          "Describe the last term without a memorized rule: what changes when a debt is removed?",
       },
       {
         name: "Transfer",
         question: "Using a new example, how would you solve and explain −6 − (−4)?",
-        alternative: "Imagine you owe 6 and 4 is forgiven. Show what changes without copying the original.",
+        alternative:
+          "Imagine you owe 6 and 4 is forgiven. Show what changes without copying the original.",
       },
     ],
   },
-} satisfies Record<DemoLang, {
+} satisfies Record<
+  DemoLang,
+  {
   eyebrow: string;
   heading: string;
   intro: string;
@@ -115,9 +119,9 @@ const guidedCopy = {
   supportRequested: string;
   withoutSupport: string;
   restart: string;
-  incomplete: string;
   stages: { name: string; question: string; alternative: string }[];
-}>;
+  }
+>;
 
 export function GuidedQuestionsDemo({
   lang,
@@ -137,10 +141,7 @@ export function GuidedQuestionsDemo({
   function saveTurn(asUnknown = false) {
     const response = asUnknown ? copy.noResponse : answer.trim();
     if (!response) return;
-    setTurns((previous) => [
-      ...previous,
-      { step, response, alternateSupport: showAlternative },
-    ]);
+    setTurns((previous) => [...previous, { step, response, alternateSupport: showAlternative }]);
     setAnswer("");
     setShowAlternative(false);
     setStep((previous) => previous + 1);
@@ -166,7 +167,9 @@ export function GuidedQuestionsDemo({
         <div className="mt-6">
           <div className="flex items-center justify-between gap-3 text-xs font-medium text-ink-soft">
             <span>{current.name}</span>
-            <span>{step + 1} / {copy.stages.length}</span>
+            <span>
+              {step + 1} / {copy.stages.length}
+            </span>
           </div>
           <div
             className="mt-2 h-1.5 overflow-hidden rounded-full bg-muted"
@@ -184,7 +187,10 @@ export function GuidedQuestionsDemo({
             {copy.questionLabel}: {current.question}
           </h3>
           {showAlternative && (
-            <div role="status" className="mt-3 rounded-xl bg-amber-50 p-3 text-sm text-amber-900">
+            <div
+              role="status"
+              className="mt-3 rounded-xl bg-amber-50 p-3 text-sm text-amber-900"
+            >
               <div className="flex items-center gap-2 font-semibold">
                 <Lightbulb className="h-4 w-4" aria-hidden="true" />
                 {copy.supportHeading}
@@ -214,7 +220,7 @@ export function GuidedQuestionsDemo({
             </button>
             <button
               type="button"
-              onClick={() => showAlternative ? saveTurn(true) : setShowAlternative(true)}
+              onClick={() => (showAlternative ? saveTurn(true) : setShowAlternative(true))}
               className="rounded-full border border-border px-4 py-2 text-sm font-medium"
             >
               {showAlternative ? copy.afterSupport : copy.unsure}
