@@ -2,6 +2,10 @@
 
 Prototipo web de una futura plataforma educativa adaptativa. El proyecto conserva una landing pública y una zona navegable identificada expresamente como **Demo con datos simulados**.
 
+## Plan maestro de integración
+
+Las decisiones de producto y el orden de integración de **juego matemático, libro interactivo 3D, tutor adaptativo, escenas/vídeos ramificados, motor de evidencias, Learning Twin y dashboard** se centralizan en [`docs/PLAN_MAESTRO_INTEGRACION_NEUROAULA.md`](docs/PLAN_MAESTRO_INTEGRACION_NEUROAULA.md). El libro interactivo es **un módulo dentro de NeuroAula, no un proyecto independiente**. Este plan diferencia claramente prototipos, funcionalidades reales y desarrollos pendientes.
+
 ## Estado actual
 
 ### Funciones reales
