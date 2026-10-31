@@ -48,6 +48,8 @@ La demo de `/demo/adaptativo` ilustra preguntas orientadoras secuenciadas (compr
 
 La especificación para futuros agentes, rúbricas docentes, uso de evidencias y distinción entre práctica asistida y evaluación supervisada se encuentra en [`docs/PREGUNTAS_ORIENTADORAS_EVALUACION_FORMATIVA.md`](docs/PREGUNTAS_ORIENTADORAS_EVALUACION_FORMATIVA.md).
 
+La siguiente línea de diseño incluye **escenas matemáticas manipulativas y vídeos interactivos con decisiones**, tomando como referencia de mecánica general el equilibrio visual de *Kahoot! Álgebra 2 de DragonBox*, sin copiar sus recursos. Se describe como propuesta, **no como funcionalidad implementada**, en [`docs/JUEGOS_MANIPULATIVOS_INTERACTIVOS.md`](docs/JUEGOS_MANIPULATIVOS_INTERACTIVOS.md).
+
 ## Línea de investigación
 
 El repositorio incorpora una línea separada de I+D en [`research/`](research/) para explorar neurociencia computacional, ciencia de datos, modelos cognitivos y funciones ejecutivas aplicadas al diseño educativo. Incluye referencias de trabajo para Healthy Brain Network, Human Connectome Project y OpenNeuro, además de áreas para modelos cognitivos, funciones ejecutivas y notebooks reproducibles.
