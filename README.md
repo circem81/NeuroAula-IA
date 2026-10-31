@@ -50,6 +50,12 @@ La especificación para futuros agentes, rúbricas docentes, uso de evidencias y
 
 La siguiente línea de diseño incluye **escenas matemáticas manipulativas y vídeos interactivos con decisiones**, tomando como referencia de mecánica general el equilibrio visual de *Kahoot! Álgebra 2 de DragonBox*, sin copiar sus recursos. Se describe como propuesta, **no como funcionalidad implementada**, en [`docs/JUEGOS_MANIPULATIVOS_INTERACTIVOS.md`](docs/JUEGOS_MANIPULATIVOS_INTERACTIVOS.md).
 
+## Mapa de criterios y supervisión profesional (prototipo)
+
+La ficha `/demo/alumno/$id` incorpora un **panel ilustrativo** para dos perfiles ficticios, con criterios de ejemplo (no códigos oficiales), competencias vinculadas, procedencia del trabajo (asistido/no verificado o supervisado), fortalezas observadas, aspectos a reforzar, secuencia de evolución y próxima intervención propuesta. Estas tarjetas **no son resultados de evaluación reales ni datos calculados por IA**; no existe todavía persistencia longitudinal.
+
+El diseño de la adaptación de dificultad, las evidencias y la revisión de profesorado, PT y orientación se describe en [`docs/AGENTE_ADAPTATIVO_EVIDENCIAS_Y_DASHBOARD.md`](docs/AGENTE_ADAPTATIVO_EVIDENCIAS_Y_DASHBOARD.md). PT y orientación participan según sus responsabilidades y permisos: la aplicación no les atribuye automáticamente competencias de calificación oficial.
+
 ## Línea de investigación
 
 El repositorio incorpora una línea separada de I+D en [`research/`](research/) para explorar neurociencia computacional, ciencia de datos, modelos cognitivos y funciones ejecutivas aplicadas al diseño educativo. Incluye referencias de trabajo para Healthy Brain Network, Human Connectome Project y OpenNeuro, además de áreas para modelos cognitivos, funciones ejecutivas y notebooks reproducibles.
