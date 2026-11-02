@@ -39,6 +39,10 @@ Los datos simulados se encuentran en `src/lib/demo-data.ts`. No deben sustituirs
 - Integraciones con plataformas educativas.
 - Envío real del formulario de contacto.
 
+## Decisión de arquitectura: un agente con playbooks
+
+El MVP evolucionará hacia **un agente coordinador con playbooks educativos versionados**, no hacia ocho agentes LLM independientes. Las ocho responsabilidades se mantienen como procedimientos verificables o componentes deterministas cuando corresponda. Esta es una decisión de diseño; el coordinador todavía no está implementado. Véase [`docs/DECISION_ARQUITECTURA_AGENTE_PLAYBOOKS.md`](docs/DECISION_ARQUITECTURA_AGENTE_PLAYBOOKS.md).
+
 ## Arquitectura prevista
 
 El gemelo de aprendizaje se plantea como **estado longitudinal consultable**, no como un prompt acumulativo con todo el historial del alumno. Para la futura capa de agentes se adopta como referencia el patrón RLM: contexto externo, recuperación selectiva y procesamiento por agentes especializados. La propuesta y sus límites se describen en [`docs/RLM_ARCHITECTURE.md`](docs/RLM_ARCHITECTURE.md).
