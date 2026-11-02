@@ -11,6 +11,7 @@ Prototipo web de una futura plataforma educativa adaptativa. El proyecto conserv
 - Visualizaciones y gráficas construidas con datos locales simulados.
 - Selector de idioma persistido en el navegador.
 - Interacción local para mostrar pistas y explicaciones de ejemplo.
+- **Agente de playbook determinista** en `/demo/adaptativo`: comprueba una respuesta sintética, aplica ocho verificaciones y retiene la propuesta para revisión docente. Sin LLM, persistencia ni acciones oficiales; véase [`docs/PLAYBOOK_AGENTE.md`](docs/PLAYBOOK_AGENTE.md).
 - Autenticación por correo y contraseña con Supabase, sesión SSR en cookies y zona `/demo` protegida.
 - Autorización por perfiles usando las membresías activas protegidas por RLS de `organization_memberships`.
 - Confirmación de correo y recuperación segura de contraseña mediante enlaces de Supabase Auth.
@@ -34,7 +35,7 @@ Los datos simulados se encuentran en `src/lib/demo-data.ts`. No deben sustituirs
 
 - Persistencia de información educativa.
 - Llamadas a modelos de inteligencia artificial.
-- Agentes ejecutables, RAG o generación automática.
+- Agentes LLM autónomos, orquestación IA conectada a modelos, RAG o generación automática. El playbook local de demostración es exclusivamente un motor de reglas.
 - Integraciones con plataformas educativas.
 - Envío real del formulario de contacto.
 
