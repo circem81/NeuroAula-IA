@@ -3,6 +3,7 @@ import { useLang } from "@/lib/i18n";
 import { demoT } from "@/lib/demo-i18n";
 import { adaptiveActivity } from "@/lib/demo-data";
 import { Sparkles, XCircle } from "lucide-react";
+import { PlaybookAgentDemo } from "@/components/playbook-agent-demo";
 
 export const Route = createFileRoute("/demo/adaptativo")({
   component: Adaptive,
@@ -65,6 +66,7 @@ function Adaptive() {
           </div>
         </div>
       </div>
+      <PlaybookAgentDemo />
     </div>
   );
 }
