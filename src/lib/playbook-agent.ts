@@ -54,23 +54,26 @@ export function runPlaybookAgent(input: {
   const observedAnswer = recognized ? parseIntegerAnswer(normalized) : null;
   const expectedAnswer = -8 + -5 - -3;
   const hasValidAnswer = observedAnswer !== null;
-  const comparison = !recognized || !hasValidAnswer
-    ? "unavailable"
-    : observedAnswer === expectedAnswer
-      ? "correct"
-      : "incorrect";
+  const comparison =
+    !recognized || !hasValidAnswer
+      ? "unavailable"
+      : observedAnswer === expectedAnswer
+        ? "correct"
+        : "incorrect";
 
   // No se atribuye una causa cognitiva a una respuesta aislada.
-  const feedbackProposal = comparison === "correct"
-    ? "El resultado coincide con la operación. Explica qué ocurre al restar un número negativo."
-    : comparison === "incorrect"
-      ? "El resultado no coincide. Comprueba primero que restar (−3) equivale a sumar 3. Después, vuelve a calcular."
-      : null;
-  const nextActivityProposal = comparison === "correct"
-    ? "Proponer otra operación con enteros y solicitar una explicación del procedimiento."
-    : comparison === "incorrect"
-      ? "Proponer una operación breve con resta de negativos y una pista visual."
-      : null;
+  const feedbackProposal =
+    comparison === "correct"
+      ? "El resultado coincide con la operación. Explica qué ocurre al restar un número negativo."
+      : comparison === "incorrect"
+        ? "El resultado no coincide. Comprueba primero que restar (−3) equivale a sumar 3. Después, vuelve a calcular."
+        : null;
+  const nextActivityProposal =
+    comparison === "correct"
+      ? "Proponer otra operación con enteros y solicitar una explicación del procedimiento."
+      : comparison === "incorrect"
+        ? "Proponer una operación breve con resta de negativos y una pista visual."
+        : null;
   const evidenceRefs = recognized
     ? ["demo-data:adaptiveActivity", PLAYBOOK_DEMO_CRITERION]
     : [];
@@ -80,7 +83,9 @@ export function runPlaybookAgent(input: {
       id: "activity",
       label: "La actividad corresponde a la rúbrica prevista",
       passed: recognized,
-      detail: recognized ? PLAYBOOK_DEMO_ACTIVITY_ID : "Actividad no reconocida: se detiene la evaluación.",
+      detail: recognized
+        ? PLAYBOOK_DEMO_ACTIVITY_ID
+        : "Actividad no reconocida: se detiene la evaluación.",
     },
     {
       id: "source",
@@ -92,7 +97,9 @@ export function runPlaybookAgent(input: {
       id: "input",
       label: "La respuesta es un número entero interpretable",
       passed: hasValidAnswer,
-      detail: hasValidAnswer ? "Entrada validada sin ejecutar código ni expresiones." : "Introduce un entero, por ejemplo −10.",
+      detail: hasValidAnswer
+        ? "Entrada validada sin ejecutar código ni expresiones."
+        : "Introduce un entero, por ejemplo −10.",
     },
     {
       id: "arithmetic",
@@ -104,7 +111,10 @@ export function runPlaybookAgent(input: {
       id: "comparison",
       label: "La comparación se apoya en la respuesta observada",
       passed: comparison !== "unavailable",
-      detail: comparison === "unavailable" ? "Sin comparación válida." : `Comparación: ${comparison} (respuesta esperada: −10).`,
+      detail:
+        comparison === "unavailable"
+          ? "Sin comparación válida."
+          : `Comparación: ${comparison} (respuesta esperada: −10).`,
     },
     {
       id: "feedback",
