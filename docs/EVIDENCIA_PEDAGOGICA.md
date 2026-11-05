@@ -105,3 +105,7 @@ Esta entrada deberá complementarse posteriormente con revisiones sistemáticas 
 ## Referencias para modelos pedagógicos futuros
 
 La [referencia del CSIC y su relación con SpaceSphere Expeditions, DragonBox, Kahoot y el libro interactivo](MODELOS_PEDAGOGICOS_CSIC.md) distingue contenido verificado, interpretación pedagógica y propuestas propias de investigación guiada, pensamiento científico, educación ambiental, interacción y evaluación formativa supervisada por docentes. Es documentación para diseño futuro, no evidencia de eficacia ni funcionalidad implementada.
+
+## Educación inclusiva — FUHEM/OEI
+
+La [guía de educación inclusiva y pauta de trabajo para NeuroAula](EDUCACION_INCLUSIVA_FUHEM.md), basada en Booth y Ainscow (edición española FUHEM/OEI, 2015), incorpora referencias por página y criterios para revisar barreras, participación, apoyos, colaboración y evaluación. Incluye una lista original de revisión de actividades y un registro documental de mejora con supervisión docente. Es un marco de diseño y reflexión, no una prueba diagnóstica ni una funcionalidad implementada.
