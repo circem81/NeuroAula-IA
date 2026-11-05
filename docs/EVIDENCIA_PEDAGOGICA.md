@@ -101,3 +101,7 @@ Esta entrada deberá complementarse posteriormente con revisiones sistemáticas 
 - funciones ejecutivas;
 - metacognición y autorregulación;
 - evaluación formativa y aprendizaje adaptativo.
+
+## Referencias para modelos pedagógicos futuros
+
+La [referencia del CSIC y su relación con SpaceSphere Expeditions, DragonBox, Kahoot y el libro interactivo](MODELOS_PEDAGOGICOS_CSIC.md) distingue contenido verificado, interpretación pedagógica y propuestas propias de investigación guiada, pensamiento científico, educación ambiental, interacción y evaluación formativa supervisada por docentes. Es documentación para diseño futuro, no evidencia de eficacia ni funcionalidad implementada.
