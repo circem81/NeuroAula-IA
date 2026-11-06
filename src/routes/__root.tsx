@@ -83,7 +83,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         content:
           "NeuroAula AI presenta una experiencia educativa adaptativa y una demo transparente con datos simulados.",
       },
-      { name: "author", content: "NeuroAula AI" },
+      { name: "author", content: "Circe Monzón Caballero · NeuroAula AI" },
       { property: "og:title", content: "NeuroAula AI — IA educativa centrada en cada estudiante" },
       {
         property: "og:description",
