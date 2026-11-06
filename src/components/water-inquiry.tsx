@@ -237,6 +237,7 @@ export function WaterInquiry({ lang }: { lang: Lang }) {
   function goToStep(next: number) {
     setStep(Math.min(5, Math.max(0, next)));
     setShowHint(false);
+    setCopyStatus("idle");
   }
 
   function restart() {
@@ -260,6 +261,7 @@ export function WaterInquiry({ lang }: { lang: Lang }) {
       `${t.conclusion}: ${conclusion}`,
       `${t.guided}: ${result?.guidedCorrect ?? 0}/2`,
       t.openReview,
+      ...reviewKeys.map((key) => `${t.checklist[key]}: ${review[key] ? "✓" : "—"}`),
     ].join("\n\n");
     if (typeof navigator === "undefined" || !navigator.clipboard) {
       setCopyStatus("error");
