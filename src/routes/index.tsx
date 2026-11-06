@@ -1131,7 +1131,7 @@ function Footer() {
       <div className="border-t border-border/70">
         <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-3 px-6 py-6 text-xs text-ink-soft">
           <div>
-            © {new Date().getFullYear()} NeuroAula AI. {t.rights}
+            © {new Date().getFullYear()} Circe Monzón Caballero · NeuroAula AI. {t.rights}
           </div>
           <div className="font-mono uppercase tracking-widest">{t.compliance}</div>
         </div>
