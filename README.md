@@ -48,6 +48,10 @@ El repositorio incorpora una línea separada de I+D en [`research/`](research/) 
 
 Esta línea de investigación no convierte NeuroAula AI en una herramienta clínica: sus resultados deben utilizarse para formular hipótesis educativas, variables observables y propuestas de apoyo sujetas a supervisión humana, no para realizar diagnósticos automatizados.
 
+## Referencias pedagógicas
+
+La propuesta de diseño educativo incorpora referencias de aprendizaje activo y científico —entre ellas el Banco de Recursos del CSIC—, además de otras inspiraciones por estudiar. Se documentan **como referencias conceptuales, no como integraciones activas** en [`docs/REFERENCIAS_PEDAGOGICAS.md`](docs/REFERENCIAS_PEDAGOGICAS.md).
+
 ## Tecnologías
 
 - React 19 y TypeScript.
