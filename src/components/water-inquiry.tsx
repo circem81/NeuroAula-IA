@@ -26,9 +26,11 @@ const copy = {
   es: {
     eyebrow: "Ciencias · ESO · 20–30 minutos",
     title: "Investigación: ¿qué nos dicen dos muestras de agua?",
-    subtitle: "Una indagación guiada para formular hipótesis, analizar datos y explicar sus límites.",
+    subtitle:
+      "Una indagación guiada para formular hipótesis, analizar datos y explicar sus límites.",
     simulated: "Prototipo interactivo · datos completamente simulados",
-    privacy: "Las respuestas solo se mantienen mientras esta página está abierta: no se guardan ni se envían.",
+    privacy:
+      "Las respuestas solo se mantienen mientras esta página está abierta: no se guardan ni se envían.",
     steps: ["Problema", "Hipótesis", "Datos", "Contraste", "Conclusión", "Revisión"],
     stepOf: "Paso",
     of: "de",
@@ -42,8 +44,7 @@ const copy = {
     hypoTitle: "Antes de observar los resultados, ¿qué esperas encontrar?",
     hypoPrompt:
       "Escribe una hipótesis que se pueda contrastar. Puedes predecir diferencias, pero no necesitas acertar.",
-    hypoPlaceholder:
-      "Creo que la muestra B podría presentar ... porque ...",
+    hypoPlaceholder: "Creo que la muestra B podría presentar ... porque ...",
     hypoHint:
       "Prueba esta estructura: «Si las muestras proceden de puntos diferentes, entonces ...; lo comprobaría comparando ...». No confundas una hipótesis con un hecho.",
     dataTitle: "Observa y compara los datos",
@@ -78,8 +79,10 @@ const copy = {
       "En la muestra A ... y en la B ... Esto indica ... Sin embargo, todavía no sabemos ...",
     conclusionHint:
       "Estructura sugerida: «Observamos ... (dato). Esto sugiere ... No podemos afirmar ... porque faltarían ...».",
-    hypothesisLengthHelp: "Escribe al menos 20 caracteres para continuar. La hipótesis será revisada por el docente.",
-    lengthHelp: "Escribe al menos 40 caracteres para continuar. No se evalúa automáticamente la calidad del texto.",
+    hypothesisLengthHelp:
+      "Escribe al menos 20 caracteres para continuar. La hipótesis será revisada por el docente.",
+    lengthHelp:
+      "Escribe al menos 40 caracteres para continuar. No se evalúa automáticamente la calidad del texto.",
     reviewTitle: "Revisa tus evidencias y tu razonamiento",
     guided: "Preguntas guiadas",
     correct: "respuestas coherentes con los datos",
@@ -158,8 +161,7 @@ const copy = {
     inferenceTitle: "What can — and can't — we conclude?",
     inferencePrompt: "Select the most scientifically careful interpretation.",
     inferenceOptions: {
-      "different-not-causal":
-        "The samples differ, but these data alone do not establish why.",
+      "different-not-causal": "The samples differ, but these data alone do not establish why.",
       "fertilizers-proven":
         "The data prove that fertilizers from the fields caused the differences.",
       "water-safe": "Both samples are safe to drink because their pH is similar.",
@@ -173,8 +175,10 @@ const copy = {
       "In sample A ... and in sample B ... This suggests ... However, we still do not know ...",
     conclusionHint:
       "Try: 'We observed ... (data). This suggests ... We cannot conclude ... because we would need ...'.",
-    hypothesisLengthHelp: "Write at least 20 characters to continue. Your teacher will review the hypothesis.",
-    lengthHelp: "Write at least 40 characters to continue. Text quality is not automatically scored.",
+    hypothesisLengthHelp:
+      "Write at least 20 characters to continue. Your teacher will review the hypothesis.",
+    lengthHelp:
+      "Write at least 40 characters to continue. Text quality is not automatically scored.",
     reviewTitle: "Review your evidence and reasoning",
     guided: "Guided questions",
     correct: "answers supported by the data",
@@ -287,7 +291,9 @@ export function WaterInquiry({ lang }: { lang: Lang }) {
       <div className="border-b border-border/70 bg-gradient-to-br from-cyan-50 via-white to-indigo-50 p-5 sm:p-7">
         <div className="mb-2 flex flex-wrap items-center gap-2">
           <Beaker aria-hidden="true" className="h-5 w-5 text-cyan-700" />
-          <span className="text-xs font-semibold uppercase tracking-wide text-cyan-900">{t.eyebrow}</span>
+          <span className="text-xs font-semibold uppercase tracking-wide text-cyan-900">
+            {t.eyebrow}
+          </span>
         </div>
         <h2 id="water-inquiry-title" className="text-xl font-semibold tracking-tight sm:text-2xl">
           {t.title}
@@ -327,7 +333,10 @@ export function WaterInquiry({ lang }: { lang: Lang }) {
             <p className="leading-relaxed">{t.introBody}</p>
             <div className="grid gap-3 sm:grid-cols-2">
               {waterSamples.map((sample) => (
-                <div key={sample.id} className="rounded-2xl border border-cyan-100 bg-cyan-50/40 p-4">
+                <div
+                  key={sample.id}
+                  className="rounded-2xl border border-cyan-100 bg-cyan-50/40 p-4"
+                >
                   <div className="text-lg font-semibold">
                     {t.sample} {sample.id}
                   </div>
@@ -367,19 +376,31 @@ export function WaterInquiry({ lang }: { lang: Lang }) {
             <h3 className="text-lg font-semibold">{t.dataTitle}</h3>
             <div className="overflow-x-auto rounded-xl border border-border">
               <table className="w-full min-w-96 border-collapse text-left text-sm">
-                <caption className="p-3 text-left text-xs text-ink-soft">{t.simulatedTable}</caption>
+                <caption className="p-3 text-left text-xs text-ink-soft">
+                  {t.simulatedTable}
+                </caption>
                 <thead className="bg-muted/60">
                   <tr>
-                    <th scope="col" className="px-4 py-3">{t.sample}</th>
-                    <th scope="col" className="px-4 py-3">{t.nitrates}</th>
-                    <th scope="col" className="px-4 py-3">{t.turbidity}</th>
-                    <th scope="col" className="px-4 py-3">{t.ph}</th>
+                    <th scope="col" className="px-4 py-3">
+                      {t.sample}
+                    </th>
+                    <th scope="col" className="px-4 py-3">
+                      {t.nitrates}
+                    </th>
+                    <th scope="col" className="px-4 py-3">
+                      {t.turbidity}
+                    </th>
+                    <th scope="col" className="px-4 py-3">
+                      {t.ph}
+                    </th>
                   </tr>
                 </thead>
                 <tbody>
                   {waterSamples.map((sample) => (
                     <tr key={sample.id} className="border-t border-border/70">
-                      <th scope="row" className="px-4 py-3">{sample.id}</th>
+                      <th scope="row" className="px-4 py-3">
+                        {sample.id}
+                      </th>
                       <td className="px-4 py-3">{sample.nitrateMgL}</td>
                       <td className="px-4 py-3">{sample.turbidityNTU}</td>
                       <td className="px-4 py-3">{sample.pH}</td>
@@ -391,7 +412,10 @@ export function WaterInquiry({ lang }: { lang: Lang }) {
             <fieldset className="space-y-2">
               <legend className="mb-2 text-sm font-semibold">{t.evidencePrompt}</legend>
               {evidenceAnswers.map((answer) => (
-                <label key={answer} className="flex cursor-pointer gap-3 rounded-xl border border-border p-3 text-sm hover:bg-muted/50">
+                <label
+                  key={answer}
+                  className="flex cursor-pointer gap-3 rounded-xl border border-border p-3 text-sm hover:bg-muted/50"
+                >
                   <input
                     type="radio"
                     name="water-evidence"
@@ -413,7 +437,10 @@ export function WaterInquiry({ lang }: { lang: Lang }) {
             <fieldset className="space-y-2">
               <legend className="mb-2 text-sm font-semibold">{t.inferencePrompt}</legend>
               {inferenceAnswers.map((answer) => (
-                <label key={answer} className="flex cursor-pointer gap-3 rounded-xl border border-border p-3 text-sm hover:bg-muted/50">
+                <label
+                  key={answer}
+                  className="flex cursor-pointer gap-3 rounded-xl border border-border p-3 text-sm hover:bg-muted/50"
+                >
                   <input
                     type="radio"
                     name="water-inference"
@@ -509,10 +536,18 @@ export function WaterInquiry({ lang }: { lang: Lang }) {
               >
                 <ClipboardCopy aria-hidden="true" className="h-4 w-4" /> {t.copy}
               </button>
-              <button type="button" onClick={() => goToStep(2)} className="inline-flex items-center gap-2 rounded-full border border-border px-4 py-2 text-sm font-medium hover:bg-muted">
+              <button
+                type="button"
+                onClick={() => goToStep(2)}
+                className="inline-flex items-center gap-2 rounded-full border border-border px-4 py-2 text-sm font-medium hover:bg-muted"
+              >
                 <ArrowLeft aria-hidden="true" className="h-4 w-4" /> {t.reviewAnswers}
               </button>
-              <button type="button" onClick={restart} className="inline-flex items-center gap-2 rounded-full border border-border px-4 py-2 text-sm font-medium hover:bg-muted">
+              <button
+                type="button"
+                onClick={restart}
+                className="inline-flex items-center gap-2 rounded-full border border-border px-4 py-2 text-sm font-medium hover:bg-muted"
+              >
                 <RotateCcw aria-hidden="true" className="h-4 w-4" /> {t.restart}
               </button>
             </div>
@@ -533,7 +568,11 @@ export function WaterInquiry({ lang }: { lang: Lang }) {
               <HelpCircle aria-hidden="true" className="h-4 w-4" />
               {showHint ? t.hideHint : t.hint}
             </button>
-            {showHint && <p className="rounded-xl bg-cyan-50 p-4 text-sm leading-relaxed text-cyan-950">{hintText}</p>}
+            {showHint && (
+              <p className="rounded-xl bg-cyan-50 p-4 text-sm leading-relaxed text-cyan-950">
+                {hintText}
+              </p>
+            )}
           </div>
         )}
 

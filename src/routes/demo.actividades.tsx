@@ -24,21 +24,21 @@ function Activities() {
           {t.dashboard.latestActivities}
         </h2>
         <ul className="grid gap-3 sm:grid-cols-2">
-        {latestActivities.map((a) => {
-          const pct = Math.round((a.completed / a.total) * 100);
-          return (
-            <li key={a.title} className="card-soft p-5">
-              <div className="text-[11px] uppercase tracking-wider text-ink-soft">{a.type}</div>
-              <div className="text-sm font-semibold">{a.title}</div>
-              <div className="mt-3 text-xs text-ink-soft">
-                {a.completed}/{a.total} {t.dashboard.completed}
-              </div>
-              <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-muted">
-                <div className="h-full bg-gradient-brand" style={{ width: `${pct}%` }} />
-              </div>
-            </li>
-          );
-        })}
+          {latestActivities.map((a) => {
+            const pct = Math.round((a.completed / a.total) * 100);
+            return (
+              <li key={a.title} className="card-soft p-5">
+                <div className="text-[11px] uppercase tracking-wider text-ink-soft">{a.type}</div>
+                <div className="text-sm font-semibold">{a.title}</div>
+                <div className="mt-3 text-xs text-ink-soft">
+                  {a.completed}/{a.total} {t.dashboard.completed}
+                </div>
+                <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-muted">
+                  <div className="h-full bg-gradient-brand" style={{ width: `${pct}%` }} />
+                </div>
+              </li>
+            );
+          })}
         </ul>
       </section>
     </div>
