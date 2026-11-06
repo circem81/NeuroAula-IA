@@ -7,13 +7,14 @@ export const waterSamples = [
 export const evidenceAnswers = ["higher-b", "equal-nitrates", "equal-turbidity"] as const;
 export type EvidenceAnswer = (typeof evidenceAnswers)[number];
 
-export const inferenceAnswers = ["different-not-causal", "fertilizers-proven", "water-safe"] as const;
+export const inferenceAnswers = [
+  "different-not-causal",
+  "fertilizers-proven",
+  "water-safe",
+] as const;
 export type InferenceAnswer = (typeof inferenceAnswers)[number];
 
-export function assessWaterInquiry(
-  evidence: EvidenceAnswer,
-  inference: InferenceAnswer,
-) {
+export function assessWaterInquiry(evidence: EvidenceAnswer, inference: InferenceAnswer) {
   const evidenceCorrect = evidence === "higher-b";
   const inferenceCorrect = inference === "different-not-causal";
   return {
