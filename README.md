@@ -1,5 +1,15 @@
 # NeuroAula AI
 
+## Autoría, coordinación y derechos
+
+**NeuroAula-IA es un proyecto impulsado y coordinado por Circe Monzón Caballero.** El planteamiento pedagógico y las aportaciones originales realizadas por ella se identifican como parte de su trabajo, sin atribuirle automáticamente la autoría de componentes, código o recursos ajenos.
+
+© 2026 Circe Monzón Caballero — NeuroAula-IA. Derechos reservados sobre sus aportaciones originales, en los términos previstos por la legislación aplicable.
+
+Este repositorio **no ofrece, por ahora, una licencia general de software libre** para esas aportaciones. El uso de bibliotecas, plantillas, herramientas y contenidos de terceros se rige por sus respectivas licencias y condiciones. Para detalles, consulta [`COPYRIGHT.md`](COPYRIGHT.md).
+
+Las menciones a herramientas, universidades, equipos de investigación o posibles colaboradores no implican convenios ni colaboraciones formalizadas. Las contribuciones de terceros y sus condiciones de autoría, uso y publicación deberán acordarse expresamente antes de integrarse.
+
 Prototipo web de una futura plataforma educativa adaptativa. El proyecto conserva una landing pública y una zona navegable identificada expresamente como **Demo con datos simulados**.
 
 ## Estado actual
