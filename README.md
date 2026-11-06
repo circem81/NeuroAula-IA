@@ -11,6 +11,7 @@ Prototipo web de una futura plataforma educativa adaptativa. El proyecto conserv
 - Visualizaciones y gráficas construidas con datos locales simulados.
 - Selector de idioma persistido en el navegador.
 - Interacción local para mostrar pistas y explicaciones de ejemplo.
+- Situación de aprendizaje interactiva «¿Qué nos dicen dos muestras de agua?» en `/demo/actividades`: seis etapas, datos ficticios, pistas, respuestas y retroalimentación basada en reglas. Las respuestas abiertas requieren revisión docente y no se guardan.
 - Autenticación por correo y contraseña con Supabase, sesión SSR en cookies y zona `/demo` protegida.
 - Autorización por perfiles usando las membresías activas protegidas por RLS de `organization_memberships`.
 - Confirmación de correo y recuperación segura de contraseña mediante enlaces de Supabase Auth.

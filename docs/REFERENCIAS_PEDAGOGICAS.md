@@ -91,12 +91,26 @@ Estas referencias se mencionaron durante el diseño conceptual de NeuroAula-IA. 
 - Antes de guardar información educativa real, definir autorización, minimización, controles de acceso, aislamiento por centro mediante RLS y evaluación del impacto sobre privacidad.
 - Evitar considerar una tarea «científica» solo por incorporar un cuestionario: debe existir una pregunta, una investigación y una conclusión sustentada.
 
-## 5. Siguientes pasos (pendientes, no implementados)
+## 5. Primer prototipo interactivo (noviembre de 2026)
 
-1. Seleccionar una situación de aprendizaje concreta y vincularla al currículo y criterios de evaluación aplicables.
-2. Preparar un guion de seis fases (pregunta, hipótesis, indagación, contraste, conclusión, revisión) con datos simulados.
-3. Diseñar un prototipo navegable accesible y una rúbrica de pensamiento científico.
-4. Recoger evaluación docente de utilidad, accesibilidad, carga de trabajo y pertinencia de los apoyos.
+La demo docente incluye una primera **situación de indagación interactiva** en `/demo/actividades` (archivo `src/components/water-inquiry.tsx`):
+
+- Seis pasos: problema, hipótesis, lectura de datos, interpretación, conclusión y revisión.
+- Dos muestras de agua con valores **enteramente inventados**, sin juicios reales de potabilidad.
+- Pistas optativas, tabla accesible, preguntas cerradas y una recomendación sencilla basada en reglas locales.
+- Hipótesis y conclusión escritas por quien realiza la actividad, pendientes de revisión por el docente.
+- Lista de autoevaluación y resumen copiable para revisión docente.
+- Estado solo en memoria de la página; **sin persistencia, cuentas de estudiantes, IA generativa, agentes, RAG ni datos personales**.
+- Interfaz en español e inglés, incluida dentro del acceso ya establecido para el perfil docente.
+
+**Alcance:** este prototipo comprueba la viabilidad de una interacción didáctica, no demuestra personalización inteligente ni mejora del aprendizaje. La inspiración en recursos del CSIC no implica integración ni colaboración institucional.
+
+## 6. Siguientes pasos pendientes
+
+1. Precisar los criterios de evaluación LOMLOE aplicables al curso, materia y comunidad autónoma elegidos.
+2. Revisar con docentes una rúbrica explícita de formulación de hipótesis, datos, inferencias y limitaciones.
+3. Realizar pruebas reales de usabilidad y accesibilidad de la actividad, incluidos dispositivos móviles y lectores de pantalla.
+4. Recoger evaluación docente de utilidad, carga de trabajo y pertinencia de los apoyos, antes de afirmar cualquier eficacia educativa.
 5. Solo después valorar integración técnica, seguimiento longitudinal y posibles fuentes documentales, respetando derechos y privacidad.
 
 ---
