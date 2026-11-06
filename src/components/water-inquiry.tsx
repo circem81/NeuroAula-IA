@@ -3,7 +3,7 @@ import {
   ArrowLeft,
   ArrowRight,
   Beaker,
-  CheckCircle2,
+  BookOpen,
   ClipboardCopy,
   HelpCircle,
   RotateCcw,
@@ -78,10 +78,11 @@ const copy = {
       "En la muestra A ... y en la B ... Esto indica ... Sin embargo, todavía no sabemos ...",
     conclusionHint:
       "Estructura sugerida: «Observamos ... (dato). Esto sugiere ... No podemos afirmar ... porque faltarían ...».",
+    hypothesisLengthHelp: "Escribe al menos 20 caracteres para continuar. La hipótesis será revisada por el docente.",
     lengthHelp: "Escribe al menos 40 caracteres para continuar. No se evalúa automáticamente la calidad del texto.",
     reviewTitle: "Revisa tus evidencias y tu razonamiento",
     guided: "Preguntas guiadas",
-    correct: "coherentes con los datos, de 2",
+    correct: "respuestas coherentes con los datos",
     openReview:
       "La hipótesis y la conclusión son respuestas abiertas: necesitan revisión docente. Aquí no se utiliza IA para calificarlas.",
     hypothesis: "Tu hipótesis",
@@ -114,6 +115,7 @@ const copy = {
     copy: "Copiar resumen para el docente",
     copied: "Resumen copiado.",
     copyError: "No se pudo copiar automáticamente. Puedes seleccionar el resumen en pantalla.",
+    reviewAnswers: "Revisar mis respuestas",
     restart: "Empezar de nuevo",
     required: "Completa esta parte para avanzar.",
   },
@@ -171,10 +173,11 @@ const copy = {
       "In sample A ... and in sample B ... This suggests ... However, we still do not know ...",
     conclusionHint:
       "Try: 'We observed ... (data). This suggests ... We cannot conclude ... because we would need ...'.",
+    hypothesisLengthHelp: "Write at least 20 characters to continue. Your teacher will review the hypothesis.",
     lengthHelp: "Write at least 40 characters to continue. Text quality is not automatically scored.",
     reviewTitle: "Review your evidence and reasoning",
     guided: "Guided questions",
-    correct: "supported by the data, out of 2",
+    correct: "answers supported by the data",
     openReview:
       "The hypothesis and conclusion are open responses and require teacher review. No AI is used to grade them here.",
     hypothesis: "Your hypothesis",
@@ -207,6 +210,7 @@ const copy = {
     copy: "Copy summary for teacher",
     copied: "Summary copied.",
     copyError: "Could not copy automatically. You can select the summary on the page.",
+    reviewAnswers: "Review my answers",
     restart: "Start again",
     required: "Complete this part to continue.",
   },
@@ -352,7 +356,7 @@ export function WaterInquiry({ lang }: { lang: Lang }) {
               placeholder={t.hypoPlaceholder}
               maxLength={1000}
             />
-            <p className="text-xs text-ink-soft">{t.lengthHelp}</p>
+            <p className="text-xs text-ink-soft">{t.hypothesisLengthHelp}</p>
           </div>
         )}
 
@@ -444,7 +448,7 @@ export function WaterInquiry({ lang }: { lang: Lang }) {
         {step === 5 && result && (
           <div className="space-y-5">
             <div className="flex flex-wrap items-center gap-3 rounded-2xl bg-cyan-50 p-4">
-              <CheckCircle2 aria-hidden="true" className="h-6 w-6 text-cyan-800" />
+              <BookOpen aria-hidden="true" className="h-6 w-6 text-cyan-800" />
               <div>
                 <h3 className="font-semibold">{t.reviewTitle}</h3>
                 <p className="text-sm">
@@ -502,6 +506,9 @@ export function WaterInquiry({ lang }: { lang: Lang }) {
                 className="inline-flex items-center gap-2 rounded-full bg-cyan-700 px-4 py-2 text-sm font-medium text-white hover:bg-cyan-800"
               >
                 <ClipboardCopy aria-hidden="true" className="h-4 w-4" /> {t.copy}
+              </button>
+              <button type="button" onClick={() => goToStep(2)} className="inline-flex items-center gap-2 rounded-full border border-border px-4 py-2 text-sm font-medium hover:bg-muted">
+                <ArrowLeft aria-hidden="true" className="h-4 w-4" /> {t.reviewAnswers}
               </button>
               <button type="button" onClick={restart} className="inline-flex items-center gap-2 rounded-full border border-border px-4 py-2 text-sm font-medium hover:bg-muted">
                 <RotateCcw aria-hidden="true" className="h-4 w-4" /> {t.restart}
