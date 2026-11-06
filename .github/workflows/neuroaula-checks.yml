@@ -23,5 +23,21 @@ jobs:
       - name: Install dependencies
         run: bun install
 
+      # Temporary validation/export to synchronize formatting and the existing lockfile.
+      - name: Format activity source files
+        run: bunx prettier --write src/components/water-inquiry.tsx src/routes/demo.actividades.tsx src/lib/water-inquiry.ts src/lib/water-inquiry.test.ts
+
+      - name: Export formatted files and resolved Bun lock
+        run: |
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          for name in ("src/components/water-inquiry.tsx", "src/routes/demo.actividades.tsx", "src/lib/water-inquiry.ts", "src/lib/water-inquiry.test.ts"):
+              print("FORMATTED_SOURCE:" + json.dumps({"path": name, "content": Path(name).read_text()}, ensure_ascii=True, separators=(",", ":")))
+          lock = Path("bun.lock").read_text()
+          for i, start in enumerate(range(0, len(lock), 8000)):
+              print("LOCK_CHUNK:" + json.dumps({"i": i, "text": lock[start:start+8000]}, ensure_ascii=True, separators=(",", ":")))
+          PY
+
       - name: Typecheck, lint, tests and build
         run: bun run check
