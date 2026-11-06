@@ -1,10 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import {
-  assessWaterInquiry,
-  canAdvanceInquiryStep,
-  waterSamples,
-} from "./water-inquiry.ts";
+import { assessWaterInquiry, canAdvanceInquiryStep, waterSamples } from "./water-inquiry.ts";
 
 test("las muestras de la demo están identificadas como valores fijos y distintos", () => {
   assert.equal(waterSamples.length, 2);
@@ -32,7 +28,10 @@ test("cuando los datos son correctos pero se afirma una causa, propone contrasta
 
 test("las respuestas abiertas y las elecciones son necesarias para avanzar", () => {
   assert.equal(canAdvanceInquiryStep(1, "breve", "", "", ""), false);
-  assert.equal(canAdvanceInquiryStep(1, "Las muestras de agua pueden ser distintas.", "", "", ""), true);
+  assert.equal(
+    canAdvanceInquiryStep(1, "Las muestras de agua pueden ser distintas.", "", "", ""),
+    true,
+  );
   assert.equal(canAdvanceInquiryStep(2, "", "", "", ""), false);
   assert.equal(canAdvanceInquiryStep(2, "", "higher-b", "", ""), true);
   assert.equal(canAdvanceInquiryStep(3, "", "higher-b", "", ""), false);
