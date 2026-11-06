@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useLang } from "@/lib/i18n";
 import { demoT } from "@/lib/demo-i18n";
 import { latestActivities } from "@/lib/demo-data";
+import { WaterInquiry } from "@/components/water-inquiry";
 
 export const Route = createFileRoute("/demo/actividades")({
   component: Activities,
@@ -16,7 +17,13 @@ function Activities() {
         <h1 className="text-2xl font-semibold tracking-tight">{t.nav.activities}</h1>
         <p className="text-sm text-ink-soft">{t.dashboard.latestActivities}</p>
       </header>
-      <ul className="grid gap-3 sm:grid-cols-2">
+      <WaterInquiry lang={lang} />
+
+      <section aria-labelledby="latest-activities-title" className="space-y-3">
+        <h2 id="latest-activities-title" className="text-lg font-semibold">
+          {t.dashboard.latestActivities}
+        </h2>
+        <ul className="grid gap-3 sm:grid-cols-2">
         {latestActivities.map((a) => {
           const pct = Math.round((a.completed / a.total) * 100);
           return (
@@ -32,7 +39,8 @@ function Activities() {
             </li>
           );
         })}
-      </ul>
+        </ul>
+      </section>
     </div>
   );
 }
