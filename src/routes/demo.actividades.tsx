@@ -3,6 +3,7 @@ import { useLang } from "@/lib/i18n";
 import { demoT } from "@/lib/demo-i18n";
 import { latestActivities } from "@/lib/demo-data";
 import { WaterInquiry } from "@/components/water-inquiry";
+import { NeuroaulaLearningLab } from "@/components/neuroaula-learning-lab";
 
 export const Route = createFileRoute("/demo/actividades")({
   component: Activities,
@@ -17,6 +18,7 @@ function Activities() {
         <h1 className="text-2xl font-semibold tracking-tight">{t.nav.activities}</h1>
         <p className="text-sm text-ink-soft">{t.dashboard.latestActivities}</p>
       </header>
+      <NeuroaulaLearningLab />
       <WaterInquiry lang={lang} />
 
       <section aria-labelledby="latest-activities-title" className="space-y-3">
