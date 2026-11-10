@@ -60,13 +60,7 @@ function SafeIllustration({ page }: { page: ClaudeBook["pages"][number] }) {
             .map(([x, y]) => String(x) + "," + String(y))
             .join(" ");
           return (
-            <polygon
-              key={index}
-              points={points}
-              fill={fill}
-              stroke="#475569"
-              strokeWidth="0.5"
-            />
+            <polygon key={index} points={points} fill={fill} stroke="#475569" strokeWidth="0.5" />
           );
         })}
       </svg>
