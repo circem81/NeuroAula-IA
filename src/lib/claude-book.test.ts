@@ -50,10 +50,7 @@ describe("Claude book validation", () => {
 
   it("accepts only three-page valid books", () => {
     assert.equal(claudeBookSchema.safeParse(validBook).success, true);
-    assert.equal(
-      claudeBookSchema.safeParse({ ...validBook, pages: [validPage] }).success,
-      false,
-    );
+    assert.equal(claudeBookSchema.safeParse({ ...validBook, pages: [validPage] }).success, false);
   });
 
   it("rejects out-of-bounds drawing positions and answer indices", () => {
