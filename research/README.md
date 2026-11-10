@@ -12,6 +12,7 @@ Explorar métodos reproducibles que ayuden a comprender patrones de aprendizaje 
 - `cognitive-models/`: modelos cognitivos y representaciones del estado de aprendizaje.
 - `executive-functions/`: trabajo sobre memoria de trabajo, inhibición, flexibilidad, planificación y autorregulación.
 - `notebooks/`: análisis reproducibles y prototipos experimentales.
+- [`REINFORCEMENT_LEARNING_ADAPTATIVO.md`](REINFORCEMENT_LEARNING_ADAPTATIVO.md): referencia al libro abierto de Dipesh Gautam sobre aprendizaje por refuerzo (RL) y propuesta de investigación futura para selección adaptativa de actividades; no es una funcionalidad implementada ni un requisito de la tesis.
 
 ## Límite clínico
 
