@@ -116,3 +116,41 @@ La demo docente incluye una primera **situación de indagación interactiva** en
 ---
 
 **Nota de alcance:** este documento preserva la referencia pedagógica del CSIC y su relación conceptual con otras inspiraciones de NeuroAula-IA. No modifica las funciones de la demo ni afirma que la eficacia de la futura adaptación haya sido validada.
+
+
+## 7. Altas capacidades y desarrollo del talento: Pfeiffer (2017)
+
+**Tipo de referencia:** monografía académica de evaluación psicoeducativa; fuente conceptual para el marco teórico, **no** ensayo experimental de eficacia de NeuroAula-IA.  
+**Estado de integración:** referencia bibliográfica registrada; sin subida del PDF, sin indexación RAG y sin funcionalidades diagnósticas.
+
+### Referencia bibliográfica
+
+Pfeiffer, S. I. (2017). *Identificación y evaluación del alumnado con altas capacidades: Una guía práctica* (J. Tourón y R. Ranz, eds. y trads.). UNIR Editorial. (Obra original publicada en 2015 como *Essentials of Gifted Assessment*, Wiley).
+
+- ISBN de la edición electrónica en español (ePub): **978-84-16602-88-9**.
+- Fuente de trabajo: ejemplar facilitado para consulta privada en el proyecto. Su presencia en una conversación **no** autoriza su redistribución.
+- Derechos: edición y traducción © UNIR 2017; original © John Wiley & Sons 2015. **No publicar el PDF ni incorporarlo a un índice RAG compartido sin revisar las licencias y obtener, cuando corresponda, autorización.** La referencia y las notas originales sí pueden documentarse.
+
+### Contenidos prioritarios para estudiar
+
+| Apartado del libro | Aportación conceptual | Posible utilización en NeuroAula-IA |
+| --- | --- | --- |
+| Capítulos 1-2: concepciones de altas capacidades y modelo tripartito | Distingue alta inteligencia, desempeño sobresaliente y potencial de excelencia; presenta modelos de desarrollo del talento. | Evitar una única etiqueta o un umbral automático; pensar en necesidades educativas y oportunidades de desarrollo. |
+| Capítulo 3: características, contexto y doble excepcionalidad | Describe heterogeneidad de perfiles, factores socioemocionales, desventaja social y coexistencia con otras necesidades. | Explorar barreras y fortalezas mediante observaciones contextualizadas, sin inferir perfiles clínicos. |
+| Capítulo 4: principios de identificación y evaluación | Destaca la importancia de múltiples medidas, instrumentos válidos y juicio profesional; relaciona evaluación con intervención. | Diseñar requisitos de trazabilidad, incertidumbre, revisión humana y propuestas educativas accionables. |
+| Capítulos 5-7: capacidad intelectual, rendimiento, creatividad y medidas alternativas | Diferencia indicadores cognitivos, académicos, creativos y otras fuentes de información. | Evitar equiparar una respuesta, un test o una puntuación con el potencial completo del estudiante. |
+| Capítulos 8-9: preguntas frecuentes, Talent Search y aceleración | Debate identificación, evaluación e intervenciones para el desarrollo del talento. | Estudiar enriquecimiento, nivel de reto y posibles adaptaciones curriculares siempre revisadas por profesionales. |
+
+### Principios de diseño derivados como **hipótesis**, no resultados probados
+
+1. La aplicación debe centrarse en **evidencias educativas observables y objetivos de aprendizaje**, no determinar si un alumno «es AACC» ni asignarle diagnósticos de TDAH, TEA u otras condiciones.
+2. Un indicador aislado (calificación, velocidad, error, creatividad o interés) no basta para inferir capacidad cognitiva o necesidad educativa. Se requiere contexto, múltiples observaciones y valoración profesional.
+3. Las propuestas de enriquecimiento, andamiaje o ajuste del nivel de reto deben incluir **justificación, grado de incertidumbre, referencia bibliográfica y aprobación docente/orientadora** cuando proceda.
+4. Los perfiles de aprendizaje se conceptualizan como **dinámicos y revisables**, sin etiquetas deterministas.
+5. Las orientaciones del libro deben contrastarse con investigación actual, normativa educativa aplicable y estudios empíricos de intervenciones antes de incorporarse al motor de recomendaciones.
+
+### Relación con la posible tesis
+
+Esta monografía aporta la **base conceptual del desarrollo del talento y la evaluación psicoeducativa**; no es una prueba de que un sistema RAG identifique altas capacidades ni de que sus recomendaciones mejoren el aprendizaje. Puede servir para definir límites y criterios de calidad en casos de uso de atención a la diversidad. Para la tesis deben localizarse y evaluarse además los estudios empíricos y las revisiones actuales citados por el libro.
+
+**Pendiente:** ficha de lectura crítica detallada y actualización de la bibliografía relacionada (Pfeiffer, Gagné, Subotnik, Renzulli, Tourón, doble excepcionalidad y evaluación multiinformante).
