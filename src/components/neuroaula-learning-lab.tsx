@@ -85,9 +85,9 @@ export function NeuroaulaLearningLab() {
           Laboratorio visual · libros y retos de álgebra
         </h2>
         <p className="text-sm leading-relaxed text-ink-soft">
-          Prototipo original sin API ni costes de generación: combina un cuento interactivo,
-          retos matemáticos manipulativos y una búsqueda simulada de reglas pedagógicas.
-          No utiliza datos reales de estudiantes ni registra sus respuestas.
+          Prototipo original sin API ni costes de generación: combina un cuento interactivo, retos
+          matemáticos manipulativos y una búsqueda simulada de reglas pedagógicas. No utiliza datos
+          reales de estudiantes ni registra sus respuestas.
         </p>
       </header>
 
@@ -99,7 +99,8 @@ export function NeuroaulaLearningLab() {
           </h3>
         </div>
         <p className="mb-4 mt-2 text-xs text-ink-soft">
-          Página {pageIndex + 1} de {mathStoryPages.length} · contenido preparado para demostración docente
+          Página {pageIndex + 1} de {mathStoryPages.length} · contenido preparado para demostración
+          docente
         </p>
         <div className="grid gap-5 lg:grid-cols-2">
           <BalanceIllustration equation={page.example} />
@@ -122,7 +123,9 @@ export function NeuroaulaLearningLab() {
               {storyAnswer !== null && (
                 <p className="pt-2 text-sm" role="status">
                   <strong>
-                    {storyAnswer === page.question.correctIndex ? "¡Correcto!" : "Inténtalo de nuevo."}
+                    {storyAnswer === page.question.correctIndex
+                      ? "¡Correcto!"
+                      : "Inténtalo de nuevo."}
                   </strong>{" "}
                   {page.question.feedback}
                 </p>
@@ -158,8 +161,8 @@ export function NeuroaulaLearningLab() {
           </h3>
         </div>
         <p className="mt-2 text-sm text-ink-soft">
-          Inspirados en el aprendizaje matemático mediante juego y descubrimiento.
-          Sin reproducir personajes, arte ni niveles de DragonBox.
+          Inspirados en el aprendizaje matemático mediante juego y descubrimiento. Sin reproducir
+          personajes, arte ni niveles de DragonBox.
         </p>
         <h4 className="mt-5 font-semibold">{level.title}</h4>
         <p className="mt-2 rounded-xl bg-indigo-50 px-4 py-3 text-center font-mono text-xl font-bold">
@@ -208,9 +211,9 @@ export function NeuroaulaLearningLab() {
           </h3>
         </div>
         <p className="mt-2 text-sm leading-relaxed text-ink-soft">
-          Demostración basada en reglas locales, no en un RAG conectado a artículos científicos.
-          La relación entre la observación, la fuente y la propuesta se muestra para que el
-          docente pueda revisarla.
+          Demostración basada en reglas locales, no en un RAG conectado a artículos científicos. La
+          relación entre la observación, la fuente y la propuesta se muestra para que el docente
+          pueda revisarla.
         </p>
         <label className="mt-4 flex flex-col gap-1 text-sm">
           Orientación didáctica elegida por el docente
@@ -236,8 +239,12 @@ export function NeuroaulaLearningLab() {
           </div>
         </div>
         <div className="mt-3 rounded-xl bg-amber-50 p-4 text-sm">
-          <p><strong>Fundamento utilizado:</strong> {support.source}</p>
-          <p className="mt-2"><strong>Límite:</strong> {support.uncertainty}</p>
+          <p>
+            <strong>Fundamento utilizado:</strong> {support.source}
+          </p>
+          <p className="mt-2">
+            <strong>Límite:</strong> {support.uncertainty}
+          </p>
           <p className="mt-2 text-xs font-semibold">{support.status}</p>
         </div>
       </article>
