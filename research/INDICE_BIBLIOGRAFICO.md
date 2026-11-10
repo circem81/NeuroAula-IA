@@ -3,6 +3,17 @@
 **Última actualización:** 10 de noviembre de 2026.  
 **Alcance:** índice de las referencias **identificables y documentadas** en el repositorio y de recursos adicionales comentados durante el diseño. **No representa una revisión bibliográfica sistemática ni una lista exhaustiva de todas las lecturas conversadas.**
 
+## Matrices bibliográficas de referencia (ya existentes)
+
+Se han identificado en la **Biblioteca personal → Proyecto neurociencia**, creadas el **9 de noviembre de 2026**, dos hojas Excel que preceden a este índice:
+
+1. `Matriz_bibliografica_NeuroAula_AI_30_estudios.xlsx` — **30 fuentes iniciales**, 3 pestañas: `Matriz 30 estudios`, `Resumen y prioridades`, `Guia de uso`. Incluye autores, títulos, DOI/URL, contextos, tipo de evidencia, cautelas de extrapolación, aplicación al proyecto, prioridad, lectura pendiente y preguntas de investigación.
+2. `NeuroAula_AI_matriz_ampliada_cognicion_y_fuentes.xlsx` — amplía la anterior con **5 pestañas**, añadiendo `IA y descarga cognitiva` y `Flujo de fuentes`. Introduce hipótesis contrastables sobre autonomía, retención/transferencia sin IA, metacognición, trazabilidad y flujo Zotero/Planned Paper/DSpace-MCP/RAG.
+
+**La matriz ampliada es la referencia de trabajo más completa; este índice Markdown funciona como entrada y complemento, no como reemplazo.** Los dos archivos Excel están en la Biblioteca personal del proyecto y **no se han copiado ni publicado en GitHub**. Su existencia aquí se documenta para evitar volver a crear matrices duplicadas. Si se desea publicarlas o sincronizarlas, comprobar primero su contenido, permisos y versión vigente.
+
+**Estado de validación científica:** las 30 fichas constituyen una selección inicial. Las aportaciones se obtuvieron mayoritariamente de metadatos y resúmenes; **no se ha completado la lectura crítica de los artículos íntegros** ni una revisión sistemática.
+
 ## Cómo usar este índice
 
 - **Fuentes académicas:** sirven para formular preguntas, identificar marcos teóricos y construir una revisión crítica; su presencia no prueba la eficacia de NeuroAula-IA.
