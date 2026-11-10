@@ -73,6 +73,13 @@ Estas referencias se mencionaron durante el diseño conceptual de NeuroAula-IA. 
 
 **Criterio de diseño:** la indagación, la exploración y el razonamiento deben complementar —no sustituir— la práctica gradual y la evaluación formativa.
 
+### Investigación complementaria: aprendizaje por refuerzo (RL)
+
+Se incorpora como **referencia técnica, todavía no implementada**, el libro abierto de Dipesh Gautam sobre aprendizaje por refuerzo, sus algoritmos clásicos y RLHF. Para futuras experiencias inspiradas en DragonBox y el libro interactivo, podría ayudar a investigar la selección secuencial de niveles, tareas o pistas, siempre a partir de evidencias educativas observables, con evaluación pedagógica independiente y supervisión docente.
+
+La propuesta, sus límites y la distinción entre **RL, RAG y RLM** se documentan en [Aprendizaje por refuerzo para adaptación educativa](../research/REINFORCEMENT_LEARNING_ADAPTATIVO.md). El repositorio externo no se ha conectado a la aplicación y no se ha incorporado código.
+
+
 ## 3. Relación con la arquitectura prevista de NeuroAula-IA
 
 - **Apoyo al alumnado (propuesto):** mostrar preguntas, pistas y representaciones alternativas sin resolver automáticamente la actividad.
