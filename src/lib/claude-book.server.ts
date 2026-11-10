@@ -1,11 +1,7 @@
 import { createServerFn } from "@tanstack/react-start";
 import { loadDemoSession } from "@/lib/demo-session";
 import { createSupabaseServerClient } from "@/lib/supabase.server";
-import {
-  claudeBookJsonSchema,
-  claudeBookRequestSchema,
-  claudeBookSchema,
-} from "@/lib/claude-book";
+import { claudeBookJsonSchema, claudeBookRequestSchema, claudeBookSchema } from "@/lib/claude-book";
 
 // A temporary per-instance safeguard. Use a shared persistent quota before
 // enabling this feature for multiple schools or making it publicly available.
@@ -17,7 +13,7 @@ function reserveRequest(userId: string) {
   const now = Date.now();
   const recent = (requestsByUser.get(userId) ?? []).filter((time) => now - time < WINDOW_MS);
   if (recent.length >= MAX_REQUESTS) {
-    throw new Error("Has alcanzado el límite temporal de generación. Vuelve a intentarlo más tarde.");
+    throw new Error(\n      "Has alcanzado el límite temporal de generación. Vuelve a intentarlo más tarde.",\n    );
   }
   recent.push(now);
   requestsByUser.set(userId, recent);
