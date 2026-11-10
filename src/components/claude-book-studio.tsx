@@ -116,8 +116,8 @@ export function ClaudeBookStudio() {
       </div>
       <p className="mb-5 text-sm leading-relaxed text-ink-soft">
         Crea un borrador de tres páginas con dibujos geométricos, lectura y preguntas
-        autocorregibles. Solo se envía a Claude el tema, la etapa y el idioma.
-        No introduzcas nombres, diagnósticos ni datos de alumnado real.
+        autocorregibles. Solo se envía a Claude el tema, la etapa y el idioma. No introduzcas
+        nombres, diagnósticos ni datos de alumnado real.
       </p>
 
       <div className="grid gap-3 sm:grid-cols-2">
@@ -238,8 +238,8 @@ export function ClaudeBookStudio() {
             </button>
           </div>
           <p className="mt-4 text-xs text-ink-soft">
-            La propuesta y sus ilustraciones se muestran solo en esta sesión: no se
-            guardan, no generan calificaciones oficiales y requieren revisión docente.
+            La propuesta y sus ilustraciones se muestran solo en esta sesión: no se guardan, no
+            generan calificaciones oficiales y requieren revisión docente.
           </p>
         </div>
       )}
