@@ -13,7 +13,9 @@ function reserveRequest(userId: string) {
   const now = Date.now();
   const recent = (requestsByUser.get(userId) ?? []).filter((time) => now - time < WINDOW_MS);
   if (recent.length >= MAX_REQUESTS) {
-    throw new Error(\n      "Has alcanzado el límite temporal de generación. Vuelve a intentarlo más tarde.",\n    );
+    throw new Error(
+      "Has alcanzado el límite temporal de generación. Vuelve a intentarlo más tarde.",
+    );
   }
   recent.push(now);
   requestsByUser.set(userId, recent);
