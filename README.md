@@ -11,6 +11,7 @@ Prototipo web de una futura plataforma educativa adaptativa. El proyecto conserv
 - Visualizaciones y gráficas construidas con datos locales simulados.
 - Selector de idioma persistido en el navegador.
 - Interacción local para mostrar pistas y explicaciones de ejemplo.
+- Prototipo opcional de libros interactivos generados por Claude para perfiles docentes, desactivado hasta configurar credenciales; los borradores son temporales y requieren revisión humana.
 - Situación de aprendizaje interactiva «¿Qué nos dicen dos muestras de agua?» en `/demo/actividades`: seis etapas, datos ficticios, pistas, respuestas y retroalimentación basada en reglas. Las respuestas abiertas requieren revisión docente y no se guardan.
 - Autenticación por correo y contraseña con Supabase, sesión SSR en cookies y zona `/demo` protegida.
 - Autorización por perfiles usando las membresías activas protegidas por RLS de `organization_memberships`.
@@ -34,7 +35,7 @@ Los datos simulados se encuentran en `src/lib/demo-data.ts`. No deben sustituirs
 ## Funciones que todavía no existen
 
 - Persistencia de información educativa.
-- Llamadas a modelos de inteligencia artificial.
+- Llamadas a modelos de inteligencia artificial activas por defecto. El prototipo opcional de generación de libros con Claude requiere una clave privada y habilitación explícita; véase [integración Claude](docs/INTEGRACION_CLAUDE.md).
 - Agentes ejecutables, RAG o generación automática.
 - Integraciones con plataformas educativas.
 - Envío real del formulario de contacto.
