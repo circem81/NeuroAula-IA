@@ -81,7 +81,8 @@ export const algebraPuzzles: ReadonlyArray<{
           {
             label: "Quitar 3 solo de la izquierda",
             correct: false,
-            feedback: "Eso rompe el equilibrio. Prueba a realizar la misma operación a ambos lados.",
+            feedback:
+              "Eso rompe el equilibrio. Prueba a realizar la misma operación a ambos lados.",
           },
           {
             label: "Añadir 3 al lado derecho",
@@ -153,7 +154,8 @@ export const algebraPuzzles: ReadonlyArray<{
           {
             label: "Multiplicar solo el miembro izquierdo",
             correct: false,
-            feedback: "Esa operación rompe la igualdad. Aplica la transformación en ambos miembros.",
+            feedback:
+              "Esa operación rompe la igualdad. Aplica la transformación en ambos miembros.",
           },
           {
             label: "Restar 2 a ambos miembros",
@@ -183,7 +185,8 @@ export function retrieveDemoSupport(error: ObservedError, approach: TeachingAppr
       prerequisite: "Relacionar las operaciones directas con sus inversas.",
       rule: "La operación inversa permite aislar una incógnita.",
       evidence: "Principio de operaciones inversas (regla matemática, no artículo empírico).",
-      limit: "No se han recuperado estudios científicos para justificar una intervención individual.",
+      limit:
+        "No se han recuperado estudios científicos para justificar una intervención individual.",
     },
     none: {
       prerequisite: "Profundizar en el razonamiento y la comprobación de soluciones.",
@@ -199,7 +202,8 @@ export function retrieveDemoSupport(error: ObservedError, approach: TeachingAppr
   const selected = needs[error];
   return {
     prerequisite: selected.prerequisite,
-    educatorPreference: approach === "guided" ? "Preguntas y andamiaje gradual" : "Explicación directa",
+    educatorPreference:
+      approach === "guided" ? "Preguntas y andamiaje gradual" : "Explicación directa",
     recommendation: pedagogical[approach],
     retrievedRule: selected.rule,
     source: selected.evidence,
