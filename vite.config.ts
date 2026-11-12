@@ -5,6 +5,14 @@
 //     error logger plugins, and sandbox detection (port/host/strictPort).
 // You can pass additional config via defineConfig({ vite: { ... }, etc... }) if needed.
 import { defineConfig } from "@lovable.dev/vite-tanstack-config";
+import { loadEnv } from "vite";
+
+// Read server-only development settings without defining them in the client bundle.
+// Production gets these values from the host's runtime secrets.
+const serverEnv = loadEnv(process.env.NODE_ENV ?? "development", process.cwd(), "OPENAI_");
+for (const key of ["OPENAI_API_KEY", "OPENAI_MODEL"] as const) {
+  if (!process.env[key] && serverEnv[key]) process.env[key] = serverEnv[key];
+}
 
 export default defineConfig({
   tanstackStart: {
