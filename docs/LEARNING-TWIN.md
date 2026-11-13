@@ -70,7 +70,7 @@ El modelo de lenguaje puede proponer evidencia estructurada, pero validarla sint
 
 ## Verificación
 
-`bun run test` incluye los ocho escenarios solicitados, decaimiento temporal, aislamiento lógico, orden temporal, idempotencia, validación y pruebas del adaptador de servidor. `bun run typecheck`, `bun run lint` y `bun run build` verifican la aplicación.
+`pnpm test` incluye los ocho escenarios solicitados, decaimiento temporal, aislamiento lógico, orden temporal, idempotencia, validación y pruebas del adaptador de servidor. `pnpm typecheck`, `pnpm lint` y `pnpm build` verifican la aplicación.
 
 `supabase/tests/learning_twin_v1.sql` se ejecutó en el proyecto de desarrollo, antes de aplicar la migración y después. Usa una transacción con rollback: prueba la escritura de servicio, reintentos, conflicto de concurrencia, inmutabilidad, auditoría, rollback de escritura parcial, acceso docente y denegación entre centros, alumnado y anónimos. No deja alumnos ni respuestas de prueba.
 

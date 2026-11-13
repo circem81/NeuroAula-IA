@@ -1,0 +1,564 @@
+<title>Gemelo adaptativo · ecuaciones</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Inter+Tight:wght@500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: cabecera; elección de alumno ficticio y de las tres decisiones abiertas; línea de tiempo de respuestas con las decisiones del gemelo (izquierda) y estado del gemelo (derecha); tabla de reglas. Tokens de NeuroAula. */
+:root {
+  --bg: oklch(0.985 0.004 255);
+  --card: oklch(1 0 0);
+  --ink: oklch(0.16 0.02 265);
+  --ink-soft: oklch(0.45 0.02 265);
+  --line: oklch(0.9 0.01 260);
+  --primary: oklch(0.28 0.07 265);
+  --primary-fg: oklch(0.99 0 0);
+  --tint: oklch(0.95 0.025 270);
+  --ok: oklch(0.48 0.11 160);
+  --ok-tint: oklch(0.95 0.04 160);
+  --no: oklch(0.52 0.14 30);
+  --no-tint: oklch(0.96 0.03 40);
+  --dec: oklch(0.45 0.13 300);
+  --dec-tint: oklch(0.96 0.03 300);
+  --alert: oklch(0.5 0.13 60);
+  --alert-tint: oklch(0.96 0.05 80);
+  --font-body: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-display: "Inter Tight", "Inter", system-ui, sans-serif;
+  --font-math: "JetBrains Mono", ui-monospace, Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: oklch(0.15 0.02 265); --card: oklch(0.2 0.03 265); --ink: oklch(0.97 0.004 260); --ink-soft: oklch(0.74 0.03 260);
+  --line: oklch(0.32 0.03 265); --primary: oklch(0.86 0.06 265); --primary-fg: oklch(0.18 0.03 265); --tint: oklch(0.27 0.05 270);
+  --ok: oklch(0.8 0.12 160); --ok-tint: oklch(0.27 0.05 160); --no: oklch(0.78 0.12 40); --no-tint: oklch(0.28 0.05 40);
+  --dec: oklch(0.82 0.1 300); --dec-tint: oklch(0.28 0.06 300); --alert: oklch(0.85 0.11 80); --alert-tint: oklch(0.3 0.06 80); color-scheme: dark; } }
+:root[data-theme="dark"] {
+  --bg: oklch(0.15 0.02 265); --card: oklch(0.2 0.03 265); --ink: oklch(0.97 0.004 260); --ink-soft: oklch(0.74 0.03 260);
+  --line: oklch(0.32 0.03 265); --primary: oklch(0.86 0.06 265); --primary-fg: oklch(0.18 0.03 265); --tint: oklch(0.27 0.05 270);
+  --ok: oklch(0.8 0.12 160); --ok-tint: oklch(0.27 0.05 160); --no: oklch(0.78 0.12 40); --no-tint: oklch(0.28 0.05 40);
+  --dec: oklch(0.82 0.1 300); --dec-tint: oklch(0.28 0.06 300); --alert: oklch(0.85 0.11 80); --alert-tint: oklch(0.3 0.06 80); color-scheme: dark; }
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+body { background: var(--bg); color: var(--ink); font-family: var(--font-body); font-size: 15px; line-height: 1.5; }
+.wrap { max-width: 1120px; margin: 0 auto; padding-block: 20px 56px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
+  display: grid; gap: 18px; }
+h1, h2, h3 { font-family: var(--font-display); margin: 0; letter-spacing: -0.01em; text-wrap: balance; }
+h1 { font-size: 1.6rem; }
+h2 { font-size: 1.08rem; }
+h3 { font-size: 0.98rem; }
+p { margin: 0; }
+.eyebrow { font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-soft); font-weight: 600; }
+.note { font-size: 0.86rem; color: var(--ink-soft); }
+.banner { background: var(--alert-tint); border-radius: 10px; padding: 10px 14px; font-size: 0.88rem; }
+.panel { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 16px; display: grid; gap: 12px; min-width: 0; }
+button, select { font: inherit; }
+button:focus-visible, select:focus-visible { outline: 3px solid color-mix(in oklch, var(--primary) 55%, transparent); outline-offset: 2px; }
+
+.students { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; }
+@media (max-width: 980px) { .students { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 720px) { .students { grid-template-columns: minmax(0, 1fr); } }
+.student { text-align: left; border: 1px solid var(--line); background: var(--card); color: var(--ink); border-radius: 12px; padding: 12px 14px; cursor: pointer; display: grid; gap: 2px; }
+.student strong { font-family: var(--font-display); }
+.student span { font-size: 0.84rem; color: var(--ink-soft); }
+.student[aria-pressed="true"] { border: 2px solid var(--primary); background: var(--tint); padding: 11px 13px; }
+.opts { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+@media (max-width: 820px) { .opts { grid-template-columns: minmax(0, 1fr); } }
+.opt { display: grid; gap: 4px; }
+.opt label { font-weight: 600; font-size: 0.88rem; }
+.opt select { padding: 7px 10px; border-radius: 10px; border: 1px solid var(--line); background: var(--bg); color: var(--ink); max-width: 100%; }
+
+.main { display: grid; grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr); gap: 18px; align-items: start; }
+@media (max-width: 900px) { .main { grid-template-columns: minmax(0, 1fr); } }
+.stepper { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+.ghostbtn { font-size: 0.88rem; padding: 6px 13px; border-radius: 999px; border: 1px solid var(--line); background: transparent; color: var(--ink); cursor: pointer; }
+.ghostbtn:disabled { opacity: 0.45; cursor: not-allowed; }
+.primary { font-weight: 600; padding: 7px 14px; border-radius: 10px; border: 0; background: var(--primary); color: var(--primary-fg); cursor: pointer; }
+.timeline { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+.ev { border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px; display: grid; gap: 6px; background: var(--card); }
+.ev-head { display: flex; flex-wrap: wrap; gap: 6px 10px; align-items: baseline; }
+.ev-n { font-family: var(--font-math); font-size: 0.8rem; color: var(--ink-soft); }
+.ev-title { font-weight: 600; }
+.ev-resp { font-family: var(--font-math); font-size: 0.92rem; }
+.pill { display: inline-block; font-size: 0.75rem; font-weight: 600; padding: 1px 9px; border-radius: 999px; background: var(--tint); white-space: nowrap; }
+.pill.ok { background: var(--ok-tint); color: var(--ok); }
+.pill.no { background: var(--no-tint); color: var(--no); }
+.err { font-size: 0.86rem; }
+.step-sig { font-size: 0.84rem; border-left: 3px solid var(--line); padding-left: 10px; color: var(--ink-soft); }
+.step-sig strong { color: var(--ink); font-weight: 600; }
+.decision { border-radius: 12px; padding: 12px 14px; background: var(--dec-tint); display: grid; gap: 6px; }
+.decision.alert { background: var(--alert-tint); }
+.decision .dt { font-family: var(--font-display); font-weight: 700; color: var(--dec); }
+.decision.alert .dt { color: var(--alert); }
+.decision .why { font-size: 0.9rem; }
+.decision .who { font-size: 0.84rem; color: var(--ink-soft); display: flex; flex-wrap: wrap; gap: 6px 10px; align-items: center; }
+.decision .stu { font-size: 0.88rem; font-style: italic; }
+.chips { display: flex; gap: 6px; flex-wrap: wrap; }
+.chip { font-size: 0.82rem; padding: 4px 11px; border-radius: 999px; border: 1px solid var(--line); background: var(--card); color: var(--ink); cursor: pointer; }
+.chip[aria-pressed="true"] { background: var(--primary); color: var(--primary-fg); border-color: var(--primary); }
+.state dl { display: grid; grid-template-columns: max-content minmax(0, 1fr); gap: 6px 12px; margin: 0; font-size: 0.9rem; }
+.state dt { color: var(--ink-soft); }
+.state dd { margin: 0; }
+.errlist { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.errlist li { border: 1px solid var(--line); border-radius: 10px; padding: 8px 10px; display: grid; gap: 2px; font-size: 0.88rem; }
+.route { display: flex; flex-wrap: wrap; gap: 6px; }
+.node { font-size: 0.8rem; padding: 3px 9px; border-radius: 8px; border: 1px solid var(--line); color: var(--ink-soft); }
+.node.on { border-color: var(--primary); color: var(--ink); font-weight: 600; background: var(--tint); }
+.node.later { border-style: dashed; }
+.table-wrap { overflow-x: auto; }
+table { border-collapse: collapse; width: 100%; min-width: 640px; font-size: 0.9rem; }
+th, td { text-align: left; vertical-align: top; padding: 8px 10px; border-bottom: 1px solid var(--line); }
+th { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--ink-soft); font-weight: 600; }
+footer { font-size: 0.82rem; color: var(--ink-soft); display: grid; gap: 4px; }
+.ev.ajuste { border-style: dashed; background: var(--tint); }
+.vista { font-size: 0.84rem; color: var(--ink-soft); }
+.vista strong { color: var(--ink); font-weight: 600; }
+.pausa { font-size: 0.84rem; border-left: 3px solid var(--ok); padding-left: 10px; }
+.adj { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 6px; }
+.adj li { font-size: 0.8rem; padding: 3px 10px; border-radius: 999px; background: var(--tint); border: 1px solid var(--line); }
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+</style>
+
+<div class="wrap">
+  <p class="banner">Maqueta de la propuesta P13. Alumnado ficticio, sin datos reales, sin IA: las decisiones salen de reglas fijas. No forma parte de la aplicación.</p>
+
+  <header style="display:grid;gap:4px">
+    <span class="eyebrow">NeuroAULA AI · Learning Twin · Ecuaciones de 2.º de ESO</span>
+    <h1>Qué decide el gemelo, y por qué</h1>
+    <p class="note">Principio de NeuroAULA AI (A34), del material de Pepe Vidal (Proyecto Newton): «Prohibido hacer nada que no se entienda». El gemelo no hace avanzar hacia el símbolo mientras el paso anterior no se haya entendido. Base metodológica (A35): «Diseñando aulas para pensar en matemáticas» de Peter Liljedahl; la meta del gemelo es mantener a cada alumno en flujo, ni aburrido ni bloqueado.</p>
+  </header>
+
+  <section class="panel" aria-labelledby="h-who">
+    <h2 id="h-who">1 · Elige un alumno ficticio</h2>
+    <div class="students" id="students" role="group" aria-labelledby="h-who"></div>
+  </section>
+
+  <section class="panel" aria-labelledby="h-opts">
+    <h2 id="h-opts">2 · Las tres decisiones (ya aprobadas; puedes probar las otras opciones)</h2>
+    <div class="opts">
+      <div class="opt">
+        <label for="d21">D21 · Señales de los pasos</label>
+        <select id="d21">
+          <option value="a">(a) No usarlas</option>
+          <option value="b" selected>(b) Solo durante la sesión, para dar pistas · aprobada (A31)</option>
+          <option value="c">(c) Guardarlas: cuentan para los patrones</option>
+        </select>
+        <span class="note" id="d21-note"></span>
+      </div>
+      <div class="opt">
+        <label for="d22">D22 · Errores concretos en el gemelo</label>
+        <select id="d22">
+          <option value="si" selected>Sí: el gemelo distingue E1-E7 · aprobada (A32)</option>
+          <option value="no">No: solo categorías genéricas</option>
+        </select>
+        <span class="note" id="d22-note"></span>
+      </div>
+      <div class="opt">
+        <label for="d23">D23 · Quién tiene la última palabra</label>
+        <select id="d23">
+          <option value="mixto" selected>Mezcla: el profesor puede cambiarlo y el alumno elige si hay dos caminos · aprobada (A33)</option>
+          <option value="profesor">El gemelo propone y el profesor aprueba</option>
+          <option value="alumno">El alumno elige cuando hay dos caminos</option>
+          <option value="auto">El gemelo decide solo</option>
+        </select>
+        <span class="note" id="d23-note"></span>
+      </div>
+    </div>
+  </section>
+
+  <div class="main">
+    <section class="panel" aria-labelledby="h-time">
+      <div style="display:flex;flex-wrap:wrap;gap:8px;justify-content:space-between;align-items:center">
+        <h2 id="h-time">3 · Respuestas y decisiones</h2>
+        <div class="stepper">
+          <button type="button" class="ghostbtn" id="prev">Anterior</button>
+          <button type="button" class="ghostbtn" id="next">Siguiente respuesta</button>
+          <button type="button" class="ghostbtn" id="all">Ver todo</button>
+          <span class="note" id="pos"></span>
+        </div>
+      </div>
+      <ol class="timeline" id="timeline"></ol>
+    </section>
+
+    <aside class="panel state" aria-labelledby="h-state">
+      <h2 id="h-state">Estado del gemelo</h2>
+      <div class="opt"><label for="viewas">Ver como</label>
+        <select id="viewas"><option value="prof" selected>Profesor</option><option value="orient">Orientación y PT</option></select></div>
+      <div id="adj-box" hidden style="display:grid;gap:8px"></div>
+      <p class="note">Lo que el gemelo sabe hasta la respuesta que se está viendo.</p>
+      <dl id="state-dl"></dl>
+      <h3>Recorrido</h3>
+      <div class="route" id="route"></div>
+      <h3>Errores observados</h3>
+      <ul class="errlist" id="errlist"></ul>
+      <h3>Hipótesis del gemelo (P15)</h3>
+      <p class="note">Sobre la tarea, nunca sobre la persona. No usan el diagnóstico.</p>
+      <ul class="errlist" id="hyps"></ul>
+    </aside>
+  </div>
+
+  <section class="panel" aria-labelledby="h-rules">
+    <h2 id="h-rules">Las reglas del motor</h2>
+    <p class="note">Solo decide después de cada respuesta final. Si se cumplen varias reglas a la vez, gana la de menor número. Un error cuenta como patrón con 3 observaciones en al menos 2 actividades distintas, el mismo umbral que ya usa el Learning Twin.</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>N.º</th><th>Regla</th><th>Cuándo</th><th>Decisión</th><th>El alumno puede elegir</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td>Aviso al profesor</td><td>Un error reaparece después de su actividad de apoyo.</td><td>No cambia el recorrido; avisa al profesor.</td><td>—</td></tr>
+          <tr><td>2</td><td>Actividad de apoyo</td><td>Un error llega al umbral.</td><td>Actividad pensada para ese error.</td><td>—</td></tr>
+          <tr><td>3</td><td>Volver al dibujo</td><td>Dos fallos seguidos en el nivel 2 tras resolver el nivel 1.</td><td>El siguiente, en el nivel 1.</td><td>Intentarlo otra vez sin dibujo</td></tr>
+          <tr><td>4</td><td>Comparar caminos</td><td>Dos aciertos en el nivel 1 por el mismo camino.</td><td>«Comparar dos caminos».</td><td>Seguir sin comparar</td></tr>
+          <tr><td>5</td><td>Avanzar</td><td>Dos aciertos seguidos en el mismo nivel sin pistas.</td><td>Nivel siguiente (en orden, A29).</td><td>Hacer uno más de este nivel</td></tr>
+          <tr><td>6</td><td>Práctica variada</td><td>Tres aciertos en el nivel 2 sin pistas.</td><td>La x a la derecha, el número delante, soluciones mayores.</td><td>—</td></tr>
+          <tr><td>—</td><td>Pista en la sesión</td><td>Una señal de los pasos (D21 b o c).</td><td>Una pista breve; no cambia el recorrido.</td><td>—</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <div class="sr" aria-live="polite" id="live"></div>
+
+  <footer>
+    <span>Ajustes de apoyo (alumno D): propuesta P14 en harness/propuestas/ajustes-de-apoyo.md. El gemelo guarda ajustes, nunca diagnósticos.</span>
+    <span>Propuesta completa en harness/propuestas/gemelo-adaptativo.md. Las respuestas de los alumnos son inventadas para enseñar cada regla; las ecuaciones son las de la maqueta de cajas y fichas.</span>
+    <span>Los umbrales y las reglas son una propuesta: habría que probarlos y ajustarlos antes de usarlos con alumnado.</span>
+  </footer>
+</div>
+
+<script>
+(function () {
+  "use strict";
+  const $ = (id) => document.getElementById(id);
+  const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+
+  // ---------- Errores (sección 5 de la propuesta) ----------
+  const ERR = {
+    E1: { name: "El = como «da el resultado»", support: "El signo igual", generic: "conceptual" },
+    E2: { name: "La x como objeto", support: "¿Qué representa x?", generic: "representation" },
+    E3: { name: "Jerarquía de operaciones", support: "¿Qué va primero?", generic: "procedural" },
+    E4: { name: "Operar solo una parte", support: "Encuentra el error", generic: "procedural" },
+    E5: { name: "Cambiar de miembro con el signo mal", support: "Lo mismo en los dos miembros", generic: "procedural" },
+    E7: { name: "Juntar lo que no se puede juntar", support: "Encuentra el error", generic: "conceptual" },
+  };
+  const GENERIC = {
+    conceptual: { name: "Error conceptual (sin más detalle)", support: "Repaso general" },
+    representation: { name: "Error de representación (sin más detalle)", support: "Repaso general" },
+    procedural: { name: "Error de procedimiento (sin más detalle)", support: "Repaso general" },
+  };
+
+  // ---------- Alumnos ficticios ----------
+  const S = (o) => Object.assign({ type: "ejercicio", level: null, hints: 0, error: null, path: null, steps: [], note: null, supportFor: null, adj: false, vista: null }, o);
+  const PATHS = { fr: "quitar fichas y después repartir", cp: "quitar cajas primero" };
+  const STUDENTS = {
+    A: {
+      label: "Alumno ficticio A", desc: "Avanza deprisa y casi no pide pistas.",
+      hyps: [
+        { kind: "fortaleza", dim: "Flexibilidad", text: "Compara dos caminos y elige el más corto.", evid: [4], student: "Sabes buscar el camino más corto." },
+        { kind: "fortaleza", dim: "Transferencia", text: "Resuelve sin pistas ecuaciones con la x en los dos miembros, ya sin dibujo.", evid: [5, 6, 7], student: "Ya resuelves sin el dibujo." },
+      ],
+      events: [
+        S({ act: "n0-1", level: 0, title: "Nivel 0 · 2x + 3 = 11", response: "x = 4", correct: true }),
+        S({ act: "n0-2", level: 0, title: "Nivel 0 · 3x + 1 = x + 11", response: "x = 5", correct: true }),
+        S({ act: "n1-1", level: 1, title: "Nivel 1 · 2x + 3 = 11", response: "x = 4", correct: true, path: "fr" }),
+        S({ act: "n1-2", level: 1, title: "Nivel 1 · 3x + 1 = x + 11", response: "x = 5", correct: true, path: "fr" }),
+        S({ act: "comparar", type: "comparar", level: 1, title: "Comparar dos caminos · 3x + 9 = 6x + 3", response: "Elige quitar primero las cajas: «salen números más pequeños»", correct: true }),
+        S({ act: "n2-1", level: 2, title: "Nivel 2 · 4x + 5 = x + 20", response: "x = 5", correct: true }),
+        S({ act: "n2-2", level: 2, title: "Nivel 2 · 6x + 1 = 2x + 13", response: "x = 3", correct: true }),
+        S({ act: "n2-3", level: 2, title: "Nivel 2 · 2x + 15 = 5x + 3", response: "x = 4", correct: true }),
+      ],
+    },
+    B: {
+      label: "Alumno ficticio B", desc: "Lee el = como «aquí va el resultado».",
+      hyps: [
+        { kind: "conceptual", dim: "Concepto, no dimensión cognitiva", text: "El error con el signo igual es conceptual: con el dibujo acierta, así que no apunta a memoria de trabajo ni a atención.", evid: [0, 3, 5], adapt: { text: "Actividad de apoyo «El signo igual»", at: 6 }, check: { at: 7, verdict: "confirmada", text: "Tras el apoyo acierta «9 + 3 = □ + 8»." }, student: "Ahora el = te funciona como una balanza." },
+      ],
+      events: [
+        S({ act: "p1", type: "pregunta", title: "Pregunta rápida · 8 + 4 = □ + 5", response: "12", correct: false, error: "E1", note: "Escribe el total de la izquierda, sin mirar el + 5." }),
+        S({ act: "n0-1", level: 0, title: "Nivel 0 · 2x + 3 = 11", response: "x = 4", correct: true }),
+        S({ act: "n0-2", level: 0, title: "Nivel 0 · 3x + 1 = x + 11", response: "x = 5", correct: true,
+          steps: [{ code: null, text: "Hizo 9 ensayos sin acercarse (2, 9, 1, 8, 3, 7, 4, 6 y 5).", hint: "Mira qué miembro tiene más fichas y cómo cambia al probar un número mayor." }] }),
+        S({ act: "p2", type: "pregunta", title: "Pregunta rápida · ¿Es 11 = 2x + 3 una ecuación?", response: "«No, el resultado tiene que ir detrás del =»", correct: false, error: "E1" }),
+        S({ act: "n1-2", level: 1, title: "Nivel 1 · 3x + 1 = x + 11", response: "x = 5", correct: true, hints: 1, path: "fr",
+          steps: [{ code: "E1", text: "Intentó «Quitar lo tachado» 4 veces con cosas distintas tachadas en cada miembro.", hint: "Lo que quites de un miembro, quítalo también del otro: así siguen teniendo lo mismo." }] }),
+        S({ act: "p3", type: "pregunta", title: "Pregunta rápida · 7 + 5 = □ + 4", response: "12", correct: false, error: "E1" }),
+        S({ act: "apoyo-E1", type: "apoyo", supportFor: "E1", title: "Apoyo · El signo igual (verdadero o falso con cajas y fichas)", response: "5 de 5", correct: true }),
+        S({ act: "p4", type: "pregunta", title: "Pregunta rápida · 9 + 3 = □ + 8", response: "4", correct: true }),
+        S({ act: "n1-3", level: 1, title: "Nivel 1 · 3x + 9 = 6x + 3", response: "2 = x", correct: true, path: "cp" }),
+        S({ act: "n1-1", level: 1, title: "Nivel 1 · 2x + 3 = 11", response: "x = 4", correct: true, path: "fr" }),
+      ],
+    },
+    C: {
+      label: "Alumno ficticio C", desc: "Se equivoca de signo al pasar términos sin dibujo.",
+      hyps: [
+        { kind: "dificultad", dim: "Paso entre representaciones", text: "Acierta con el dibujo y falla con símbolos.", evid: [5, 6, 7, 8], adapt: { text: "Volver al dibujo y apoyo «Lo mismo en los dos miembros»", at: 9 }, check: { at: 10, verdict: "no confirmada", text: "Vuelve a fallar en el nivel 2: el gemelo avisa al profesor." }, student: "Con el dibujo lo resuelves bien; vamos a practicar el paso a los símbolos." },
+        { kind: "fortaleza", dim: "Con dibujo", text: "Con dibujo resuelve sin pistas, incluso la x a la derecha.", evid: [3, 4, 7], student: "Con el dibujo lo haces sin ayuda." },
+      ],
+      events: [
+        S({ act: "n0-1", level: 0, title: "Nivel 0 · 2x + 3 = 11", response: "x = 4", correct: true, hints: 1,
+          steps: [{ code: "E3", text: "En la tabla escribió 24 + 3 = 27 al probar x = 4.", hint: "2x es 2 veces x: con x = 4 son 2 · 4." }] }),
+        S({ act: "n0-2", level: 0, title: "Nivel 0 · 3x + 1 = x + 11", response: "x = 5", correct: true }),
+        S({ act: "n0-3", level: 0, title: "Nivel 0 · 4x + 1 = 2x + 7", response: "x = 3", correct: true }),
+        S({ act: "n1-1", level: 1, title: "Nivel 1 · 2x + 3 = 11", response: "x = 4", correct: true, path: "fr" }),
+        S({ act: "n1-3", level: 1, title: "Nivel 1 · 3x + 9 = 6x + 3", response: "2 = x", correct: true, path: "cp" }),
+        S({ act: "n2-1", level: 2, title: "Nivel 2 · 4x + 5 = x + 20", response: "x = 25/3", correct: false, error: "E5", note: "Pasó el 5 sumando: 3x = 20 + 5." }),
+        S({ act: "n2-2", level: 2, title: "Nivel 2 · 6x + 1 = 2x + 13", response: "x = 3/2", correct: false, error: "E5", note: "Sumó 2x en lugar de restarlo: 8x = 12." }),
+        S({ act: "n1-2", level: 1, title: "Nivel 1 · 3x + 1 = x + 11 (con dibujo)", response: "x = 5", correct: true, path: "fr" }),
+        S({ act: "n2-3", level: 2, title: "Nivel 2 · 2x + 15 = 5x + 3", response: "x = 18/7", correct: false, error: "E5", note: "Pasó 5x y 15 con el signo cambiado mal: 7x = 18." }),
+        S({ act: "apoyo-E5", type: "apoyo", supportFor: "E5", title: "Apoyo · Lo mismo en los dos miembros (escribir la línea completa)", response: "4 de 4", correct: true }),
+        S({ act: "n2-1b", level: 2, title: "Nivel 2 · 4x + 5 = x + 20", response: "x = 25/3", correct: false, error: "E5", note: "El mismo error que en la respuesta 6." }),
+      ],
+    },
+    D: {
+      label: "Alumno ficticio D", desc: "Con ajustes de apoyo definidos por Orientación (P14).",
+      hyps: [
+        { kind: "dificultad", dim: "Mantener información intermedia", text: "Falla cuando ve todos los pasos a la vez; acierta paso a paso.", evid: [0, 1], adapt: { text: "«Un paso cada vez» y guía visible (ficha de Orientación)", at: 3 }, check: { at: 9, verdict: "confirmada", text: "5 de 6 correctas con la adaptación. Siguiente: retirar el ajuste poco a poco y comprobar." }, student: "Te va mejor paso a paso." },
+        { kind: "aislada", dim: "¿Qué representa x?", text: "Al repartir 6 fichas entre 3 cajas contestó 6, el total. Una sola vez: todavía no es hipótesis.", evid: [7] },
+      ],
+      ficha: { ajustes: ["Un paso cada vez", "Guía visible", "Respuesta inmediata", "Tandas cortas"], by: "Orientación (ficticio)", since: 4, review: "20 de diciembre", note: "Darle también la tarea en voz alta." },
+      events: [
+        S({ act: "n0-1", level: 0, title: "Nivel 0 · 2x + 3 = 11", response: "x = 11", correct: false, hints: 2, note: "Dejó la tabla tras 2 ensayos y escribió el total del segundo miembro.", vista: "Pantalla completa con los tres pasos a la vez." }),
+        S({ act: "n0-2", level: 0, title: "Nivel 0 · 3x + 1 = x + 11", response: "x = 3", correct: false, hints: 2, note: "Abandonó la tabla tras 3 ensayos.", vista: "Pantalla completa con los tres pasos a la vez." }),
+        S({ act: "p1", type: "pregunta", title: "Pregunta rápida · 8 + 4 = □ + 5", response: "7", correct: true }),
+        S({ act: "ficha", type: "ajuste", title: "Orientación activa la ficha de ajustes", response: "Un paso cada vez · Guía visible · Respuesta inmediata · Tandas cortas", correct: true }),
+        S({ act: "n0-1b", level: 0, title: "Nivel 0 · 2x + 3 = 11", response: "x = 4", correct: true, adj: true, vista: "Paso 1 de 3: escribe la ecuación del dibujo. La guía marca el paso; la tabla aparece después." }),
+        S({ act: "n0-2b", level: 0, title: "Nivel 0 · 3x + 1 = x + 11", response: "x = 5", correct: true, adj: true, vista: "Paso 2 de 3: prueba números en la tabla. Tras cada ensayo: «El 1.er miembro tiene 7 y el 2.º, 13»." }),
+        S({ act: "n1-1", level: 1, title: "Nivel 1 · 2x + 3 = 11", response: "x = 4", correct: true, adj: true, path: "fr", vista: "Paso 1 de 4: tacha lo mismo en los dos miembros. «Has tachado 3 fichas en cada miembro»." }),
+        S({ act: "n1-3", level: 1, title: "Nivel 1 · 3x + 9 = 6x + 3", response: "x = 6", correct: false, hints: 1, adj: true, error: "E2", note: "Al repartir 6 fichas entre 3 cajas contestó 6, el total.", vista: "Paso 3 de 4: reparte las fichas entre las cajas." }),
+        S({ act: "n1-2", level: 1, title: "Nivel 1 · 3x + 1 = x + 11", response: "x = 5", correct: true, adj: true, path: "fr", vista: "Paso 3 de 4: reparte. La guía recuerda: «una caja tiene lo mismo que las otras»." }),
+        S({ act: "n1-3b", level: 1, title: "Nivel 1 · 3x + 9 = 6x + 3", response: "2 = x", correct: true, adj: true, path: "cp", vista: "Los cuatro pasos de uno en uno, con la guía visible." }),
+      ],
+    },
+  };
+
+  // ---------- Estado de la página ----------
+  let who = "A", upto = Infinity;
+  const choices = {}; // decisiones aceptadas o cambiadas: clave alumno|n.º
+  const opts = () => ({ d21: $("d21").value, d22: $("d22").value, d23: $("d23").value });
+  const viewas = () => $("viewas").value;
+
+  const keyOf = (code, o) => (o.d22 === "si" ? code : ERR[code].generic);
+  const nameOf = (key) => (ERR[key] ? ERR[key].name : GENERIC[key].name);
+  const supportOf = (key) => (ERR[key] ? ERR[key].support : GENERIC[key].support);
+  const isWork = (e) => e.type === "ejercicio" || e.type === "comparar";
+
+  // ---------- Motor de reglas (sección 6) ----------
+  function run(events, o) {
+    const obs = [];                   // observaciones que cuentan: {key, act, i}
+    const supportGiven = {}, supportDone = {}, alerted = {}, advanced = {};
+    let compared = false, variety = false;
+    const out = [];
+    events.forEach((e, i) => {
+      if (e.type === "ajuste") { out.push({ e, i, d: null, hints: [], counted: [] }); return; }
+      const counted = [];
+      if (e.error) counted.push({ key: keyOf(e.error, o), act: e.act, i, src: "respuesta" });
+      if (o.d21 === "c") e.steps.forEach((s) => { if (s.code) counted.push({ key: keyOf(s.code, o), act: e.act, i, src: "paso" }); });
+      obs.push(...counted);
+      if (e.type === "apoyo" && e.correct) supportDone[keyOf(e.supportFor, o)] = i;
+
+      const hints = o.d21 === "a" ? [] : e.steps.filter((s) => s.hint);
+      let d = null;
+      // Regla 1: aviso al profesor.
+      const back = counted.find((c) => supportDone[c.key] !== undefined && supportDone[c.key] < i && !alerted[c.key]);
+      if (back) {
+        alerted[back.key] = true;
+        d = { rule: 1, alert: true, title: `Aviso al profesor: «${nameOf(back.key)}» sigue apareciendo`,
+          why: `Después de la actividad «${supportOf(back.key)}», el error ha vuelto en «${e.title}» (respuesta ${e.response}). El gemelo no cambia el recorrido por su cuenta: propone revisarlo con el alumno.`,
+          student: null, alt: null };
+      }
+      // Regla 2: actividad de apoyo.
+      if (!d) {
+        const keys = [...new Set(obs.map((x) => x.key))];
+        for (const k of keys) {
+          const these = obs.filter((x) => x.key === k), acts = new Set(these.map((x) => x.act));
+          if (these.length >= 3 && acts.size >= 2 && supportGiven[k] === undefined) {
+            supportGiven[k] = i;
+            const list = these.map((x) => `respuesta ${x.i + 1}${x.src === "paso" ? " (paso)" : ""}`).join(", ");
+            d = { rule: 2, title: `Actividad de apoyo: «${supportOf(k)}»`,
+              why: `«${nameOf(k)}» se ha observado ${these.length} veces en ${acts.size} actividades (${list}).` + (ERR[k] ? "" : " Sin errores concretos (D22), el gemelo no sabe qué apoyo elegir y propone un repaso general."),
+              student: `Antes de seguir, vamos a practicar una cosa: ${supportOf(k).toLowerCase()}.`, alt: null };
+            break;
+          }
+        }
+      }
+      // Regla 3: volver al dibujo.
+      if (!d && e.type === "ejercicio" && e.level === 2 && !e.correct) {
+        const prev = [...events.slice(0, i)].reverse().find((x) => x.type === "ejercicio");
+        const solvedL1 = events.slice(0, i).some((x) => isWork(x) && x.level === 1 && x.correct);
+        if (prev && prev.level === 2 && !prev.correct && solvedL1) {
+          d = { rule: 3, title: "Volver al dibujo: el siguiente ejercicio, en el nivel 1",
+            why: "Ha fallado dos ejercicios seguidos del nivel 2 y antes resolvió el nivel 1. «Prohibido hacer nada que no se entienda»: se vuelve a la representación que sí entiende.",
+            student: "Vamos a probar el siguiente con el dibujo.", alt: "Intentarlo otra vez sin dibujo", mainLabel: "Volver al dibujo" };
+        }
+      }
+      // Regla 4: comparar caminos.
+      if (!d && !compared && e.type === "ejercicio" && e.level === 1 && e.correct && e.path) {
+        const prev = [...events.slice(0, i)].reverse().find(isWork);
+        if (prev && prev.type === "ejercicio" && prev.level === 1 && prev.correct && prev.path === e.path) {
+          compared = true;
+          d = { rule: 4, title: "Comparar dos caminos",
+            why: `Ha resuelto dos ejercicios del nivel 1 siempre por el mismo camino (${PATHS[e.path]}). Ver otro camino ayuda a elegir el más corto.`,
+            student: "¿Hay otro camino? Vamos a comparar dos formas de resolver la misma ecuación.", alt: "Seguir sin comparar", mainLabel: "Comparar dos caminos" };
+        }
+      }
+      // Regla 5: avanzar.
+      if (!d && isWork(e) && e.level !== null && e.level < 2 && e.correct && e.hints === 0 && !advanced[e.level]) {
+        const prev = [...events.slice(0, i)].reverse().find(isWork);
+        if (prev && prev.level === e.level && prev.correct && prev.hints === 0) {
+          advanced[e.level] = true;
+          d = { rule: 5, title: `Proponer el nivel ${e.level + 1}`,
+            why: `Ha resuelto dos ejercicios seguidos del nivel ${e.level} sin pistas.`,
+            student: `Ya puedes pasar al nivel ${e.level + 1}.`, alt: `Hacer uno más del nivel ${e.level}`, mainLabel: `Pasar al nivel ${e.level + 1}` };
+        }
+      }
+      // Regla 6: práctica variada.
+      if (!d && !variety && e.level === 2 && e.correct) {
+        const n = events.slice(0, i + 1).filter((x) => x.type === "ejercicio" && x.level === 2 && x.correct && x.hints === 0).length;
+        if (n >= 3) {
+          variety = true;
+          d = { rule: 6, title: "Práctica variada",
+            why: "Ha resuelto tres ejercicios del nivel 2 sin pistas. Toca practicar con la x a la derecha, el número delante y soluciones mayores.",
+            student: "Ahora, ecuaciones escritas de otras formas.", alt: null };
+        }
+      }
+      out.push({ e, i, d, hints, counted });
+    });
+    return { out, obs, supportGiven, supportDone, alerted };
+  }
+
+  // ---------- Pintar ----------
+  function whoLine(d, o, k) {
+    if (d.alert) return `<div class="who">Solo lo ve el profesor.</div>`;
+    const c = choices[k + "|t"], cs = choices[k + "|s"];
+    const teacher = (label) => c
+      ? `<span><strong>${esc(c.text)}</strong></span> <button type="button" class="chip" data-k="${k}" data-act="undo">Deshacer</button>`
+      : `<span>${label}</span><button type="button" class="chip" data-k="${k}" data-act="accept">Aceptar</button><button type="button" class="chip" data-k="${k}" data-act="change">Cambiar</button>`;
+    const student = () => {
+      if (!d.alt) return "";
+      const pick = cs ? cs.pick : null;
+      return `<div class="who"><span>El alumno elige:</span><span class="chips">
+        <button type="button" class="chip" data-k="${k}" data-act="pick" data-pick="main" aria-pressed="${pick === "main"}">${esc(d.mainLabel)}</button>
+        <button type="button" class="chip" data-k="${k}" data-act="pick" data-pick="alt" aria-pressed="${pick === "alt"}">${esc(d.alt)}</button></span></div>`;
+    };
+    if (o.d23 === "auto") return `<div class="who">Se aplica automáticamente.</div>`;
+    if (o.d23 === "profesor") return `<div class="who">${teacher("Pendiente de que el profesor la acepte.")}</div>`;
+    if (o.d23 === "alumno") return d.alt ? student() : `<div class="who">Se aplica: no hay dos caminos entre los que elegir.</div>`;
+    return `<div class="who">${teacher("El profesor la ve y puede cambiarla.")}</div>${student()}`;
+  }
+
+  function render() {
+    const o = opts(), st = STUDENTS[who], all = run(st.events, o);
+    const last = Math.min(upto, st.events.length) - 1;
+    // Alumnos
+    $("students").innerHTML = Object.entries(STUDENTS).map(([k, s]) =>
+      `<button type="button" class="student" data-who="${k}" aria-pressed="${k === who}"><strong>${esc(s.label)}</strong><span>${esc(s.desc)}</span></button>`).join("");
+    // Notas de las opciones
+    $("d21-note").textContent = { a: "Los pasos no se ven: ni pistas ni patrones con ellos.", b: "Los pasos dan pistas en el momento, pero no cuentan para los patrones.", c: "Los pasos cuentan para los patrones. Exige revisar A14." }[o.d21];
+    $("d22-note").textContent = o.d22 === "si" ? "Cada patrón lleva a su actividad de apoyo." : "El gemelo solo sabe la categoría: no puede elegir el apoyo adecuado.";
+    $("d23-note").textContent = { mixto: "Aprobada en A33.", profesor: "Nada cambia sin que el profesor acepte.", alumno: "El profesor no interviene salvo en los avisos.", auto: "El profesor solo ve lo que ya ha pasado." }[o.d23];
+    // Línea de tiempo
+    $("timeline").innerHTML = all.out.slice(0, last + 1).map(({ e, i, d, hints }) => {
+      const k = `${who}|${i}`;
+      const errTxt = e.error ? `<p class="err"><strong>Error observado:</strong> ${esc(nameOf(keyOf(e.error, o)))}${e.note ? ". " + esc(e.note) : ""}</p>` : (e.note ? `<p class="err">${esc(e.note)}</p>` : "");
+      const steps = o.d21 === "a" ? "" : e.steps.map((s) =>
+        `<p class="step-sig"><strong>Señal de los pasos${s.code ? " · " + esc(nameOf(keyOf(s.code, o))) : ""}:</strong> ${esc(s.text)}${o.d21 === "c" && s.code ? " Cuenta para los patrones." : s.code ? " No se guarda." : ""}</p>`).join("");
+      const hint = hints.length ? hints.map((h) => `<p class="step-sig"><strong>Pista en la sesión:</strong> «${esc(h.hint)}»</p>`).join("") : "";
+      const dec = d ? `<div class="decision${d.alert ? " alert" : ""}"><span class="dt">Decisión del gemelo · regla ${d.rule}: ${esc(d.title)}</span>
+          <p class="why"><strong>Por qué:</strong> ${esc(d.why)}</p>
+          ${d.student ? `<p class="stu">Lo que lee el alumno: «${esc(d.student)}»</p>` : ""}
+          ${whoLine(d, o, k)}</div>` : "";
+      if (e.type === "ajuste") {
+        const fx = st.ficha;
+        const who = viewas() === "orient" ? `${esc(fx.by)} · revisión: ${esc(fx.review)}` : "Definidos por Orientación. El profesor ve los ajustes, no el motivo.";
+        return `<li class="ev ajuste"><div class="ev-head"><span class="ev-n">Ficha de ajustes (P14)</span><span class="ev-title">${esc(e.title)}</span></div>
+          <p class="vista">${esc(e.response)}</p><p class="vista">${who}</p></li>`;
+      }
+      const vista = e.vista ? `<p class="vista"><strong>Cómo se le presentó${e.adj ? " (con ajustes)" : ""}:</strong> ${esc(e.vista)}</p>` : "";
+      let pausa = "";
+      if (st.ficha && e.adj && isWork(e)) {
+        const n = st.events.slice(st.ficha.since, i + 1).filter(isWork).length;
+        if (n % 2 === 0) pausa = `<p class="pausa"><strong>Tandas cortas:</strong> fin de la tanda; el gemelo propone una pausa breve.</p>`;
+      }
+      const type = { pregunta: "Pregunta rápida", ejercicio: "Ejercicio", comparar: "Comparar caminos", apoyo: "Actividad de apoyo" }[e.type];
+      return `<li class="ev"><div class="ev-head"><span class="ev-n">Respuesta ${i + 1} · ${type}</span><span class="ev-title">${esc(e.title)}</span></div>
+        <div class="ev-head"><span class="ev-resp">${esc(e.response)}</span><span class="pill ${e.correct ? "ok" : "no"}">${e.correct ? "correcta" : "no correcta"}</span>${e.hints ? `<span class="pill">${e.hints} ${e.hints === 1 ? "pista" : "pistas"}</span>` : ""}</div>
+        ${vista}${errTxt}${steps}${hint}${dec}${pausa}</li>`;
+    }).join("");
+    $("pos").textContent = `${last + 1} de ${st.events.length}`;
+    $("prev").disabled = last <= 0;
+    $("next").disabled = last >= st.events.length - 1;
+    $("all").disabled = last >= st.events.length - 1;
+    // Estado del gemelo
+    const seen = st.events.slice(0, last + 1).filter((e) => e.type !== "ajuste");
+    const finals = seen.length, ok = seen.filter((e) => e.correct).length, hintsN = seen.reduce((p, e) => p + e.hints, 0);
+    const work = seen.filter((e) => e.type === "ejercicio");
+    const level = work.length ? work[work.length - 1].level : 0;
+    const part = run(seen, o);
+    const decs = part.out.filter((x) => x.d).length;
+    const notSaved = o.d21 === "b" ? seen.reduce((p, e) => p + e.steps.filter((s) => s.code).length, 0) : 0;
+    $("state-dl").innerHTML = `<dt>Respuestas finales</dt><dd>${finals} (${ok} correctas)</dd><dt>Pistas pedidas</dt><dd>${hintsN}</dd>
+      <dt>Último nivel trabajado</dt><dd>Nivel ${level}</dd><dt>Decisiones tomadas</dt><dd>${decs}</dd>` +
+      (o.d21 === "b" ? `<dt>Señales no guardadas</dt><dd>${notSaved}</dd>` : "");
+    const nodes = [["Signo igual", "eq"], ["Nivel 0 · dibujo y ensayo", 0], ["Nivel 1 · tachar y repartir", 1], ["Nivel 2 · símbolos", 2], ["Negativos", "x"], ["Paréntesis", "x"], ["Denominadores", "x"], ["Sistemas", "x"]];
+    const eqDone = part.out.some((x) => x.e.type === "apoyo" && x.e.supportFor === "E1");
+    $("route").innerHTML = nodes.map(([n, v]) => `<span class="node${v === level || (v === "eq" && eqDone) ? " on" : ""}${v === "x" ? " later" : ""}">${esc(n)}</span>`).join("");
+    const box = $("adj-box");
+    box.hidden = !st.ficha;
+    if (st.ficha) {
+      const fx = st.ficha, active = last >= fx.since - 1;
+      const sub = (arr) => { const w = arr.filter((e) => isWork(e)); return `${w.filter((e) => e.correct).length} de ${w.length}`; };
+      const shown = st.events.slice(0, last + 1);
+      const before = shown.filter((e) => !e.adj && e.type !== "ajuste"), after = shown.filter((e) => e.adj);
+      box.innerHTML = `<h3>Ajustes de apoyo</h3>` + (active
+        ? `<ul class="adj">${fx.ajustes.map((a) => `<li>${esc(a)}</li>`).join("")}</ul>` +
+          (viewas() === "orient"
+            ? `<p class="note">Definidos por ${esc(fx.by)}. Revisión obligatoria: ${esc(fx.review)}. Nota para el profesor: «${esc(fx.note)}».</p>
+               <p class="note"><strong>¿Funcionan?</strong> Ejercicios sin ajustes: ${sub(before)} correctas. Con ajustes: ${sub(after)} correctas. Es una comparación, no una prueba de causa.</p>`
+            : `<p class="note">El profesor ve qué ajustes tiene el alumno, no el motivo. Nota de Orientación: «${esc(fx.note)}».</p>`)
+        : `<p class="note">Todavía no tiene ficha de ajustes.</p>`);
+    }
+    // Hipótesis (P15): aparecen con evidencias suficientes y cambian de estado con la comprobación.
+    const nums = (arr) => arr.map((i) => i + 1).join(", ");
+    const hy = (st.hyps || []).filter((h) => {
+      const seenEv = h.evid.filter((i) => i <= last).length;
+      return h.kind === "aislada" || h.kind === "fortaleza" ? seenEv === h.evid.length : seenEv >= 2;
+    });
+    $("hyps").innerHTML = hy.length === 0 ? `<li>Todavía no hay evidencias suficientes.</li>` : hy.map((h) => {
+      const seenEv = h.evid.filter((i) => i <= last);
+      let conf;
+      if (h.kind === "fortaleza") conf = "fortaleza";
+      else if (h.kind === "aislada") conf = "observación aislada";
+      else if (h.check && h.check.at <= last) conf = h.check.verdict;
+      else conf = seenEv.length >= 3 ? "confianza moderada" : "confianza provisional";
+      const adapt = h.adapt && h.adapt.at <= last ? `<span>Adaptación: ${esc(h.adapt.text)} (desde la respuesta ${h.adapt.at + 1}).</span>` : "";
+      const check = h.check && h.check.at <= last ? `<span>Comprobación: ${esc(h.check.text)}</span>` : "";
+      const stu = h.student && (h.kind === "fortaleza" || (h.check && h.check.at <= last)) ? `<span class="note">Lo que ve el alumno: «${esc(h.student)}»</span>` : "";
+      return `<li><strong>${esc(h.dim)} · ${esc(conf)}</strong><span>${esc(h.text)}</span><span class="note">Evidencias: respuestas ${nums(seenEv)}.</span>${adapt}${check}${stu}</li>`;
+    }).join("");
+    const keys = [...new Set(part.obs.map((x) => x.key))];
+    $("errlist").innerHTML = keys.length === 0 ? `<li>Ninguno todavía.</li>` : keys.map((k) => {
+      const these = part.obs.filter((x) => x.key === k), acts = new Set(these.map((x) => x.act)).size;
+      const status = these.length >= 3 && acts >= 2 ? "patrón (emergente)" : "aislado: todavía no cambia el recorrido";
+      const sup = part.supportDone[k] !== undefined ? ` · apoyo hecho en la respuesta ${part.supportDone[k] + 1}` : part.supportGiven[k] !== undefined ? " · apoyo propuesto" : "";
+      return `<li><strong>${esc(nameOf(k))}</strong><span>${these.length} ${these.length === 1 ? "vez" : "veces"} en ${acts} ${acts === 1 ? "actividad" : "actividades"} · ${status}${sup}${part.alerted[k] ? " · aviso al profesor" : ""}</span></li>`;
+    }).join("");
+  }
+
+  // ---------- Eventos ----------
+  $("students").addEventListener("click", (ev) => { const b = ev.target.closest("[data-who]"); if (!b) return; who = b.dataset.who; upto = Infinity; render(); $("live").textContent = STUDENTS[who].label; });
+  $("viewas").addEventListener("change", () => render());
+  ["d21", "d22", "d23"].forEach((id) => $(id).addEventListener("change", () => { render(); $("live").textContent = "Decisiones recalculadas."; }));
+  $("prev").addEventListener("click", () => { const n = Math.min(upto, STUDENTS[who].events.length); upto = Math.max(1, n - 1); render(); });
+  $("next").addEventListener("click", () => { const n = Math.min(upto, STUDENTS[who].events.length); upto = n + 1; render(); });
+  $("all").addEventListener("click", () => { upto = Infinity; render(); });
+  $("timeline").addEventListener("click", (ev) => {
+    const b = ev.target.closest("[data-act]"); if (!b) return;
+    const k = b.dataset.k, act = b.dataset.act;
+    const i = Number(k.split("|")[1]), d = run(STUDENTS[who].events, opts()).out[i].d;
+    if (act === "accept") choices[k + "|t"] = { text: "Aceptada por el profesor." };
+    if (act === "change") choices[k + "|t"] = { text: `Cambiada por el profesor: ${d.alt || "mantener el recorrido actual"}.` };
+    if (act === "undo") delete choices[k + "|t"];
+    if (act === "pick") choices[k + "|s"] = { pick: b.dataset.pick };
+    render();
+  });
+
+  window.__gemelo = { run, STUDENTS, opts };
+  render();
+})();
+</script>

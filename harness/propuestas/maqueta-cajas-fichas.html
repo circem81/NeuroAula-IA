@@ -1,0 +1,707 @@
+<title>Cajas y fichas · ecuaciones</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Inter+Tight:wght@500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: cabecera; selector de nivel y ejercicio; tablero de dos miembros (cajas = incógnita, fichas = unidades); debajo, acciones y cuaderno algebraico; al final, comprobación. Tokens de src/styles.css de NeuroAula. */
+:root {
+  --bg: oklch(0.985 0.004 255);
+  --card: oklch(1 0 0);
+  --ink: oklch(0.16 0.02 265);
+  --ink-soft: oklch(0.45 0.02 265);
+  --line: oklch(0.9 0.01 260);
+  --primary: oklch(0.26 0.06 265);
+  --primary-fg: oklch(0.99 0 0);
+  --tint: oklch(0.95 0.025 270);
+  --box: oklch(0.8 0.11 75);
+  --box-edge: oklch(0.5 0.09 60);
+  --box-ink: oklch(0.25 0.05 60);
+  --dot: oklch(0.48 0.2 262);
+  --ok: oklch(0.48 0.11 160);
+  --ok-tint: oklch(0.95 0.04 160);
+  --no: oklch(0.52 0.14 30);
+  --no-tint: oklch(0.96 0.03 40);
+  --warn-tint: oklch(0.96 0.04 85);
+  --font-body: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-display: "Inter Tight", "Inter", system-ui, sans-serif;
+  --font-math: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: oklch(0.15 0.02 265); --card: oklch(0.2 0.03 265); --ink: oklch(0.97 0.004 260); --ink-soft: oklch(0.74 0.03 260);
+  --line: oklch(0.32 0.03 265); --primary: oklch(0.86 0.06 265); --primary-fg: oklch(0.18 0.03 265); --tint: oklch(0.27 0.05 270);
+  --box: oklch(0.72 0.1 75); --box-edge: oklch(0.86 0.08 75); --box-ink: oklch(0.2 0.04 60); --dot: oklch(0.75 0.13 262);
+  --ok: oklch(0.8 0.12 160); --ok-tint: oklch(0.27 0.05 160); --no: oklch(0.78 0.12 40); --no-tint: oklch(0.28 0.05 40);
+  --warn-tint: oklch(0.3 0.05 85); color-scheme: dark; } }
+:root[data-theme="dark"] {
+  --bg: oklch(0.15 0.02 265); --card: oklch(0.2 0.03 265); --ink: oklch(0.97 0.004 260); --ink-soft: oklch(0.74 0.03 260);
+  --line: oklch(0.32 0.03 265); --primary: oklch(0.86 0.06 265); --primary-fg: oklch(0.18 0.03 265); --tint: oklch(0.27 0.05 270);
+  --box: oklch(0.72 0.1 75); --box-edge: oklch(0.86 0.08 75); --box-ink: oklch(0.2 0.04 60); --dot: oklch(0.75 0.13 262);
+  --ok: oklch(0.8 0.12 160); --ok-tint: oklch(0.27 0.05 160); --no: oklch(0.78 0.12 40); --no-tint: oklch(0.28 0.05 40);
+  --warn-tint: oklch(0.3 0.05 85); color-scheme: dark; }
+
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+body { background: var(--bg); color: var(--ink); font-family: var(--font-body); font-size: 15px; line-height: 1.5; }
+.wrap { max-width: 1040px; margin: 0 auto; padding-block: 20px 48px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
+  display: grid; gap: 18px; }
+h1, h2 { font-family: var(--font-display); text-wrap: balance; margin: 0; letter-spacing: -0.01em; }
+h1 { font-size: 1.55rem; }
+h2 { font-size: 1.05rem; }
+p { margin: 0; }
+.eyebrow { font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-soft); font-weight: 600; }
+.banner { background: var(--warn-tint); border-radius: 10px; padding: 10px 14px; font-size: 0.88rem; }
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+button:focus-visible, input:focus-visible, select:focus-visible { outline: 3px solid color-mix(in oklch, var(--primary) 55%, transparent); outline-offset: 2px; }
+
+.levels { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+@media (max-width: 640px) { .levels { grid-template-columns: minmax(0, 1fr); } }
+.level { text-align: left; font: inherit; border: 1px solid var(--line); background: var(--card); color: var(--ink); border-radius: 12px; padding: 12px 14px; cursor: pointer; display: grid; gap: 2px; }
+.level strong { font-family: var(--font-display); }
+.level span { font-size: 0.84rem; color: var(--ink-soft); }
+.level:disabled { opacity: 0.55; cursor: not-allowed; }
+.level .lock { font-size: 0.8rem; color: var(--ink-soft); font-weight: 600; }
+.level[aria-pressed="true"] { border: 2px solid var(--primary); background: var(--tint); padding: 11px 13px; }
+.exercises { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+.exercises .lbl { font-size: 0.85rem; color: var(--ink-soft); margin-right: 4px; }
+.ex { font: inherit; font-family: var(--font-math); font-size: 0.95rem; padding: 6px 12px; border-radius: 999px; border: 1px solid var(--line); background: var(--card); color: var(--ink); cursor: pointer; }
+.ex[aria-pressed="true"] { background: var(--primary); color: var(--primary-fg); border-color: var(--primary); }
+
+.panel { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 18px; display: grid; gap: 14px; min-width: 0; }
+.board-head { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px; align-items: baseline; }
+.equation { font-family: var(--font-math); font-size: 1.35rem; font-weight: 500; }
+.board { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); border: 2px solid var(--ink); border-radius: 4px; }
+.member { padding: 14px 12px 10px; display: grid; gap: 12px; align-content: start; min-height: 190px; min-width: 0; }
+.member + .member { border-left: 2px solid var(--ink); }
+.member-name { font-size: 0.8rem; color: var(--ink-soft); font-weight: 600; }
+.boxes, .dots { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+.mbox { width: 58px; height: 40px; display: block; }
+.group { display: grid; grid-template-columns: repeat(3, 18px); grid-template-rows: repeat(3, 18px); gap: 3px; }
+.d { width: 18px; height: 18px; border-radius: 50%; background: var(--dot); display: block; }
+/* Tachar: cada caja y cada ficha es un botón en el nivel 1. */
+.item { border: 0; background: none; padding: 0; margin: 0; position: relative; line-height: 0; border-radius: 6px; color: inherit; font: inherit; }
+button.item { cursor: pointer; }
+button.item:hover { outline: 2px dashed var(--line); outline-offset: 2px; }
+.item.crossed::after, .item.gone::after { content: ""; position: absolute; inset: -3px; pointer-events: none;
+  background:
+    linear-gradient(to top right, transparent calc(50% - 1.6px), var(--no) calc(50% - 1.6px), var(--no) calc(50% + 1.6px), transparent calc(50% + 1.6px)),
+    linear-gradient(to bottom right, transparent calc(50% - 1.6px), var(--no) calc(50% - 1.6px), var(--no) calc(50% + 1.6px), transparent calc(50% + 1.6px)); }
+.item.gone { opacity: 0.4; }
+.deal-q { display: grid; gap: 8px; }
+.count { font-family: var(--font-math); font-size: 0.85rem; color: var(--ink-soft); }
+.alt { font-size: 0.85rem; color: var(--ink-soft); }
+.reveal { display: grid; gap: 8px; }
+.field { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+.field input, .field select { font-family: var(--font-math); font-size: 1rem; padding: 8px 12px; border-radius: 10px; border: 1px solid var(--line); background: var(--bg); color: var(--ink); }
+.field input { flex: 1 1 200px; min-width: 0; }
+.primary { font: inherit; font-weight: 600; padding: 8px 16px; border-radius: 10px; border: 0; background: var(--primary); color: var(--primary-fg); cursor: pointer; }
+.primary:disabled, .ghostbtn:disabled { opacity: 0.45; cursor: not-allowed; }
+.ghostbtn { font: inherit; font-size: 0.9rem; padding: 7px 14px; border-radius: 999px; border: 1px solid var(--line); background: transparent; color: var(--ink); cursor: pointer; }
+label, .q { font-weight: 600; font-size: 0.93rem; }
+.msg { border-radius: 10px; padding: 10px 12px; background: var(--tint); font-size: 0.93rem; }
+.msg.ok { background: var(--ok-tint); }
+.msg.no { background: var(--no-tint); }
+.note { font-size: 0.85rem; color: var(--ink-soft); }
+
+.two { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 18px; align-items: start; }
+@media (max-width: 820px) { .two { grid-template-columns: minmax(0, 1fr); } }
+.actions { display: grid; gap: 10px; }
+.act { display: grid; grid-template-columns: minmax(0, 1fr) auto auto; gap: 8px; align-items: center; border: 1px solid var(--line); border-radius: 10px; padding: 8px 10px; }
+.act span { font-weight: 500; }
+.act select { font-family: var(--font-math); font-size: 0.95rem; padding: 5px 8px; border-radius: 8px; border: 1px solid var(--line); background: var(--bg); color: var(--ink); }
+.act .why { grid-column: 1 / -1; font-size: 0.8rem; color: var(--ink-soft); }
+.book { display: grid; border-top: 1px solid var(--line); max-height: 360px; overflow-y: auto; }
+.step { padding: 9px 2px; border-bottom: 1px solid var(--line); display: grid; gap: 2px; }
+.step .what { font-size: 0.75rem; color: var(--ink-soft); }
+.step .written { font-family: var(--font-math); color: var(--ink-soft); font-size: 0.95rem; overflow-wrap: anywhere; }
+.step .simple { font-family: var(--font-math); font-size: 1.12rem; font-weight: 500; overflow-wrap: anywhere; }
+.step:last-child .simple { color: var(--primary); }
+
+.table-wrap { overflow-x: auto; }
+table { border-collapse: collapse; width: 100%; font-size: 0.92rem; min-width: 480px; }
+th, td { border-bottom: 1px solid var(--line); padding: 7px 8px; text-align: left; }
+th { font-size: 0.8rem; color: var(--ink-soft); font-weight: 600; }
+td.m { font-family: var(--font-math); font-variant-numeric: tabular-nums; }
+.pill { display: inline-block; font-size: 0.78rem; font-weight: 600; padding: 1px 9px; border-radius: 999px; }
+.pill.ok { background: var(--ok-tint); color: var(--ok); }
+.pill.no { background: var(--no-tint); color: var(--no); }
+footer { font-size: 0.82rem; color: var(--ink-soft); display: grid; gap: 4px; }
+</style>
+
+<div class="wrap">
+  <div class="banner" style="display:flex;flex-wrap:wrap;gap:8px 16px;align-items:center;justify-content:space-between"><span>Maqueta para revisar la propuesta. No forma parte de la aplicación, no guarda datos y las ecuaciones son propias.</span><label style="font-weight:500;display:inline-flex;gap:6px;align-items:center"><input type="checkbox" id="review-all"> Abrir todos los niveles (solo para revisar la maqueta)</label></div>
+
+  <header style="display:grid;gap:4px">
+    <span class="eyebrow">Libro de álgebra · 2.º ESO · Ecuaciones con cajas y fichas</span>
+    <h1>¿Cuántas fichas hay en cada caja?</h1>
+    <p class="note">Cada caja tiene dentro el mismo número de fichas. Los dos miembros tienen, en total, el mismo número de fichas.</p>
+    <p class="note">Método inspirado en los materiales de álgebra de Pepe Vidal (Proyecto Newton).</p>
+  </header>
+
+  <div class="levels" role="group" aria-label="Nivel">
+    <button type="button" class="level" data-level="0"><strong>Nivel 0 · Dibujo y ensayo</strong><span>Escribe la ecuación del dibujo y prueba números hasta que los dos miembros tengan el mismo número de fichas.</span></button>
+    <button type="button" class="level" data-level="1" aria-describedby="lock-1"><strong>Nivel 1 · Tachar y repartir</strong><span>Tacha lo mismo en los dos miembros y reparte tú las fichas entre las cajas. Cada paso se escribe en álgebra.</span><span class="lock" id="lock-1"></span></button>
+    <button type="button" class="level" data-level="2" aria-describedby="lock-2"><strong>Nivel 2 · Solo símbolos</strong><span>Los mismos pasos, sin dibujo. Las cajas ya son x.</span><span class="lock" id="lock-2"></span></button>
+  </div>
+
+  <div class="exercises" id="exercises"></div>
+
+  <section class="panel" aria-labelledby="h-board">
+    <div class="board-head">
+      <h2 id="h-board">Tablero</h2>
+      <span class="equation" id="equation"></span>
+    </div>
+    <div class="board" id="board" role="group" aria-label="Tablero de cajas y fichas">
+      <div class="member"><span class="member-name">1.er miembro</span><div class="boxes" id="l-boxes"></div><div class="dots" id="l-dots"></div><span class="count" id="l-count"></span></div>
+      <div class="member"><span class="member-name">2.º miembro</span><div class="boxes" id="r-boxes"></div><div class="dots" id="r-dots"></div><span class="count" id="r-count"></span></div>
+    </div>
+    <p class="alt" id="alt"></p>
+
+    <form class="reveal" id="write-form" novalidate>
+      <label for="write-input">Escribe el dibujo en lenguaje algebraico (la caja es x)</label>
+      <div class="field">
+        <input id="write-input" autocomplete="off" spellcheck="false" placeholder="Por ejemplo: 4x + 2 = x + 8">
+        <button class="primary" type="submit">Comprobar</button>
+        <button class="ghostbtn" type="button" id="write-show">Ver la ecuación</button>
+      </div>
+      <p class="msg" id="write-msg" hidden></p>
+    </form>
+  </section>
+
+  <section class="panel" id="solve-panel" aria-labelledby="h-solve">
+    <h2 id="h-solve">Resolver</h2>
+    <div class="two">
+      <div class="actions" id="actions">
+        <p class="note" id="actions-note">Lo que hagas en un miembro lo haces también en el otro. Solo se puede quitar lo que hay en los dos y hacer grupos que salgan exactos.</p>
+        <div class="act" id="cross-act">
+          <span>Toca cajas y fichas del tablero para tacharlas. Tacha lo mismo en los dos miembros.</span>
+          <span></span>
+          <button class="primary" type="button" id="do-cross">Quitar lo tachado</button>
+          <span class="why" id="cross-status"></span>
+        </div>
+        <div class="act" id="deal-act">
+          <span id="deal-text"></span>
+          <span></span>
+          <button class="ghostbtn" type="button" id="deal-reset">Volver a repartir</button>
+          <span class="why" id="deal-status"></span>
+          <form class="deal-q" id="deal-form" style="grid-column:1/-1" novalidate hidden>
+            <label for="deal-input">¿Cuántas fichas hay en cada caja?</label>
+            <div class="field">
+              <input id="deal-input" type="number" inputmode="numeric" min="0" max="30" step="1" style="flex:0 1 120px">
+              <button class="primary" type="submit">Responder</button>
+            </div>
+          </form>
+        </div>
+        <div class="act" id="act-box-row">
+          <span id="lbl-box">Quitar cajas de cada miembro</span>
+          <select id="sel-box" aria-label="Número de cajas que se quitan"></select>
+          <button class="primary" type="button" id="do-box">Quitar</button>
+          <span class="why" id="why-box"></span>
+        </div>
+        <div class="act" id="act-dot-row">
+          <span id="lbl-dot">Quitar fichas de cada miembro</span>
+          <select id="sel-dot" aria-label="Número de fichas que se quitan"></select>
+          <button class="primary" type="button" id="do-dot">Quitar</button>
+          <span class="why" id="why-dot"></span>
+        </div>
+        <div class="act" id="act-div-row">
+          <span id="lbl-div">Hacer grupos iguales en cada miembro y quedarse con un grupo</span>
+          <select id="sel-div" aria-label="Número de grupos"></select>
+          <button class="primary" type="button" id="do-div">Hacer grupos</button>
+          <span class="why" id="why-div"></span>
+        </div>
+        <p class="note" id="why-final" hidden></p>
+        <div class="field">
+          <button class="ghostbtn" type="button" id="undo">Deshacer</button>
+          <button class="ghostbtn" type="button" id="restart">Empezar de nuevo</button>
+        </div>
+        <p class="msg" id="solve-msg"></p>
+      </div>
+      <div style="display:grid;gap:8px;min-width:0">
+        <span class="q">Cuaderno</span>
+        <div class="book" id="book"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel" aria-labelledby="h-try">
+    <h2 id="h-try">Comprobamos</h2>
+    <p class="note" id="try-intro"></p>
+    <form class="field" id="try-form" novalidate>
+      <label for="try-input" style="flex-basis:100%">Si hubiera <span id="try-unit">…</span> fichas en cada caja…</label>
+      <input id="try-input" type="number" inputmode="numeric" min="0" max="30" step="1" style="flex:0 1 120px">
+      <button class="primary" type="submit" id="try-btn">Probar</button>
+    </form>
+    <p class="msg" id="try-msg" hidden></p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Ensayo</th><th>Fichas por caja</th><th id="th-l">1.er miembro</th><th id="th-r">2.º miembro</th><th>¿Iguales?</th></tr></thead>
+        <tbody id="try-body"></tbody>
+      </table>
+    </div>
+    <p class="msg ok" id="conclusion" hidden></p>
+    <div class="field" id="bridge" hidden>
+      <p class="msg" style="flex:1 1 260px">¿Qué podrías quitar de los dos miembros sin que dejen de tener el mismo número de fichas? Pruébalo en el nivel 1.</p>
+      <button class="ghostbtn" type="button" id="go-level1">Ir al nivel 1</button>
+    </div>
+    <form id="answer-form" style="display:grid;gap:8px" hidden novalidate>
+      <label for="answer-input">Tu respuesta</label>
+      <div class="field">
+        <input id="answer-input" autocomplete="off" spellcheck="false" placeholder="x = …">
+        <button class="primary" type="submit" id="answer-btn">Enviar respuesta</button>
+      </div>
+      <p class="msg" id="answer-msg" hidden></p>
+    </form>
+  </section>
+
+  <div class="sr" aria-live="polite" id="live"></div>
+
+  <footer>
+    <span>Todas las ecuaciones de la maqueta tienen solución entera (A24) y solo usan cajas y fichas en positivo, como la primera sesión del material de referencia. Negativos, paréntesis y sistemas serían niveles posteriores.</span>
+    <span>Versión 4 (2026-11-13): niveles en orden (A29), el alumno sabe si su respuesta es correcta (A30) y cita de la fuente (A28). Versión 3: tachar y repartir a mano en el nivel 1 (A27). Incluye la revisión pedagógica OC1-OC20. Solo en español. No se guarda nada.</span>
+  </footer>
+</div>
+
+<script>
+(function () {
+  "use strict";
+  const MINUS = "−";
+  // Ecuación: a·x + b = c·x + d, todo entero y no negativo.
+  const EXERCISES = {
+    0: [{ a: 2, b: 3, c: 0, d: 11 }, { a: 3, b: 1, c: 1, d: 11 }, { a: 4, b: 1, c: 2, d: 7 }],
+    1: [{ a: 2, b: 3, c: 0, d: 11 }, { a: 3, b: 1, c: 1, d: 11 }, { a: 3, b: 9, c: 6, d: 3 }],
+    2: [{ a: 4, b: 5, c: 1, d: 20 }, { a: 6, b: 1, c: 2, d: 13 }, { a: 2, b: 15, c: 5, d: 3 }],
+  };
+  let level = 0, exIndex = 0, start, state, history, lastRemoved, wrote, trials, opCount, subs, answerMsg, tryMsg;
+  // Tachar y repartir (nivel 1): marcas por objeto y reparto en curso.
+  let marks = null, marksKey = "", deal = null, dealMsg = null;
+  // A29: niveles en orden. Cada nivel se abre al resolver un ejercicio del anterior.
+  const unlocked = { 0: true, 1: false, 2: false };
+  const isOpen = (lv) => unlocked[lv] || $("review-all").checked;
+
+  const $ = (id) => document.getElementById(id);
+  const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+  const xTerm = (k) => (k === 1 ? "x" : k + "x");
+  const side = (k, n) => (k && n ? `${xTerm(k)} + ${n}` : k ? xTerm(k) : String(n));
+  const eqText = (s) => `${side(s.a, s.b)} = ${side(s.c, s.d)}`;
+  const gcd = (p, q) => { while (q) [p, q] = [q, p % q]; return p; };
+  const solution = (e) => (e.d - e.b) / (e.a - e.c);
+  const isFinal = (s) => (s.a === 1 && s.b === 0 && s.c === 0) || (s.c === 1 && s.d === 0 && s.a === 0);
+  const finalValue = (s) => (s.a === 1 ? s.d : s.b);
+  const solved = () => subs.some((t) => t.correct);
+
+  function announce(t) { const el = $("live"); el.textContent = el.textContent === t ? t + " " : t; }
+
+  // ---------- Dibujo ----------
+  function boxSvg(label, ghost) {
+    return `<svg class="mbox${ghost ? " ghost" : ""}" viewBox="0 0 58 40" aria-hidden="true">
+      <rect x="1.5" y="6" width="55" height="32" rx="3" fill="var(--box)" stroke="var(--box-edge)" stroke-width="2"/>
+      <rect x="1.5" y="2" width="55" height="8" rx="2" fill="var(--box-edge)"/>
+      <circle cx="29" cy="23" r="10" fill="var(--card)" stroke="var(--box-edge)" stroke-width="1.5"/>
+      <text x="29" y="27.5" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="13" font-weight="600" fill="var(--box-ink)">${esc(label)}</text>
+    </svg>`;
+  }
+  const QUINC = { 1: [5], 2: [1, 9], 3: [1, 5, 9], 4: [1, 3, 7, 9], 5: [1, 3, 5, 7, 9] };
+  // Cada objeto es un botón (si se puede tachar) o un elemento fijo. kind: "n" normal, "x" tachado, "g" ya quitado.
+  const MEMBER = { l: "1.er miembro", r: "2.º miembro" };
+  function dotItem(key, i, kind, clickable) {
+    const cls = `item${kind === "x" ? " crossed" : kind === "g" ? " gone" : ""}`;
+    if (!clickable) return `<span class="${cls}" aria-hidden="true"><span class="d"></span></span>`;
+    const lab = `Ficha ${i + 1} del ${MEMBER[key[0]]}${kind === "x" ? ", tachada" : ""}`;
+    return `<button type="button" class="${cls}" data-s="${key}" data-i="${i}" aria-pressed="${kind === "x"}" aria-label="${lab}"><span class="d"></span></button>`;
+  }
+  function dotsHtml(items) {
+    // items: lista de HTML de fichas; se agrupan de 5 en 5 como en un dado.
+    let h = "";
+    for (let g = 0; g < items.length; g += 5) {
+      const chunk = items.slice(g, g + 5), cells = QUINC[chunk.length];
+      h += `<span class="group">`;
+      let k = 0;
+      for (let c = 1; c <= 9; c++) h += cells.includes(c) ? chunk[k++] : `<span></span>`;
+      h += "</span>";
+    }
+    return h;
+  }
+  function boxItem(key, i, label, kind, clickable, dealLabel) {
+    const cls = `item${kind === "x" ? " crossed" : kind === "g" ? " gone" : ""}`;
+    const svg = boxSvg(label);
+    if (!clickable) return `<span class="${cls}" aria-hidden="true">${svg}</span>`;
+    const lab = dealLabel || `Caja ${i + 1} del ${MEMBER[key[0]]}${kind === "x" ? ", tachada" : ""}`;
+    return `<button type="button" class="${cls}" data-s="${key}" data-i="${i}" aria-pressed="${kind === "x"}" aria-label="${lab}">${svg}</button>`;
+  }
+  // OC16: «Ninguna caja».
+  const cnt = (k, n) => `${k === 0 ? "Ninguna caja" : k === 1 ? "1 caja" : k + " cajas"} y ${n === 0 ? "ninguna ficha" : n === 1 ? "1 ficha" : n + " fichas"}`;
+
+  // ---------- Tachar y repartir (nivel 1) ----------
+  function syncMarks() {
+    const key = level + "|" + eqText(state);
+    if (key === marksKey) return;
+    marksKey = key;
+    marks = { lb: Array(state.a).fill(false), ld: Array(state.b).fill(false), rb: Array(state.c).fill(false), rd: Array(state.d).fill(false) };
+    const s = state;
+    // Reparto: cajas solas en un miembro (2 o más) frente a fichas solas en el otro.
+    const leftBoxes = s.a >= 2 && s.b === 0 && s.c === 0 && s.d > 0;
+    const rightBoxes = s.c >= 2 && s.d === 0 && s.a === 0 && s.b > 0;
+    deal = level === 1 && (leftBoxes || rightBoxes)
+      ? { side: leftBoxes ? "l" : "r", k: leftBoxes ? s.a : s.c, n: leftBoxes ? s.d : s.b, counts: Array(leftBoxes ? s.a : s.c).fill(0) }
+      : null;
+    dealMsg = null;
+  }
+  const crossedCount = (arr) => arr.filter(Boolean).length;
+  const dealLeft = () => deal.n - deal.counts.reduce((p, q) => p + q, 0);
+  const dealEven = () => dealLeft() === 0 && deal.counts.every((c) => c === deal.counts[0]);
+
+  function renderBoard() {
+    const s = state, label = boxLabel(), tach = level === 1 && !deal && !isFinal(s);
+    const gb = lastRemoved ? lastRemoved.boxes : 0, gd = lastRemoved ? lastRemoved.dots : 0;
+    const boxes = (key, k) => {
+      let h = "";
+      for (let i = 0; i < k; i++) {
+        if (deal && deal.side === key[0]) {
+          h += boxItem(key, i, String(deal.counts[i]), "n", dealLeft() > 0, `Caja ${i + 1}, con ${deal.counts[i]} ${deal.counts[i] === 1 ? "ficha" : "fichas"}. Meter una ficha.`);
+        } else h += boxItem(key, i, label, marks[key][i] ? "x" : "n", tach);
+      }
+      for (let i = 0; i < gb; i++) h += boxItem(key, i, label, "g", false);
+      return h;
+    };
+    const dots = (key, n) => {
+      const items = [], ghosts = [];
+      const shown = deal && deal.side !== key[0] ? dealLeft() : n;
+      for (let i = 0; i < shown; i++) items.push(dotItem(key, i, marks[key][i] ? "x" : "n", tach));
+      for (let i = 0; i < gd; i++) ghosts.push(dotItem(key, i, "g", false));
+      // Lo quitado va en sus propios grupos, separado de lo que queda.
+      return dotsHtml(items) + dotsHtml(ghosts);
+    };
+    $("l-boxes").innerHTML = boxes("lb", s.a);
+    $("r-boxes").innerHTML = boxes("rb", s.c);
+    $("l-dots").innerHTML = dots("ld", s.b);
+    $("r-dots").innerHTML = dots("rd", s.d);
+    const pile = (k) => (deal && deal.side !== k ? ` · quedan ${dealLeft()} por repartir` : "");
+    $("l-count").textContent = cnt(s.a, s.b) + pile("l");
+    $("r-count").textContent = cnt(s.c, s.d) + pile("r");
+    $("alt").textContent = `Primer miembro: ${cnt(s.a, s.b).toLowerCase()}. Segundo miembro: ${cnt(s.c, s.d).toLowerCase()}.`
+      + (gb || gd ? " Tachado y en gris, lo que se acaba de quitar." : "")
+      + (deal ? ` Quedan ${dealLeft()} fichas por repartir.` : "");
+    $("board").hidden = level === 2;
+    $("alt").hidden = level === 2;
+  }
+  function boxLabel() {
+    const ok = trials.find((t) => t.equal);
+    if (ok) return String(ok.n);
+    return level === 0 && !wrote ? "?" : "x";
+  }
+
+  // ---------- Ecuación escrita (nivel 0) ----------
+  function parseSide(str) {
+    const terms = str.split("+").filter((t) => t !== "");
+    let k = 0, n = 0;
+    for (const t of terms) {
+      if (/^\d*x$/.test(t)) k += t === "x" ? 1 : Number(t.slice(0, -1));
+      else if (/^\d+$/.test(t)) n += Number(t);
+      else return null;
+    }
+    return { k, n };
+  }
+  function readWritten(input) {
+    const s = input.replace(/\s+/g, "").toLowerCase().replace(/[·*×]/g, "");
+    const parts = s.split("=");
+    if (parts.length !== 2) return "form";
+    const L = parseSide(parts[0]), R = parseSide(parts[1]);
+    if (!L || !R) return "form";
+    const e = start;
+    const same = (A, B) => A.k === e.a && A.n === e.b && B.k === e.c && B.n === e.d;
+    return same(L, R) || same(R, L) ? "ok" : "differs";
+  }
+
+  // ---------- Pasos (niveles 1 y 2) ----------
+  function options(sel, values) {
+    sel.innerHTML = values.map((v) => `<option value="${v}">${v}</option>`).join("");
+    sel.disabled = values.length === 0;
+  }
+  function divisors(s) {
+    const g = [s.a, s.b, s.c, s.d].reduce((p, q) => gcd(p, q), 0);
+    const out = []; for (let n = 2; n <= g; n++) if (g % n === 0) out.push(n);
+    return out;
+  }
+  function renderActions() {
+    const s = state, fin = isFinal(s), sym = level === 2;
+    const maxBox = Math.min(s.a, s.c), maxDot = Math.min(s.b, s.d), divs = divisors(s);
+    options($("sel-box"), Array.from({ length: maxBox }, (_, i) => i + 1));
+    options($("sel-dot"), Array.from({ length: maxDot }, (_, i) => i + 1));
+    options($("sel-div"), divs);
+    // OC20: texto doble en el nivel 2.
+    $("lbl-box").textContent = sym ? "Quitar cajas (restar x)" : "Quitar cajas de cada miembro";
+    $("lbl-dot").textContent = sym ? "Quitar fichas (restar un número)" : "Quitar fichas de cada miembro";
+    $("lbl-div").textContent = sym ? "Hacer grupos iguales y quedarse con uno (dividir)" : "Hacer grupos iguales en cada miembro y quedarse con un grupo";
+    $("do-box").disabled = maxBox === 0 || fin;
+    $("do-dot").disabled = maxDot === 0 || fin;
+    $("do-div").disabled = divs.length === 0 || fin;
+    // OC6: en el estado final, una sola explicación.
+    $("why-box").textContent = !fin && maxBox === 0 ? "Hace falta que haya cajas en los dos miembros." : "";
+    $("why-dot").textContent = !fin && maxDot === 0 ? "Hace falta que haya fichas en los dos miembros." : "";
+    $("why-div").textContent = !fin && divs.length === 0 ? "Ahora no se pueden hacer grupos iguales sin abrir una caja ni partir una ficha." : "";
+    $("why-final").hidden = !fin;
+    $("why-final").textContent = sym ? "Ya está la x sola." : "Ya está la caja sola.";
+    // Nivel 1: tachar y repartir a mano; nivel 2: listas.
+    const hands = level === 1;
+    ["act-box-row", "act-dot-row", "act-div-row"].forEach((id) => { $(id).hidden = hands; });
+    $("actions-note").textContent = hands
+      ? "Lo que hagas en un miembro lo haces también en el otro. Solo se puede quitar lo que hay en los dos."
+      : "Lo que hagas en un miembro lo haces también en el otro. Solo se puede quitar lo que hay en los dos y hacer grupos que salgan exactos.";
+    $("cross-act").hidden = !(hands && !deal && !fin);
+    if (hands && !deal && !fin) {
+      const L = { b: crossedCount(marks.lb), d: crossedCount(marks.ld) }, R = { b: crossedCount(marks.rb), d: crossedCount(marks.rd) };
+      const any = L.b + L.d + R.b + R.d > 0, same = L.b === R.b && L.d === R.d;
+      $("do-cross").disabled = !(any && same);
+      $("cross-status").textContent = !any ? "Todavía no has tachado nada."
+        : `Tachado: 1.er miembro, ${cnt(L.b, L.d).toLowerCase()}; 2.º miembro, ${cnt(R.b, R.d).toLowerCase()}.`
+          + (same ? "" : " Tacha lo mismo en los dos miembros para poder quitarlo.");
+    }
+    $("deal-act").hidden = !deal;
+    if (deal) {
+      const left = dealLeft();
+      $("deal-text").textContent = `Hay ${deal.k} cajas frente a ${deal.n} fichas. Reparte las fichas: toca una caja para meter una ficha dentro.`;
+      $("deal-status").textContent = left > 0 ? `Quedan ${left} ${left === 1 ? "ficha" : "fichas"} por repartir.`
+        : dealEven() ? "Ya has repartido todas las fichas." : "Las cajas no tienen el mismo número de fichas, y todas las cajas tienen dentro lo mismo. Vuelve a repartir.";
+      $("deal-reset").disabled = left === deal.n;
+      $("deal-form").hidden = !(left === 0 && dealEven());
+    }
+    $("undo").disabled = history.length === 0;
+    $("restart").disabled = history.length === 0;
+    $("solve-panel").hidden = level === 0;
+  }
+  function renderBook() {
+    let h = `<div class="step"><span class="what">Ecuación del principio</span><span class="simple">${esc(eqText(start))}</span></div>`;
+    history.forEach((st) => {
+      h += `<div class="step"><span class="what">${esc(st.what)}</span><span class="written">${esc(st.written)}</span><span class="simple">${esc(eqText(st.to))}</span></div>`;
+    });
+    $("book").innerHTML = h;
+    $("book").scrollTop = $("book").scrollHeight;
+  }
+  function solveMsg() {
+    const m = $("solve-msg");
+    if (dealMsg) { m.className = "msg"; m.textContent = dealMsg; return; }
+    if (history.length === 0) { m.className = "msg"; m.textContent = level === 1 ? "Tacha lo que quieras quitar. Se quitará de los dos miembros a la vez." : "Elige un paso. Se hará en los dos miembros a la vez."; return; }
+    if (isFinal(state)) {
+      m.className = "msg ok";
+      // OC8: sin «caja» en el nivel 2.
+      m.textContent = level === 2
+        ? `Ha quedado x sola frente a ${finalValue(state)}. Ahora comprueba ese valor en la ecuación del principio.`
+        : `Ha quedado una caja sola frente a ${finalValue(state)} fichas. Ahora comprueba ese valor en la ecuación del principio.`;
+      return;
+    }
+    m.className = "msg";
+    // OC4.
+    m.textContent = opCount >= 8
+      ? "Puedes deshacer o empezar de nuevo cuando quieras."
+      : "Los dos miembros siguen teniendo el mismo número de fichas, contando las que hay dentro de las cajas. ¿Te acerca a saber cuántas hay en una caja?";
+  }
+  function step(kind, n) {
+    const from = state, sym = level === 2; let to, written, what;
+    if (kind === "box") {
+      to = { ...from, a: from.a - n, c: from.c - n };
+      written = `${side(from.a, from.b)} ${MINUS} ${xTerm(n)} = ${side(from.c, from.d)} ${MINUS} ${xTerm(n)}`;
+      what = `Quitar ${n} ${n === 1 ? "caja" : "cajas"} de cada miembro` + (sym ? ` (restar ${xTerm(n)})` : "");
+      lastRemoved = { boxes: n, dots: 0 };
+    } else if (kind === "dot") {
+      to = { ...from, b: from.b - n, d: from.d - n };
+      written = `${side(from.a, from.b)} ${MINUS} ${n} = ${side(from.c, from.d)} ${MINUS} ${n}`;
+      what = `Quitar ${n} ${n === 1 ? "ficha" : "fichas"} de cada miembro` + (sym ? ` (restar ${n})` : "");
+      lastRemoved = { boxes: 0, dots: n };
+    } else if (kind === "cross") {
+      // n = { b: cajas, d: fichas } tachadas en cada miembro.
+      const nb = n.b, nd = n.d;
+      to = { a: from.a - nb, b: from.b - nd, c: from.c - nb, d: from.d - nd };
+      const tail = (nb ? ` ${MINUS} ${xTerm(nb)}` : "") + (nd ? ` ${MINUS} ${nd}` : "");
+      written = `${side(from.a, from.b)}${tail} = ${side(from.c, from.d)}${tail}`;
+      const parts = [nb ? `${nb} ${nb === 1 ? "caja" : "cajas"}` : "", nd ? `${nd} ${nd === 1 ? "ficha" : "fichas"}` : ""].filter(Boolean).join(" y ");
+      what = `Tachar y quitar ${parts} de cada miembro`;
+      lastRemoved = { boxes: nb, dots: nd };
+    } else if (kind === "deal") {
+      // Reparto hecho por el alumno: k cajas frente a n fichas, q en cada caja.
+      const { k, n: f } = n, q = f / k;
+      to = from.a ? { a: 1, b: 0, c: 0, d: q } : { a: 0, b: q, c: 1, d: 0 };
+      written = from.a ? `${xTerm(k)} : ${k} = ${f} : ${k}` : `${f} : ${k} = ${xTerm(k)} : ${k}`;
+      what = `Repartir ${f} fichas entre ${k} cajas: ${q} en cada caja`;
+      lastRemoved = null;
+    } else {
+      to = { a: from.a / n, b: from.b / n, c: from.c / n, d: from.d / n };
+      const p = (k, m) => (k && m ? `(${side(k, m)})` : side(k, m));
+      written = `${p(from.a, from.b)} : ${n} = ${p(from.c, from.d)} : ${n}`;
+      // OC7 y OC12.
+      what = `Hacer ${n} grupos iguales en cada miembro y quedarse con un grupo` + (sym ? ` (dividir entre ${n})` : "");
+      lastRemoved = null;
+    }
+    history.push({ from, to, written, what });
+    state = to; opCount += 1;
+    render();
+    announce(`${written}. Queda ${eqText(to)}.`);
+  }
+
+  // ---------- Ensayo y comprobación ----------
+  // OC1 y OC2: la tabla se abre tras escribir la ecuación (nivel 0) o en el estado final (niveles 1 y 2).
+  const tableOpen = () => (level === 0 ? wrote : isFinal(state));
+  function renderTrials() {
+    const e = start;
+    // OC15: sin cajas, solo el número.
+    const mem = (k, m, v) => (k ? `${k === 1 ? "" : k + " · "}(${v})${m ? " + " + m : ""}` : String(m));
+    $("th-l").textContent = `1.er miembro: ${side(e.a, e.b)}`;
+    $("th-r").textContent = `2.º miembro: ${side(e.c, e.d)}`;
+    // OC17 (a): qué miembro tiene más, sin calificar.
+    const more = (t) => (t.equal ? "" : ` · más en el ${t.l > t.r ? "1.er" : "2.º"} miembro`);
+    $("try-body").innerHTML = trials.length === 0
+      ? `<tr><td colspan="5" class="note">Todavía no hay ensayos.</td></tr>`
+      : trials.map((t, i) => `<tr><td>${i + 1}.º</td><td class="m">x = ${t.n}</td>
+          <td class="m">${esc(mem(e.a, e.b, t.n))}${e.a ? " = " + t.l : ""}</td><td class="m">${esc(mem(e.c, e.d, t.n))}${e.c ? " = " + t.r : ""}</td>
+          <td><span class="pill ${t.equal ? "ok" : "no"}">${t.equal ? "iguales" : "distintos"}</span>${esc(more(t))}</td></tr>`).join("");
+    const ok = trials.find((t) => t.equal);
+    // OC3: el hecho, no la solución.
+    $("conclusion").hidden = !ok;
+    if (ok) $("conclusion").textContent = `Con ${ok.n} fichas en cada caja, los dos miembros tienen ${ok.l} fichas.`;
+    $("bridge").hidden = !(level === 0 && solved());
+    const open = tableOpen() && !ok;
+    $("try-input").disabled = !open; $("try-btn").disabled = !open;
+    $("h-try").textContent = level === 0 ? "Ensayo y error" : "Comprobamos";
+    // OC18.
+    $("try-intro").textContent = !tableOpen()
+      ? (level === 0 ? "Primero escribe el dibujo en lenguaje algebraico." : "La comprobación se abre cuando la caja queda sola en un miembro.")
+      : level === 0
+        ? "Prueba un número de fichas por caja y mira si los dos miembros tienen el mismo número de fichas."
+        : "Prueba en la ecuación del principio el valor que has encontrado.";
+    $("try-unit").textContent = "x";
+    const tm = $("try-msg"); tm.hidden = !tryMsg; if (tryMsg) tm.textContent = tryMsg;
+  }
+
+  // ---------- Respuesta final (A23; textos tras enviar provisionales, D20) ----------
+  function readAnswer(input) {
+    const s = input.replace(/\s+/g, "").toLowerCase().replace(/−/g, "-");
+    const NUM = "[+-]?\\d+(?:[.,]\\d+)?(?:/\\d+)?";
+    const m = s.match(new RegExp(`^x=(${NUM})$`)) || s.match(new RegExp(`^(${NUM})=x$`));
+    if (!m) return "form";
+    let v = m[1].replace(",", "."), sign = 1;
+    if (v[0] === "+") v = v.slice(1); else if (v[0] === "-") { sign = -1; v = v.slice(1); }
+    const sol = solution(start);
+    if (v.includes("/")) { const [p, q] = v.split("/").map(Number); if (!q) return "form"; return sign * p / q === sol ? "simplify" : "wrong"; }
+    return sign * Number(v) === sol ? "correct" : "wrong";
+  }
+  function renderAnswer() {
+    const ok = trials.find((t) => t.equal);
+    $("answer-form").hidden = !ok;
+    const locked = solved() || subs.length >= 5;
+    $("answer-input").disabled = locked; $("answer-btn").disabled = locked;
+    const am = $("answer-msg"); am.hidden = !answerMsg;
+    if (answerMsg) { am.textContent = answerMsg; am.className = "msg" + (solved() ? " ok" : subs.length ? " no" : ""); }
+  }
+
+  // ---------- Pintar todo ----------
+  function render() {
+    document.querySelectorAll(".level").forEach((b) => {
+      const lv = Number(b.dataset.level);
+      b.setAttribute("aria-pressed", String(lv === level));
+      b.disabled = !isOpen(lv);
+      const lock = $("lock-" + lv);
+      if (lock) lock.textContent = isOpen(lv) ? "" : `Se abre al resolver un ejercicio del nivel ${lv - 1}.`;
+    });
+    $("exercises").innerHTML = `<span class="lbl">Ejercicio:</span>` + EXERCISES[level].map((e, i) =>
+      `<button type="button" class="ex" data-i="${i}" aria-pressed="${i === exIndex}">${esc(level === 0 && !(i === exIndex && wrote) ? "Dibujo " + (i + 1) : eqText(e))}</button>`).join("");
+    $("exercises").querySelectorAll(".ex").forEach((b) => b.addEventListener("click", () => load(level, Number(b.dataset.i))));
+    $("equation").textContent = level === 0 && !wrote ? "?" : eqText(level === 0 ? start : state);
+    $("write-form").hidden = level !== 0;
+    syncMarks();
+    renderBoard(); renderActions(); renderBook(); solveMsg(); renderTrials(); renderAnswer();
+  }
+  function load(lv, i) {
+    level = lv; exIndex = i; start = { ...EXERCISES[lv][i] }; state = { ...start };
+    history = []; lastRemoved = null; wrote = lv !== 0; trials = []; opCount = 0; subs = []; answerMsg = null; tryMsg = null; marksKey = "";
+    $("write-msg").hidden = true; $("write-input").value = ""; $("try-input").value = ""; $("answer-input").value = "";
+    render();
+  }
+
+  document.querySelectorAll(".level").forEach((b) => b.addEventListener("click", () => { const lv = Number(b.dataset.level); if (isOpen(lv)) load(lv, 0); }));
+  $("review-all").addEventListener("change", () => render());
+  $("go-level1").addEventListener("click", () => { load(1, 0); $("solve-panel").scrollIntoView({ block: "start" }); });
+  $("do-box").addEventListener("click", () => step("box", Number($("sel-box").value)));
+  $("do-dot").addEventListener("click", () => step("dot", Number($("sel-dot").value)));
+  $("do-div").addEventListener("click", () => step("div", Number($("sel-div").value)));
+  $("undo").addEventListener("click", () => { const l = history.pop(); if (!l) return; state = l.from; lastRemoved = null; marksKey = ""; render(); announce(`Queda ${eqText(state)}.`); });
+  $("restart").addEventListener("click", () => { state = { ...start }; history = []; lastRemoved = null; opCount = 0; marksKey = ""; render(); announce(`Queda ${eqText(state)}.`); });
+  // Tachar: tocar una caja o una ficha. Repartir: tocar una caja para meter una ficha.
+  $("board").addEventListener("click", (ev) => {
+    const b = ev.target.closest("button[data-s]"); if (!b) return;
+    const key = b.dataset.s, i = Number(b.dataset.i);
+    if (deal && key[1] === "b") {
+      if (dealLeft() === 0) return;
+      deal.counts[i] += 1; dealMsg = null;
+      render();
+      const left = dealLeft();
+      announce(`Caja ${i + 1}: ${deal.counts[i]} ${deal.counts[i] === 1 ? "ficha" : "fichas"}. ` + (left ? `Quedan ${left}.` : dealEven() ? "Ya has repartido todas las fichas. ¿Cuántas fichas hay en cada caja?" : "Las cajas no tienen el mismo número de fichas. Vuelve a repartir."));
+      if (left === 0 && dealEven()) $("deal-input").focus();
+      else { const again = $("board").querySelector(`button[data-s="${key}"][data-i="${i}"]`); if (again) again.focus(); }
+      return;
+    }
+    marks[key][i] = !marks[key][i];
+    render();
+    const again = $("board").querySelector(`button[data-s="${key}"][data-i="${i}"]`); if (again) again.focus();
+    announce($("cross-status").textContent);
+  });
+  $("do-cross").addEventListener("click", () => {
+    const nb = crossedCount(marks.lb), nd = crossedCount(marks.ld);
+    if (nb !== crossedCount(marks.rb) || nd !== crossedCount(marks.rd) || nb + nd === 0) return;
+    step("cross", { b: nb, d: nd });
+  });
+  $("deal-reset").addEventListener("click", () => { deal.counts.fill(0); dealMsg = null; render(); announce(`Quedan ${deal.n} fichas por repartir.`); });
+  $("deal-form").addEventListener("submit", (ev) => {
+    ev.preventDefault();
+    const raw = $("deal-input").value.trim(), q = deal.n / deal.k;
+    if (/^\d+$/.test(raw) && Number(raw) === q) { $("deal-input").value = ""; dealMsg = null; step("deal", { k: deal.k, n: deal.n }); return; }
+    dealMsg = "Cuenta las fichas que hay dentro de una de las cajas.";
+    render(); announce(dealMsg);
+  });
+  $("write-form").addEventListener("submit", (ev) => {
+    ev.preventDefault();
+    const r = readWritten($("write-input").value), m = $("write-msg");
+    m.hidden = false;
+    if (r === "ok") { wrote = true; m.className = "msg ok"; m.textContent = `Eso es lo que muestra el dibujo: ${eqText(start)}.`; }
+    // OC19.
+    else if (r === "differs") { m.className = "msg no"; m.textContent = "Esa ecuación no tiene las mismas cajas y fichas que el dibujo. Cuenta otra vez las cajas y las fichas de cada miembro."; }
+    else { m.className = "msg"; m.textContent = "Escríbela con x para las cajas, números para las fichas y un signo =. Por ejemplo: 4x + 2 = x + 8."; }
+    render(); announce(m.textContent);
+  });
+  $("write-show").addEventListener("click", () => {
+    wrote = true; const m = $("write-msg"); m.hidden = false; m.className = "msg"; m.textContent = `La ecuación del dibujo es ${eqText(start)}.`;
+    render(); announce(m.textContent);
+  });
+  $("try-form").addEventListener("submit", (ev) => {
+    ev.preventDefault();
+    if (!tableOpen()) return;
+    const raw = $("try-input").value.trim();
+    // OC5: entero de 0 a 30, aviso visible.
+    if (!/^\d+$/.test(raw) || Number(raw) > 30) { tryMsg = "Escribe un número entero de fichas, de 0 a 30."; render(); announce(tryMsg); return; }
+    tryMsg = null;
+    const n = Number(raw), e = start, l = e.a * n + e.b, r = e.c * n + e.d;
+    trials.push({ n, l, r, equal: l === r });
+    $("try-input").value = "";
+    render();
+    announce(l === r ? `Con ${n}, los dos miembros tienen ${l}.` : `Con ${n}, el primer miembro tiene ${l} y el segundo ${r}.`);
+  });
+  $("answer-form").addEventListener("submit", (ev) => {
+    ev.preventDefault();
+    if (solved() || subs.length >= 5) return;
+    const r = readAnswer($("answer-input").value);
+    if (r === "form") answerMsg = "Escribe tu respuesta como x = …";
+    else if (r === "simplify") answerMsg = "Simplifica el número antes de enviarlo.";
+    else {
+      subs.push({ correct: r === "correct" });
+      // A30: el alumno sabe si va bien.
+      if (r === "correct" && level < 2) unlocked[level + 1] = true;
+      answerMsg = r === "correct"
+        ? "Respuesta correcta. Tu profesor o profesora la revisará."
+        : subs.length >= 5 ? "Esa respuesta no es correcta y has usado los 5 envíos de este ejercicio. Tu profesor o profesora lo revisará contigo."
+          : `Esa respuesta no es correcta. Intento ${subs.length} de 5. Compruébala en la tabla.`;
+    }
+    render(); announce(answerMsg);
+  });
+
+  window.__cajas = { EXERCISES, solution, readWritten: (s) => readWritten(s), readAnswer: (s) => readAnswer(s), load, step, get state() { return state; } };
+  load(0, 0);
+})();
+</script>

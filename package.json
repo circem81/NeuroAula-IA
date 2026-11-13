@@ -11,7 +11,7 @@
     "typecheck": "tsc --noEmit",
     "lint": "eslint .",
     "test": "node --experimental-strip-types --test src/lib/*.test.ts",
-    "check": "bun run typecheck && bun run lint && bun run test && bun run build",
+    "check": "pnpm run typecheck && pnpm run lint && pnpm run test && pnpm run build",
     "format": "prettier --write ."
   },
   "dependencies": {

@@ -1,0 +1,45 @@
+{
+  "fase": 2,
+  "bloqueadoEnFase1": ["src/", "supabase/"],
+  "soloUsuaria": [
+    "AGENTS.md",
+    ".claude/settings.json",
+    ".claude/hooks/",
+    "harness/permisos.json",
+    "harness/para-instalar/",
+    "package.json",
+    "pnpm-lock.yaml",
+    "bun.lock",
+    "bunfig.toml",
+    "supabase/migrations/"
+  ],
+  "roles": {
+    "coordinador": { "editar": ["harness/"], "shellSoloLectura": true },
+    "desarrollador-libro": {
+      "editar": [
+        "src/lib/interactive-book.ts",
+        "src/lib/interactive-book.test.ts",
+        "src/lib/book-context.ts",
+        "src/lib/mvp-learning-cycle.ts",
+        "src/lib/mvp-learning-cycle.test.ts",
+         "src/components/equation-boxes.tsx",
+         "src/lib/equation-boxes.ts",
+          "src/lib/equation-boxes.test.ts",
+         "src/lib/learning-path.ts",
+         "src/lib/learning-path.test.ts",
+         "src/lib/learning-twin.ts",
+         "src/lib/demo-data.ts",
+          "src/lib/demo-i18n.ts",
+         "src/routes/demo.alumno.$id.tsx",
+         "src/routes/demo.gemelo.tsx",
+         "src/components/learning-twin-summary.tsx",
+          "src/components/mvp-learning-cycle.tsx",
+          "src/components/equation-balance.tsx",
+          "docs/INTERACTIVE-BOOKS.md"
+      ],
+      "shellSoloLectura": true
+    },
+    "revisor-pedagogico": { "editar": [], "shellSoloLectura": true },
+    "revisor-tecnico": { "editar": [], "shellSoloLectura": true }
+  }
+}

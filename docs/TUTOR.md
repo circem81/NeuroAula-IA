@@ -91,7 +91,7 @@ con JSON parcial válido, nunca se acepta. No hay reintentos automáticos.
 Para otro modelo explícito, se preservan los valores anteriores (1200 tokens,
 25000 ms) si no se configuran límites y no se envían opciones exclusivas de Astra.
 
-Validación local: ejecutar `bun run check`. Las pruebas usan respuestas simuladas.
+Validación local: ejecutar `pnpm check`. Las pruebas usan respuestas simuladas.
 Después de configurar la clave, evaluar tutor y analista en español e inglés:
 primer error, pistas progresivas, acierto y cinco intentos incorrectos. Comprobar
 que las pistas no revelan la solución antes del acierto, las referencias a intentos

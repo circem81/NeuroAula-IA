@@ -59,13 +59,13 @@ Los datos simulados se encuentran en `src/lib/demo-data.ts`. No deben sustituirs
 - Tailwind CSS 4, Radix UI y Motion.
 - Recharts para visualizaciones.
 - Runner nativo de Node.js para pruebas básicas.
-- Bun para dependencias y scripts.
+- pnpm para dependencias y scripts (lockfile de referencia: `pnpm-lock.yaml`).
 
 ## Desarrollo
 
 ```bash
-bun install
-bun run dev
+pnpm install --frozen-lockfile
+pnpm dev
 ```
 
 Copia `.env.example` a `.env.local` y configura la URL y la clave pública del proyecto. Nunca uses una clave `service_role` ni `sb_secret_*` en estas variables. En Supabase Auth debe estar habilitado el proveedor Email. Solo pueden acceder las cuentas con una membresía activa; los roles deben asignarse desde un entorno administrativo seguro. La arquitectura, el flujo y el límite de confianza se describen en [`docs/AUTHENTICATION.md`](docs/AUTHENTICATION.md).
@@ -78,16 +78,16 @@ en [`docs/TUTOR.md`](docs/TUTOR.md).
 ## Comprobaciones
 
 ```bash
-bun run typecheck
-bun run lint
-bun run test
-bun run build
+pnpm typecheck
+pnpm lint
+pnpm test
+pnpm build
 ```
 
 También se pueden ejecutar todas en orden con:
 
 ```bash
-bun run check
+pnpm check
 ```
 
 ## Límites de esta fase
@@ -133,5 +133,6 @@ Las respuestas usan la evaluación, evidencias, Learning Twin y revisión docent
 existentes, conservando versión y procedencia del libro.
 La publicación de libros, RAG y persistencia real siguen pendientes.
 Ver [integración, licencia y límites](docs/INTERACTIVE-BOOKS.md).
-Para esta integración usar `pnpm install --frozen-lockfile`; el lockfile Bun
-anterior todavía no incluye Three.js.
+El gestor de referencia es pnpm (instalación verificada con pnpm 11.25.0). `bun.lock`
+y `bunfig.toml` se conservan sin actualizar: `bun.lock` no incluye Three.js y no debe
+usarse para instalar hasta decidir si Lovable los necesita.
