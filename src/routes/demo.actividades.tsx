@@ -3,6 +3,7 @@ import { useLang } from "@/lib/i18n";
 import { demoT } from "@/lib/demo-i18n";
 import { latestActivities } from "@/lib/demo-data";
 import { WaterInquiry } from "@/components/water-inquiry";
+import { ClaudeBookStudio } from "@/components/claude-book-studio";
 
 export const Route = createFileRoute("/demo/actividades")({
   component: Activities,
@@ -18,6 +19,7 @@ function Activities() {
         <p className="text-sm text-ink-soft">{t.dashboard.latestActivities}</p>
       </header>
       <WaterInquiry lang={lang} />
+      <ClaudeBookStudio />
 
       <section aria-labelledby="latest-activities-title" className="space-y-3">
         <h2 id="latest-activities-title" className="text-lg font-semibold">
