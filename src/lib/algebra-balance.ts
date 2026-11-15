@@ -38,7 +38,7 @@ export function assessAlgebraAction(step: 0 | 1, action: AlgebraAction): Algebra
   return "detour";
 }
 
-export type AlgebraSignal = "balance" | "inverse" | "extend";
+export type AlgebraSignal = "pending" | "balance" | "inverse" | "extend";
 
 /** No inferimos perfiles cognitivos: solo describimos acciones observables. */
 export function summarizeAlgebraEvidence(events: readonly AlgebraEvent[], hintsViewed: number) {
@@ -46,7 +46,13 @@ export function summarizeAlgebraEvidence(events: readonly AlgebraEvent[], hintsV
   const detourCount = events.filter((event) => event.outcome === "detour").length;
   const completedSteps = events.filter((event) => event.outcome === "advance").length;
   const signal: AlgebraSignal =
-    imbalanceCount > 0 ? "balance" : detourCount > 0 || hintsViewed > 0 ? "inverse" : "extend";
+    imbalanceCount > 0
+      ? "balance"
+      : detourCount > 0 || hintsViewed > 0
+        ? "inverse"
+        : completedSteps === 2
+          ? "extend"
+          : "pending";
   return {
     attempts: events.length,
     completedSteps,
