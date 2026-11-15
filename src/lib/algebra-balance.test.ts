@@ -52,10 +52,16 @@ test("el resumen describe acciones observables y da prioridad al desequilibrio",
 test("sin desequilibrios, las pistas y desvíos orientan refuerzo, no diagnóstico", () => {
   assert.equal(summarizeAlgebraEvidence([], 1).signal, "inverse");
   assert.equal(summarizeAlgebraEvidence([], 0).signal, "pending");
-  assert.equal(summarizeAlgebraEvidence([
-    { step: 0, action: "subtract-three-both", outcome: "advance", hintUsed: false },
-    { step: 1, action: "divide-two-both", outcome: "advance", hintUsed: false },
-  ], 0).signal, "extend");
+  assert.equal(
+    summarizeAlgebraEvidence(
+      [
+        { step: 0, action: "subtract-three-both", outcome: "advance", hintUsed: false },
+        { step: 1, action: "divide-two-both", outcome: "advance", hintUsed: false },
+      ],
+      0,
+    ).signal,
+    "extend",
+  );
   const events: AlgebraEvent[] = [
     { step: 0, action: "divide-two-both", outcome: "detour", hintUsed: false },
   ];
