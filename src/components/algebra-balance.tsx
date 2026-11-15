@@ -16,7 +16,10 @@ const actionLabels: Record<AlgebraAction, { es: string; en: string }> = {
   "subtract-three-both": { es: "Restar 3 a ambos lados", en: "Subtract 3 on both sides" },
   "subtract-three-left": { es: "Restar 3 solo a la izquierda", en: "Subtract 3 on the left only" },
   "divide-two-both": { es: "Dividir ambos lados entre 2", en: "Divide both sides by 2" },
-  "divide-two-left": { es: "Dividir solo la izquierda entre 2", en: "Divide only the left side by 2" },
+  "divide-two-left": {
+    es: "Dividir solo la izquierda entre 2",
+    en: "Divide only the left side by 2",
+  },
   "add-three-both": { es: "Sumar 3 a ambos lados", en: "Add 3 on both sides" },
   "add-two-both": { es: "Sumar 2 a ambos lados", en: "Add 2 on both sides" },
 };
@@ -39,8 +42,10 @@ const copy = {
       "Ahora hay dos cajas iguales que valen 8 unidades en total. Reparte ambos miembros entre 2.",
     ],
     advance: "Bien: la operación mantiene la igualdad y te acerca a x.",
-    imbalance: "Atención: cambiar solo un miembro rompe la igualdad. La misma operación debe afectar a los dos.",
-    detour: "Esa transformación conserva la igualdad, pero no es la vía más directa. Busca la operación inversa.",
+    imbalance:
+      "Atención: cambiar solo un miembro rompe la igualdad. La misma operación debe afectar a los dos.",
+    detour:
+      "Esa transformación conserva la igualdad, pero no es la vía más directa. Busca la operación inversa.",
     finished: "Has aislado la incógnita: x = 4. Comprueba: 2 · 4 + 3 = 11.",
     evidence: "Registro observable para revisión docente",
     attempts: "Decisiones",
@@ -61,12 +66,17 @@ const copy = {
     copyError: "No se pudo copiar. Prueba a seleccionar el texto.",
     restart: "Reiniciar actividad",
     log: "Historial de decisiones",
-    outcome: { advance: "Paso conseguido", imbalance: "Igualdad alterada", detour: "Camino alternativo" },
+    outcome: {
+      advance: "Paso conseguido",
+      imbalance: "Igualdad alterada",
+      detour: "Camino alternativo",
+    },
   },
   en: {
     eyebrow: "Mathematics · Secondary school · Original prototype",
     title: "Equation lab: keep both sides balanced",
-    description: "Make choices about a visual equation. We record steps, detours and hints, not only the final answer.",
+    description:
+      "Make choices about a visual equation. We record steps, detours and hints, not only the final answer.",
     privacy: "Sample data only. No AI models and no answer storage.",
     sideLeft: "Left side",
     sideRight: "Right side",
@@ -79,8 +89,10 @@ const copy = {
       "Now two equal boxes are worth 8 units altogether. Divide both sides by 2.",
     ],
     advance: "Good: this preserves equality and gets you closer to x.",
-    imbalance: "Careful: changing only one side breaks equality. Apply the same operation to both sides.",
-    detour: "This transformation keeps equality, but it is not the shortest route. Look for an inverse operation.",
+    imbalance:
+      "Careful: changing only one side breaks equality. Apply the same operation to both sides.",
+    detour:
+      "This transformation keeps equality, but it is not the shortest route. Look for an inverse operation.",
     finished: "You isolated the unknown: x = 4. Check: 2 · 4 + 3 = 11.",
     evidence: "Observable evidence for teacher review",
     attempts: "Decisions",
@@ -158,7 +170,10 @@ export function AlgebraBalance({ lang }: { lang: Lang }) {
     if (step === 2) return;
     const currentStep = step as 0 | 1;
     const outcome = assessAlgebraAction(currentStep, action);
-    setEvents((previous) => [...previous, { step: currentStep, action, outcome, hintUsed: showHint }]);
+    setEvents((previous) => [
+      ...previous,
+      { step: currentStep, action, outcome, hintUsed: showHint },
+    ]);
     setFeedback(outcome);
     setCopyStatus("idle");
     if (outcome === "advance") {
@@ -208,7 +223,9 @@ export function AlgebraBalance({ lang }: { lang: Lang }) {
         <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wide text-indigo-800">
           <Scale aria-hidden="true" className="h-5 w-5" /> {t.eyebrow}
         </div>
-        <h2 id="algebra-title" className="mt-2 text-xl font-semibold sm:text-2xl">{t.title}</h2>
+        <h2 id="algebra-title" className="mt-2 text-xl font-semibold sm:text-2xl">
+          {t.title}
+        </h2>
         <p className="mt-2 text-sm text-ink-soft">{t.description}</p>
         <p className="mt-3 text-xs font-medium text-amber-800">{t.privacy}</p>
       </div>
@@ -218,9 +235,24 @@ export function AlgebraBalance({ lang }: { lang: Lang }) {
           {state.expression}
         </p>
         <div className="flex items-stretch gap-2 sm:gap-4">
-          <EquationSide boxes={state.left.boxes} tokens={state.left.tokens} label={t.sideLeft} lang={lang} />
-          <div className="grid place-items-center text-2xl font-bold text-indigo-700" aria-hidden="true">=</div>
-          <EquationSide boxes={state.right.boxes} tokens={state.right.tokens} label={t.sideRight} lang={lang} />
+          <EquationSide
+            boxes={state.left.boxes}
+            tokens={state.left.tokens}
+            label={t.sideLeft}
+            lang={lang}
+          />
+          <div
+            className="grid place-items-center text-2xl font-bold text-indigo-700"
+            aria-hidden="true"
+          >
+            =
+          </div>
+          <EquationSide
+            boxes={state.right.boxes}
+            tokens={state.right.tokens}
+            label={t.sideRight}
+            lang={lang}
+          />
         </div>
 
         {step < 2 ? (
@@ -238,10 +270,16 @@ export function AlgebraBalance({ lang }: { lang: Lang }) {
                 </button>
               ))}
             </div>
-            <button type="button" onClick={showHelp} className="inline-flex items-center gap-2 text-sm font-medium text-indigo-700 underline underline-offset-4">
+            <button
+              type="button"
+              onClick={showHelp}
+              className="inline-flex items-center gap-2 text-sm font-medium text-indigo-700 underline underline-offset-4"
+            >
               <Lightbulb aria-hidden="true" className="h-4 w-4" /> {t.hint}
             </button>
-            {showHint && <p className="rounded-xl bg-indigo-50 p-3 text-sm">{t.hintText[step as 0 | 1]}</p>}
+            {showHint && (
+              <p className="rounded-xl bg-indigo-50 p-3 text-sm">{t.hintText[step as 0 | 1]}</p>
+            )}
           </div>
         ) : (
           <div className="flex items-start gap-2 rounded-xl bg-emerald-50 p-4 text-sm text-emerald-900">
@@ -279,20 +317,34 @@ export function AlgebraBalance({ lang }: { lang: Lang }) {
               <summary className="cursor-pointer font-medium">{t.log}</summary>
               <ol className="mt-2 list-inside list-decimal space-y-1">
                 {events.map((event, index) => (
-                  <li key={index}>{actionLabels[event.action][lang]} — {t.outcome[event.outcome]}</li>
+                  <li key={index}>
+                    {actionLabels[event.action][lang]} — {t.outcome[event.outcome]}
+                  </li>
                 ))}
               </ol>
             </details>
           )}
           <div className="flex flex-wrap gap-2">
-            <button type="button" onClick={() => void copySummary()} className="inline-flex items-center gap-2 rounded-lg border border-border bg-white px-3 py-2 text-xs font-medium hover:bg-muted">
+            <button
+              type="button"
+              onClick={() => void copySummary()}
+              className="inline-flex items-center gap-2 rounded-lg border border-border bg-white px-3 py-2 text-xs font-medium hover:bg-muted"
+            >
               <ClipboardCopy aria-hidden="true" className="h-4 w-4" /> {t.copy}
             </button>
-            <button type="button" onClick={restart} className="inline-flex items-center gap-2 rounded-lg border border-border bg-white px-3 py-2 text-xs font-medium hover:bg-muted">
+            <button
+              type="button"
+              onClick={restart}
+              className="inline-flex items-center gap-2 rounded-lg border border-border bg-white px-3 py-2 text-xs font-medium hover:bg-muted"
+            >
               <RotateCcw aria-hidden="true" className="h-4 w-4" /> {t.restart}
             </button>
           </div>
-          {copyStatus !== "idle" && <p role="status" className="text-xs">{copyStatus === "success" ? t.copied : t.copyError}</p>}
+          {copyStatus !== "idle" && (
+            <p role="status" className="text-xs">
+              {copyStatus === "success" ? t.copied : t.copyError}
+            </p>
+          )}
         </div>
       </div>
     </section>
