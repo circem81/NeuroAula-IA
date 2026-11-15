@@ -239,7 +239,7 @@ export function AlgebraBalance({ lang }: { lang: Lang }) {
             <button type="button" onClick={showHelp} className="inline-flex items-center gap-2 text-sm font-medium text-indigo-700 underline underline-offset-4">
               <Lightbulb aria-hidden="true" className="h-4 w-4" /> {t.hint}
             </button>
-            {showHint && <p className="rounded-xl bg-indigo-50 p-3 text-sm">{t.hintText[step]}</p>}
+            {showHint && <p className="rounded-xl bg-indigo-50 p-3 text-sm">{t.hintText[step as 0 | 1]}</p>}
           </div>
         ) : (
           <div className="flex items-start gap-2 rounded-xl bg-emerald-50 p-4 text-sm text-emerald-900">
