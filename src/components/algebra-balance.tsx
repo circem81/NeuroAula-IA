@@ -225,7 +225,7 @@ export function AlgebraBalance({ lang }: { lang: Lang }) {
           <div className="space-y-3">
             <h3 className="text-sm font-semibold">{t.instruction}</h3>
             <div className="grid gap-2 sm:grid-cols-2">
-              {algebraChoices[step].map((action) => (
+              {algebraChoices[step as 0 | 1].map((action) => (
                 <button
                   key={action}
                   type="button"
