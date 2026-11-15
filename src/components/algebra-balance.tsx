@@ -49,6 +49,7 @@ const copy = {
     hints: "Pistas consultadas",
     steps: "Pasos resueltos",
     signal: {
+      pending: "Completa la actividad antes de proponer una ampliación.",
       balance: "Proponer otra igualdad para practicar la simetría entre ambos miembros.",
       inverse: "Practicar cómo elegir operaciones inversas antes de aumentar la dificultad.",
       extend: "Proponer una ecuación de transferencia con otros coeficientes.",
@@ -88,6 +89,7 @@ const copy = {
     hints: "Hints viewed",
     steps: "Steps completed",
     signal: {
+      pending: "Complete the activity before suggesting an extension.",
       balance: "Try another equation focusing on doing the same to both sides.",
       inverse: "Practise choosing inverse operations before increasing difficulty.",
       extend: "Try a transfer equation with different coefficients.",
