@@ -63,7 +63,9 @@ function Activities() {
           </h3>
           <ul className="mt-3 grid gap-3 md:grid-cols-2">
             {faradayPilots.map((pilot) => {
-              const source = faradayContributions.find((article) => article.number === pilot.number);
+              const source = faradayContributions.find(
+                (article) => article.number === pilot.number,
+              );
               if (!source) return null;
               return (
                 <li key={pilot.number} className="rounded-lg border border-border p-3">
@@ -76,7 +78,11 @@ function Activities() {
                   </p>
                   <p className="mt-2 text-sm">{pilot.objective}</p>
                   <p className="mt-2 text-xs text-ink-soft">
-                    <strong>{es ? "Posible confusión en una respuesta:" : "Possible misconception in a response:"}</strong>{" "}
+                    <strong>
+                      {es
+                        ? "Posible confusión en una respuesta:"
+                        : "Possible misconception in a response:"}
+                    </strong>{" "}
                     {pilot.commonError}
                   </p>
                   <p className="mt-1 text-xs text-ink-soft">
@@ -101,7 +107,9 @@ function Activities() {
           <ol className="mt-3 space-y-2 text-sm">
             {faradayContributions.map((article) => (
               <li key={article.number}>
-                <span className="font-medium">{article.number}. {article.title}</span>
+                <span className="font-medium">
+                  {article.number}. {article.title}
+                </span>
                 <span className="block text-xs text-ink-soft">
                   {faradayArea(article.number)} · {article.authors}
                 </span>
