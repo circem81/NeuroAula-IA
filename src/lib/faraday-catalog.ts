@@ -8,7 +8,7 @@ export const faradayIndexUrl = "https://gedh.rseq.org/numero-especial/";
 export const faradayPdfUrl =
   "https://gedh.rseq.org/wp-content/uploads/2026/11/Numero-especial-Faraday-completo.pdf";
 
-// prettier-ignore -- índice transcrito desde metadatos públicos
+// prettier-ignore
 export const faradayContributions = [
   {
     "number": 1,
@@ -172,7 +172,7 @@ export function faradayArea(number: number): "Introducción" | "Física" | "Quí
 }
 
 /** Propuestas de exploración original, sin reproducir guiones publicados. */
-// prettier-ignore -- propuestas de diseño
+// prettier-ignore
 export const faradayPilots = [
   {
     number: 6,
